@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "food-by-giamat:dough",
+    "food-by-giamat:dough",
+    "food-by-giamat:dough"
+  ],
+  "result": {
+    "id": "food-by-giamat:unbaked_bread",
+    "count": 1
+  }
+}

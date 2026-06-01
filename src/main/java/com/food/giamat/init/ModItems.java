@@ -24,9 +24,27 @@ public class ModItems {
                             .build()))
     );
 
+    // Crafting ingredients (not edible on their own): wheat -> flour -> dough -> unbaked bread -> bread (smelted)
+    public static final Item FLOUR = register("flour");
+    public static final Item DOUGH = register("dough");
+    public static final Item UNBAKED_BREAD = register("unbaked_bread");
+
+    private static Item register(String name) {
+        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, name));
+        return Registry.register(
+                Registries.ITEM,
+                key,
+                new Item(new Item.Settings().registryKey(key)));
+    }
+
     public static void initialize() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries -> {
             entries.addAfter(net.minecraft.item.Items.CAKE, CHOCOLATE);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
+            entries.add(FLOUR);
+            entries.add(DOUGH);
+            entries.add(UNBAKED_BREAD);
         });
     }
 }
