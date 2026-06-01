@@ -29,6 +29,10 @@ public class ModItems {
     public static final Item DOUGH = register("dough");
     public static final Item UNBAKED_BREAD = register("unbaked_bread");
 
+    // Salt is collected by straining a water cauldron; strainer is the tool used to do it.
+    public static final Item SALT = register("salt");
+    public static final Item STRAINER = register("strainer");
+
     private static Item register(String name) {
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, name));
         return Registry.register(
@@ -45,6 +49,10 @@ public class ModItems {
             entries.add(FLOUR);
             entries.add(DOUGH);
             entries.add(UNBAKED_BREAD);
+            entries.add(SALT);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
+            entries.add(STRAINER);
         });
     }
 }

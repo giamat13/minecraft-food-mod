@@ -1,5 +1,6 @@
 package com.food.giamat;
 
+import com.food.giamat.init.ModComponents;
 import com.food.giamat.init.ModItems;
 import com.food.giamat.recipe.ModRecipes;
 import net.fabricmc.api.ModInitializer;
@@ -12,8 +13,10 @@ public class FoodBygiamat implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ModComponents.initialize();
 		ModItems.initialize();
 		ModRecipes.initialize();
+		ModEvents.initialize();
 		LOGGER.info("Food By Giamat loaded!");
 	}
 }

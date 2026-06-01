@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_unbaked_bread": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": ["food-by-giamat:unbaked_bread"] }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": { "recipe": "food-by-giamat:bread_from_smelting" }
+    }
+  },
+  "requirements": [ ["has_unbaked_bread", "has_the_recipe"] ],
+  "rewards": { "recipes": ["food-by-giamat:bread_from_smelting"] }
+}

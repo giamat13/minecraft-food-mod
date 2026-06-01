@@ -3,7 +3,8 @@
 	"package": "com.food.giamat.client.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ExampleClientMixin"
+		"ExampleClientMixin",
+		"SaltedItemOverlayMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

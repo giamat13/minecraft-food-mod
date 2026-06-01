@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_iron_bars": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": ["minecraft:iron_bars"] }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": { "recipe": "food-by-giamat:strainer" }
+    }
+  },
+  "requirements": [ ["has_iron_bars", "has_the_recipe"] ],
+  "rewards": { "recipes": ["food-by-giamat:strainer"] }
+}

@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_flour": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": ["food-by-giamat:flour"] }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": { "recipe": "food-by-giamat:dough" }
+    }
+  },
+  "requirements": [ ["has_flour", "has_the_recipe"] ],
+  "rewards": { "recipes": ["food-by-giamat:dough"] }
+}

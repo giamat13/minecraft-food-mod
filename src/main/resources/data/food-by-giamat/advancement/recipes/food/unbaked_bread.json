@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dough": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": ["food-by-giamat:dough"] }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": { "recipe": "food-by-giamat:unbaked_bread" }
+    }
+  },
+  "requirements": [ ["has_dough", "has_the_recipe"] ],
+  "rewards": { "recipes": ["food-by-giamat:unbaked_bread"] }
+}
