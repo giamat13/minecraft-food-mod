@@ -63,6 +63,7 @@ public class ModBlocks {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
             entries.add(BANANA_LEAVES.asItem());
+            entries.add(CHILI_PEPPER_BUSH.asItem());
         });
     }
 }
