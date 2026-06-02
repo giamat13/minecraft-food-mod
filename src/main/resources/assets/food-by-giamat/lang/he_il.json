@@ -27,5 +27,12 @@
   "item.food-by-giamat.chicken_nuggets": "צ'יקן נגאטס",
   "item.food-by-giamat.unbaked_chicken_nuggets_breadcrumbs": "צ'יקן נגאטס עם פרורי לחם לא מבושל",
   "item.food-by-giamat.chicken_nuggets_breadcrumbs": "צ'יקן נגאטס עם פרורי לחם",
+  "item.food-by-giamat.brown_egg": "ביצה חומה",
+  "item.food-by-giamat.blue_egg": "ביצה כחולה",
+  "item.food-by-giamat.unbaked_cookie": "עוגייה לא אפויה",
+  "item.food-by-giamat.unbaked_cake": "עוגה לא אפויה",
+  "item.food-by-giamat.unbaked_cake_cursed": "עוגה מקוללת לא אפויה",
+  "item.food-by-giamat.cake": "עוגה",
+  "item.food-by-giamat.cursed_cake": "עוגה מקוללת",
   "block.food-by-giamat.banana_leaves": "עלי בננה"
 }
