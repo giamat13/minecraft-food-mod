@@ -2,15 +2,48 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
+      "rolls": 1.0,
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "food-by-giamat:chili_pepper",
-          "functions": [
+          "type": "minecraft:alternatives",
+          "children": [
             {
-              "function": "minecraft:set_count",
-              "count": {"type": "minecraft:uniform", "min": 1.0, "max": 2.0}
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantments": "minecraft:silk_touch",
+                          "levels": {"min": 1}
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "name": "food-by-giamat:chili_pepper_bush"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "food-by-giamat:chili_pepper",
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": {"type": "minecraft:uniform", "min": 1.0, "max": 2.0}
+                },
+                {
+                  "function": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:uniform_bonus_count",
+                  "parameters": {"bonusMultiplier": 1}
+                },
+                {
+                  "function": "minecraft:explosion_decay"
+                }
+              ]
             }
           ]
         }

@@ -42,13 +42,25 @@ public class ModBlocks {
     );
 
     public static void initialize() {
-        // Register block item
-        RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "banana_leaves"));
+        RegistryKey<Item> leavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "banana_leaves"));
         Registry.register(
                 Registries.ITEM,
-                itemKey,
-                new BlockItem(BANANA_LEAVES, new Item.Settings().registryKey(itemKey))
+                leavesKey,
+                new BlockItem(BANANA_LEAVES, new Item.Settings()
+                        .registryKey(leavesKey)
+                        .useBlockPrefixedTranslationKey())
         );
+
+        // Block item for the chili pepper bush so Silk Touch can drop a placeable version.
+        RegistryKey<Item> chiliKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper_bush"));
+        Registry.register(
+                Registries.ITEM,
+                chiliKey,
+                new BlockItem(CHILI_PEPPER_BUSH, new Item.Settings()
+                        .registryKey(chiliKey)
+                        .useBlockPrefixedTranslationKey())
+        );
+
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
             entries.add(BANANA_LEAVES.asItem());
         });
