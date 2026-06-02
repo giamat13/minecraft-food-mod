@@ -2,14 +2,20 @@ package com.food.giamat;
 
 import com.food.giamat.init.ModItems;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.village.TradeOffer;
+import net.minecraft.village.TradedItem;
+import net.minecraft.village.VillagerProfession;
+import java.util.Optional;
 
 public class ModEvents {
 
@@ -41,6 +47,22 @@ public class ModEvents {
 
             world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 0.8f, 1.2f);
             return ActionResult.SUCCESS_SERVER;
+        });
+
+        // Butcher villager trades
+        TradeOfferHelper.registerVillagerOffers(VillagerProfession.BUTCHER, 1, factories -> {
+            factories.add((entity, random) -> new TradeOffer(
+                    new TradedItem(Items.EMERALD, 2),
+                    Optional.empty(),
+                    new ItemStack(ModItems.SAUSAGE, 5),
+                    12, 5, 0.05f
+            ));
+            factories.add((entity, random) -> new TradeOffer(
+                    new TradedItem(Items.EMERALD, 2),
+                    Optional.empty(),
+                    new ItemStack(ModItems.HAMBURGER, 1),
+                    12, 5, 0.05f
+            ));
         });
     }
 }

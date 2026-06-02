@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": ["food-by-giamat:sausage", "minecraft:bread"],
+  "result": {"id": "food-by-giamat:sausage_in_bun"}
+}

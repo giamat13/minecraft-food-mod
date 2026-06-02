@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": ["minecraft:sugar", "food-by-giamat:gelatin", "minecraft:melon_slice"],
+  "result": {"id": "food-by-giamat:gummy_candy_watermelon", "count": 4}
+}
