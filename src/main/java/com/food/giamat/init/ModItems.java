@@ -1,15 +1,13 @@
 package com.food.giamat.init;
 
 import com.food.giamat.FoodBygiamat;
-import com.food.giamat.item.EdibleCakeItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.component.type.ConsumableComponent;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -69,12 +67,12 @@ public class ModItems {
     // Cookie: dough + chocolate + dough -> unbaked cookie -> (quick bake) -> cookie.
     public static final Item UNBAKED_COOKIE = registerUnbaked("unbaked_cookie", 1);
 
-    // Cake: built from dough (instead of wheat) plus an egg, then baked from its unbaked form.
+    // Cake: built from dough (instead of wheat) plus an egg, then baked into a vanilla cake.
     // A sniffer or dragon egg yields a "cursed" cake that poisons and nauseates when eaten.
     public static final Item UNBAKED_CAKE = registerUnbaked("unbaked_cake", 1);
     public static final Item UNBAKED_CAKE_CURSED = registerUnbaked("unbaked_cake_cursed", 1);
-    public static final Item CAKE = registerCake("cake", Blocks.CAKE, false);
-    public static final Item CURSED_CAKE = registerCake("cursed_cake", ModBlocks.CURSED_CAKE_BLOCK, true);
+    // The cursed cake is placed like a vanilla cake; eating a slice curses you (see CursedCakeBlock).
+    public static final Item CURSED_CAKE = registerCursedCake();
 
     // Special food with effects
     public static final Item GUMMY_SCHNITZEL = Registry.register(
@@ -126,20 +124,12 @@ public class ModItems {
         );
     }
 
-    private static Item registerCake(String name, Block cakeBlock, boolean cursed) {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, name));
-        // A full cake restores 7 slices worth of hunger (7 x 2 = 14) when eaten whole.
+    private static Item registerCursedCake() {
+        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "cursed_cake"));
         return Registry.register(
                 Registries.ITEM,
                 key,
-                new EdibleCakeItem(cakeBlock,
-                        new Item.Settings()
-                                .registryKey(key)
-                                .food(new FoodComponent.Builder()
-                                        .nutrition(14)
-                                        .saturationModifier(0.1f)
-                                        .build()),
-                        cursed));
+                new BlockItem(ModBlocks.CURSED_CAKE_BLOCK, new Item.Settings().registryKey(key)));
     }
 
     public static void initialize() {
@@ -151,7 +141,7 @@ public class ModItems {
                     GUMMY_SCHNITZEL, BANANA,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
                     CHICKEN_NUGGETS, CHICKEN_NUGGETS_BREADCRUMBS,
-                    CAKE, CURSED_CAKE,
+                    CURSED_CAKE,
                     UNBAKED_BREAD, UNBAKED_PITA, UNBAKED_SCHNITZEL,
                     UNBAKED_SAUSAGE, UNBAKED_CHICKEN_NUGGETS, UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS,
                     UNBAKED_COOKIE, UNBAKED_CAKE, UNBAKED_CAKE_CURSED);
