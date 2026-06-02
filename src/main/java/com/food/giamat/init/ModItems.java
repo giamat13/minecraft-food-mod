@@ -29,21 +29,23 @@ public class ModItems {
     // Crafting ingredients (not edible on their own): wheat -> flour -> dough -> unbaked bread -> bread (smelted)
     public static final Item FLOUR = register("flour");
     public static final Item DOUGH = register("dough");
-    public static final Item UNBAKED_BREAD = register("unbaked_bread");
 
     // Salt is collected by straining a water cauldron; strainer is the tool used to do it.
     public static final Item SALT = register("salt");
     public static final Item STRAINER = register("strainer");
 
-    // New ingredient items (non-food)
+    // Non-food crafting ingredients
     public static final Item MELTED_CHOCOLATE = register("melted_chocolate");
-    public static final Item UNBAKED_PITA = register("unbaked_pita");
     public static final Item BREADCRUMBS = register("breadcrumbs");
-    public static final Item UNBAKED_SCHNITZEL = register("unbaked_schnitzel");
     public static final Item GELATIN = register("gelatin");
-    public static final Item UNBAKED_SAUSAGE = register("unbaked_sausage");
-    public static final Item UNBAKED_CHICKEN_NUGGETS = register("unbaked_chicken_nuggets");
-    public static final Item UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS = register("unbaked_chicken_nuggets_breadcrumbs");
+
+    // Unbaked items — edible but cause poison (5 s) and nausea (10 s)
+    public static final Item UNBAKED_BREAD = registerUnbaked("unbaked_bread", 1);
+    public static final Item UNBAKED_PITA = registerUnbaked("unbaked_pita", 1);
+    public static final Item UNBAKED_SCHNITZEL = registerUnbaked("unbaked_schnitzel", 2);
+    public static final Item UNBAKED_SAUSAGE = registerUnbaked("unbaked_sausage", 1);
+    public static final Item UNBAKED_CHICKEN_NUGGETS = registerUnbaked("unbaked_chicken_nuggets", 1);
+    public static final Item UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS = registerUnbaked("unbaked_chicken_nuggets_breadcrumbs", 2);
 
     // New food items
     public static final Item SHOKO = registerFood("shoko", 6, 0.4f);
@@ -96,6 +98,22 @@ public class ModItems {
         );
     }
 
+    private static Item registerUnbaked(String name, int nutrition) {
+        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, name));
+        return Registry.register(
+                Registries.ITEM,
+                key,
+                new Item(new Item.Settings()
+                        .registryKey(key)
+                        .food(new FoodComponent.Builder()
+                                .nutrition(nutrition)
+                                .saturationModifier(0.1f)
+                                .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0), 1.0f)
+                                .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0), 1.0f)
+                                .build()))
+        );
+    }
+
     public static void initialize() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries -> {
             entries.addAfter(net.minecraft.item.Items.CAKE, CHOCOLATE);
@@ -104,21 +122,17 @@ public class ModItems {
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
                     GUMMY_SCHNITZEL, BANANA,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
-                    CHICKEN_NUGGETS, CHICKEN_NUGGETS_BREADCRUMBS);
+                    CHICKEN_NUGGETS, CHICKEN_NUGGETS_BREADCRUMBS,
+                    UNBAKED_BREAD, UNBAKED_PITA, UNBAKED_SCHNITZEL,
+                    UNBAKED_SAUSAGE, UNBAKED_CHICKEN_NUGGETS, UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
             entries.add(FLOUR);
             entries.add(DOUGH);
-            entries.add(UNBAKED_BREAD);
             entries.add(SALT);
             entries.add(MELTED_CHOCOLATE);
-            entries.add(UNBAKED_PITA);
             entries.add(BREADCRUMBS);
-            entries.add(UNBAKED_SCHNITZEL);
             entries.add(GELATIN);
-            entries.add(UNBAKED_SAUSAGE);
-            entries.add(UNBAKED_CHICKEN_NUGGETS);
-            entries.add(UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(STRAINER);
