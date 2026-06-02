@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": "food-by-giamat:unbaked_chicken_nuggets",
+  "result": {"id": "food-by-giamat:chicken_nuggets"}
+}

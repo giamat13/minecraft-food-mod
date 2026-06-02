@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": ["food-by-giamat:gummy_candy_watermelon", "food-by-giamat:schnitzel"],
+  "result": {"id": "food-by-giamat:gummy_schnitzel"}
+}

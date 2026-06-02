@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": ["minecraft:cooked_beef", "minecraft:bread", "minecraft:bread"],
+  "result": {"id": "food-by-giamat:hamburger"}
+}

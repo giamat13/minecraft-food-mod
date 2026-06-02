@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "pattern": [
+    "DCD"
+  ],
+  "key": {
+    "D": "food-by-giamat:dough",
+    "C": "food-by-giamat:chocolate"
+  },
+  "result": {
+    "id": "food-by-giamat:unbaked_cookie"
+  }
+}
