@@ -15,11 +15,19 @@ public class ModWorldGen {
     public static final RegistryKey<PlacedFeature> BANANA_TREE_PLACED =
             RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(FoodBygiamat.MOD_ID, "banana_tree"));
 
+    public static final RegistryKey<PlacedFeature> CHILI_PEPPER_BUSH_PLACED =
+            RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper_bush"));
+
     public static void initialize() {
         BiomeModifications.addFeature(
                 BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
                 GenerationStep.Feature.VEGETAL_DECORATION,
                 BANANA_TREE_PLACED
+        );
+        BiomeModifications.addFeature(
+                BiomeSelectors.includeByKey(BiomeKeys.DESERT),
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                CHILI_PEPPER_BUSH_PLACED
         );
     }
 }

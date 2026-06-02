@@ -2,6 +2,7 @@ package com.food.giamat.init;
 
 import com.food.giamat.FoodBygiamat;
 import com.food.giamat.block.BananaLeavesBlock;
+import com.food.giamat.block.ChiliPepperBushBlock;
 import com.food.giamat.block.CursedCakeBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
@@ -30,6 +31,14 @@ public class ModBlocks {
             RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "cursed_cake")),
             new CursedCakeBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
                     .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "cursed_cake"))))
+    );
+
+    // Wild chili pepper bush that generates on desert sand (no block item; harvested for peppers).
+    public static final Block CHILI_PEPPER_BUSH = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper_bush")),
+            new ChiliPepperBushBlock(AbstractBlock.Settings.copy(Blocks.DEAD_BUSH)
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper_bush"))))
     );
 
     public static void initialize() {

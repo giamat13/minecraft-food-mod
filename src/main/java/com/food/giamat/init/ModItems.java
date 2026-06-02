@@ -58,6 +58,17 @@ public class ModItems {
     public static final Item GUMMY_CANDY_SWEET_BERRIES = registerFood("gummy_candy_sweet_berries", 3, 0.2f);
     public static final Item GUMMY_CANDY_CARROT = registerFood("gummy_candy_carrot", 3, 0.2f);
     public static final Item BANANA = registerFood("banana", 4, 0.3f);
+    // Chili pepper: foraged from desert bushes; eating one grants Fire Resistance for 10 s.
+    public static final Item CHILI_PEPPER = Registry.register(
+            Registries.ITEM,
+            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper")),
+            new Item(new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper")))
+                    .food(new FoodComponent(2, 0.3f, false),
+                            ConsumableComponent.builder()
+                                    .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 200, 0), 1.0f))
+                                    .build()))
+    );
     public static final Item SAUSAGE = registerFood("sausage", 6, 0.8f);
     public static final Item SAUSAGE_IN_BUN = registerFood("sausage_in_bun", 9, 0.9f);
     public static final Item HAMBURGER = registerFood("hamburger", 10, 0.9f);
@@ -138,7 +149,7 @@ public class ModItems {
             entries.addAfter(CHOCOLATE,
                     SHOKO, PITA, SCHNITZEL,
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
-                    GUMMY_SCHNITZEL, BANANA,
+                    GUMMY_SCHNITZEL, BANANA, CHILI_PEPPER,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
                     CHICKEN_NUGGETS, CHICKEN_NUGGETS_BREADCRUMBS,
                     CURSED_CAKE,

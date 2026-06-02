@@ -331,6 +331,47 @@ def unbaked_cookie():
     return img
 
 
+def chili_pepper():
+    img, d = new()
+    red = (200, 35, 30, 255)
+    rd = shade(red, 0.6)
+    # curved pepper pod
+    body = [(5, 14), (4, 11), (5, 8), (7, 6), (10, 5), (12, 6),
+            (11, 8), (9, 9), (7, 11), (6, 13)]
+    d.polygon(body, fill=red, outline=rd)
+    d.line([(7, 9), (10, 7)], fill=shade(red, 1.3))  # highlight
+    # green stem
+    d.line([(12, 6), (13, 3)], fill=(70, 150, 55, 255), width=2)
+    d.point([(13, 2), (14, 3)], fill=(90, 170, 70, 255))
+    return img
+
+
+def chili_pepper_bush():
+    """Cross-model texture: leafy clump with a couple of red peppers."""
+    img, d = new()
+    g = (70, 130, 55, 255)
+    gd = shade(g, 0.7)
+    gl = shade(g, 1.25)
+    # foliage clumps
+    ell(d, [2, 7, 8, 14], g, gd)
+    ell(d, [7, 6, 13, 13], g, gd)
+    ell(d, [5, 4, 11, 10], g, gd)
+    # a few stems up from the ground
+    d.line([(8, 15), (8, 9)], fill=gd)
+    d.line([(5, 15), (6, 11)], fill=gd)
+    # leaf highlights
+    random.seed(21)
+    for _ in range(10):
+        d.point([(random.randint(3, 12), random.randint(5, 13))], fill=gl)
+    # hanging chili peppers
+    red = (200, 35, 30, 255)
+    d.line([(5, 10), (4, 13)], fill=red, width=1)
+    d.point([(4, 14)], fill=shade(red, 0.7))
+    d.line([(11, 9), (12, 12)], fill=red, width=1)
+    d.point([(12, 13)], fill=shade(red, 0.7))
+    return img
+
+
 def banana_leaves_block():
     img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
@@ -349,6 +390,7 @@ def banana_leaves_block():
 
 GENERATORS = {
     "banana": banana,
+    "chili_pepper": chili_pepper,
     "breadcrumbs": breadcrumbs,
     "chicken_nuggets": chicken_nuggets,
     "chicken_nuggets_breadcrumbs": chicken_nuggets_breadcrumbs,
@@ -386,7 +428,8 @@ def main():
     for name, fn in GENERATORS.items():
         save(fn(), ITEM, name)
     save(banana_leaves_block(), BLOCK, "banana_leaves")
-    print("generated", len(GENERATORS) + 1, "textures")
+    save(chili_pepper_bush(), BLOCK, "chili_pepper_bush")
+    print("generated", len(GENERATORS) + 2, "textures")
 
 
 if __name__ == "__main__":
