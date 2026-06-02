@@ -74,13 +74,13 @@ public class SaltRecipe extends SpecialCraftingRecipe {
                     original.canAlwaysEat()));
         }
 
-        // Rename to "<name> with Salt".
-        Text base = food.getName();
+        // Rename to "<name> with Salt". Use withItalic(false) to prevent the anvil-rename
+        // italic look that CUSTOM_NAME applies by default.
+        Text base = food.getName().copy().styled(s -> s.withItalic(false));
         result.set(DataComponentTypes.CUSTOM_NAME,
                 Text.empty()
                         .append(base)
-                        .append(Text.literal(" with Salt").formatted(Formatting.WHITE))
-                        .formatted(Formatting.ITALIC));
+                        .append(Text.literal(" with Salt").styled(s -> s.withItalic(false).withColor(Formatting.WHITE))));
 
         return result;
     }
