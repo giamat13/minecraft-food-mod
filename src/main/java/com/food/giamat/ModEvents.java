@@ -55,7 +55,7 @@ public class ModEvents {
         // be thrown the normal way.
         UseItemCallback.EVENT.register((player, world, hand) -> {
             ItemStack stack = player.getStackInHand(hand);
-            if (!stack.isOf(Items.EGG) && !stack.isOf(ModItems.BROWN_EGG) && !stack.isOf(ModItems.BLUE_EGG)) {
+            if (!stack.isOf(Items.EGG)) {
                 return ActionResult.PASS;
             }
 
@@ -81,13 +81,13 @@ public class ModEvents {
 
         // Butcher villager trades
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.BUTCHER, 1, factories -> {
-            factories.add((entity, random) -> new TradeOffer(
+            factories.add((world, entity, random) -> new TradeOffer(
                     new TradedItem(Items.EMERALD, 2),
                     Optional.empty(),
                     new ItemStack(ModItems.SAUSAGE, 5),
                     12, 5, 0.05f
             ));
-            factories.add((entity, random) -> new TradeOffer(
+            factories.add((world, entity, random) -> new TradeOffer(
                     new TradedItem(Items.EMERALD, 2),
                     Optional.empty(),
                     new ItemStack(ModItems.HAMBURGER, 1),

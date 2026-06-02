@@ -3,11 +3,13 @@ package com.food.giamat.init;
 import com.food.giamat.FoodBygiamat;
 import com.food.giamat.item.EdibleCakeItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.component.type.ConsumableComponent;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.EggItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -23,10 +25,7 @@ public class ModItems {
             RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chocolate")),
             new Item(new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chocolate")))
-                    .food(new FoodComponent.Builder()
-                            .nutrition(4)
-                            .saturationModifier(0.3f)
-                            .build()))
+                    .food(new FoodComponent(4, 0.3f, false)))
     );
 
     // Crafting ingredients (not edible on their own): wheat -> flour -> dough -> unbaked bread -> bread (smelted)
@@ -42,8 +41,10 @@ public class ModItems {
     public static final Item BREADCRUMBS = register("breadcrumbs");
     public static final Item GELATIN = register("gelatin");
 
+    // Unbaked bread is edible with no ill effects (unlike the other unbaked items).
+    public static final Item UNBAKED_BREAD = registerFood("unbaked_bread", 1, 0.1f);
+
     // Unbaked items — edible but cause poison (5 s) and nausea (10 s)
-    public static final Item UNBAKED_BREAD = registerUnbaked("unbaked_bread", 1);
     public static final Item UNBAKED_PITA = registerUnbaked("unbaked_pita", 1);
     public static final Item UNBAKED_SCHNITZEL = registerUnbaked("unbaked_schnitzel", 2);
     public static final Item UNBAKED_SAUSAGE = registerUnbaked("unbaked_sausage", 1);
@@ -65,10 +66,6 @@ public class ModItems {
     public static final Item CHICKEN_NUGGETS = registerFood("chicken_nuggets", 6, 0.6f);
     public static final Item CHICKEN_NUGGETS_BREADCRUMBS = registerFood("chicken_nuggets_breadcrumbs", 7, 0.7f);
 
-    // Eggs: eaten as a snack when used in the air, thrown when aimed at a block (see ModEvents).
-    public static final Item BROWN_EGG = registerEgg("brown_egg");
-    public static final Item BLUE_EGG = registerEgg("blue_egg");
-
     // Cookie: dough + chocolate + dough -> unbaked cookie -> (quick bake) -> cookie.
     public static final Item UNBAKED_COOKIE = registerUnbaked("unbaked_cookie", 1);
 
@@ -76,8 +73,8 @@ public class ModItems {
     // A sniffer or dragon egg yields a "cursed" cake that poisons and nauseates when eaten.
     public static final Item UNBAKED_CAKE = registerUnbaked("unbaked_cake", 1);
     public static final Item UNBAKED_CAKE_CURSED = registerUnbaked("unbaked_cake_cursed", 1);
-    public static final Item CAKE = registerCake("cake", false);
-    public static final Item CURSED_CAKE = registerCake("cursed_cake", true);
+    public static final Item CAKE = registerCake("cake", Blocks.CAKE, false);
+    public static final Item CURSED_CAKE = registerCake("cursed_cake", ModBlocks.CURSED_CAKE_BLOCK, true);
 
     // Special food with effects
     public static final Item GUMMY_SCHNITZEL = Registry.register(
@@ -85,12 +82,11 @@ public class ModItems {
             RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "gummy_schnitzel")),
             new Item(new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "gummy_schnitzel")))
-                    .food(new FoodComponent.Builder()
-                            .nutrition(8)
-                            .saturationModifier(0.6f)
-                            .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0), 1.0f)
-                            .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 200, 0), 1.0f)
-                            .build()))
+                    .food(new FoodComponent(8, 0.6f, false),
+                            ConsumableComponent.builder()
+                                    .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0), 1.0f))
+                                    .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.HUNGER, 200, 0), 1.0f))
+                                    .build()))
     );
 
     private static Item register(String name) {
@@ -122,30 +118,21 @@ public class ModItems {
                 key,
                 new Item(new Item.Settings()
                         .registryKey(key)
-                        .food(new FoodComponent.Builder()
-                                .nutrition(nutrition)
-                                .saturationModifier(0.1f)
-                                .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0), 1.0f)
-                                .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0), 1.0f)
-                                .build()))
+                        .food(new FoodComponent(nutrition, 0.1f, false),
+                                ConsumableComponent.builder()
+                                        .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0), 1.0f))
+                                        .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0), 1.0f))
+                                        .build()))
         );
     }
 
-    private static Item registerEgg(String name) {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, name));
-        return Registry.register(
-                Registries.ITEM,
-                key,
-                new EggItem(new Item.Settings().registryKey(key)));
-    }
-
-    private static Item registerCake(String name, boolean cursed) {
+    private static Item registerCake(String name, Block cakeBlock, boolean cursed) {
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, name));
         // A full cake restores 7 slices worth of hunger (7 x 2 = 14) when eaten whole.
         return Registry.register(
                 Registries.ITEM,
                 key,
-                new EdibleCakeItem(Blocks.CAKE,
+                new EdibleCakeItem(cakeBlock,
                         new Item.Settings()
                                 .registryKey(key)
                                 .food(new FoodComponent.Builder()
@@ -164,7 +151,7 @@ public class ModItems {
                     GUMMY_SCHNITZEL, BANANA,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
                     CHICKEN_NUGGETS, CHICKEN_NUGGETS_BREADCRUMBS,
-                    CAKE, CURSED_CAKE, BROWN_EGG, BLUE_EGG,
+                    CAKE, CURSED_CAKE,
                     UNBAKED_BREAD, UNBAKED_PITA, UNBAKED_SCHNITZEL,
                     UNBAKED_SAUSAGE, UNBAKED_CHICKEN_NUGGETS, UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS,
                     UNBAKED_COOKIE, UNBAKED_CAKE, UNBAKED_CAKE_CURSED);

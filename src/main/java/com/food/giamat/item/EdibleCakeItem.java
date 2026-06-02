@@ -4,24 +4,24 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
 /**
  * A cake that is also a normal food item.
  *
- * <p>Because it extends {@link BlockItem} but does not override {@code use}, it
- * inherits two behaviours at once:
- * <ul>
- *     <li>aiming at a block places the (vanilla) cake block, just like a normal
- *     cake item;</li>
- *     <li>aiming at the air eats the whole cake, restoring all of the hunger a
- *     full cake would (7 slices) and applying any effects below.</li>
- * </ul>
+ * <p>A normal right-click eats the whole cake (restoring all the hunger a full
+ * cake would — 7 slices — and applying any effects below). Sneaking while
+ * right-clicking a block places the cake block instead, so it can also be eaten
+ * slice by slice.
  *
  * <p>A "cursed" cake (baked from a cake made with a sniffer or dragon egg)
- * poisons and nauseates whoever eats it.
+ * poisons and nauseates whoever eats it, whether eaten whole or as slices from
+ * the placed {@link com.food.giamat.block.CursedCakeBlock}.
  */
 public class EdibleCakeItem extends BlockItem {
 
@@ -30,6 +30,17 @@ public class EdibleCakeItem extends BlockItem {
     public EdibleCakeItem(Block block, Settings settings, boolean cursed) {
         super(block, settings);
         this.cursed = cursed;
+    }
+
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        PlayerEntity player = context.getPlayer();
+        // Sneak to place the cake as a block; otherwise fall through to use() so a
+        // plain right-click eats it in hand even when aiming at a block.
+        if (player != null && player.isSneaking()) {
+            return super.useOnBlock(context);
+        }
+        return ActionResult.PASS;
     }
 
     @Override

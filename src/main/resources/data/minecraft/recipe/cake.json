@@ -9,11 +9,7 @@
   "key": {
     "M": "minecraft:milk_bucket",
     "S": "minecraft:sugar",
-    "E": [
-      "minecraft:egg",
-      "food-by-giamat:brown_egg",
-      "food-by-giamat:blue_egg"
-    ],
+    "E": "minecraft:egg",
     "D": "food-by-giamat:dough"
   },
   "result": {

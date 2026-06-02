@@ -69,11 +69,10 @@ public class GelatinRecipe extends SpecialCraftingRecipe {
 
     @Override
     public IngredientPlacement getIngredientPlacement() {
-        ItemStack waterBottle = PotionContentsComponent.createStack(Items.POTION, Potions.WATER);
         return IngredientPlacement.forShapeless(List.of(
                 Ingredient.ofItems(Items.BONE_MEAL),
                 Ingredient.ofItems(Items.SLIME_BALL),
-                Ingredient.ofStacks(waterBottle),
+                Ingredient.ofItems(Items.POTION),
                 Ingredient.ofItems(Items.GLOW_BERRIES)
         ));
     }
