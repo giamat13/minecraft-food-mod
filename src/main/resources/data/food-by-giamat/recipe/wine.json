@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "food-by-giamat:grape",
+    "minecraft:sugar",
+    "minecraft:water_bucket"
+  ],
+  "result": {
+    "id": "food-by-giamat:wine",
+    "count": 1
+  }
+}

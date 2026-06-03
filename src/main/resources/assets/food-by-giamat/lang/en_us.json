@@ -50,5 +50,13 @@
   "item.food-by-giamat.uncooked_chocolate_donut": "Uncooked Chocolate Donut",
   "item.food-by-giamat.chocolate_donut": "Chocolate Donut",
   "item.food-by-giamat.end_cake": "End Cake",
-  "block.food-by-giamat.end_cake": "End Cake"
+  "block.food-by-giamat.end_cake": "End Cake",
+  "item.food-by-giamat.sweet_dough": "Sweet Dough",
+  "item.food-by-giamat.unbaked_challah": "Unbaked Challah",
+  "item.food-by-giamat.challah": "Challah",
+  "item.food-by-giamat.grape": "Grape",
+  "block.food-by-giamat.grape_bush": "Grape Bush",
+  "item.food-by-giamat.wine": "Wine",
+  "block.food-by-giamat.torah_stand": "Torah Stand",
+  "entity.minecraft.villager.rabbi": "Rabbi"
 }

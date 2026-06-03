@@ -113,6 +113,29 @@ public class ModItems {
     // End cake: a purple cake; eating a slice teleports you (see EndCakeBlock).
     public static final Item END_CAKE = registerEndCake();
 
+    // Sweet dough: dough kneaded with sugar; the base for challah.
+    public static final Item SWEET_DOUGH = register("sweet_dough");
+    // Challah: braided sweet bread. Made like bread but from sweet dough.
+    // The unbaked loaf is edible with no ill effects (like unbaked bread).
+    public static final Item UNBAKED_CHALLAH = registerFood("unbaked_challah", 1, 0.1f);
+    public static final Item CHALLAH = registerFood("challah", 6, 0.6f);
+
+    // Grape: foraged from wild grape bushes in the plains; also pressed into wine.
+    public static final Item GRAPE = registerFood("grape", 2, 0.1f);
+    // Wine: grapes pressed with sugar and water. Drinkable any time, but the
+    // alcohol leaves you dizzy (Nausea for 3 seconds).
+    public static final Item WINE = Registry.register(
+            Registries.ITEM,
+            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "wine")),
+            new Item(new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "wine")))
+                    .maxCount(16)
+                    .food(new FoodComponent(1, 0.1f, true),
+                            ConsumableComponent.builder()
+                                    .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 60, 0), 1.0f))
+                                    .build()))
+    );
+
     // Special food with effects
     public static final Item GUMMY_SCHNITZEL = Registry.register(
             Registries.ITEM,
@@ -189,13 +212,14 @@ public class ModItems {
                     CHEESE, PIZZA, TOPPED_PIZZA,
                     CORN_HOT, POPCORN, SUSHI,
                     CHOCOLATE_DONUT, END_CAKE,
+                    CHALLAH, GRAPE, WINE,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
                     CHICKEN_NUGGETS, CHICKEN_NUGGETS_BREADCRUMBS,
                     CURSED_CAKE,
                     UNBAKED_BREAD, UNBAKED_PITA, UNBAKED_SCHNITZEL,
                     UNBAKED_SAUSAGE, UNBAKED_CHICKEN_NUGGETS, UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS,
                     UNBAKED_COOKIE, UNBAKED_CAKE, UNBAKED_CAKE_CURSED,
-                    UNCOOKED_PIZZA, UNCOOKED_CHOCOLATE_DONUT);
+                    UNCOOKED_PIZZA, UNCOOKED_CHOCOLATE_DONUT, UNBAKED_CHALLAH);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
             entries.add(FLOUR);
@@ -205,6 +229,7 @@ public class ModItems {
             entries.add(BREADCRUMBS);
             entries.add(GELATIN);
             entries.add(TOMATO_PASTE);
+            entries.add(SWEET_DOUGH);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(STRAINER);

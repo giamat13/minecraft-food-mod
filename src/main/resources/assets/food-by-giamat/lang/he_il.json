@@ -50,5 +50,13 @@
   "item.food-by-giamat.uncooked_chocolate_donut": "דונאט שוקולד לא אפוי",
   "item.food-by-giamat.chocolate_donut": "דונאט שוקולד",
   "item.food-by-giamat.end_cake": "עוגת אנדר",
-  "block.food-by-giamat.end_cake": "עוגת אנדר"
+  "block.food-by-giamat.end_cake": "עוגת אנדר",
+  "item.food-by-giamat.sweet_dough": "בצק מתוק",
+  "item.food-by-giamat.unbaked_challah": "חלה לא אפויה",
+  "item.food-by-giamat.challah": "חלה",
+  "item.food-by-giamat.grape": "ענב",
+  "block.food-by-giamat.grape_bush": "שיח ענבים",
+  "item.food-by-giamat.wine": "יין",
+  "block.food-by-giamat.torah_stand": "עמוד תורה",
+  "entity.minecraft.villager.rabbi": "רב"
 }

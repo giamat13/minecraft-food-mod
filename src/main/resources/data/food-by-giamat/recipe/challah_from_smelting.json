@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": "food-by-giamat:unbaked_challah",
+  "result": {
+    "id": "food-by-giamat:challah"
+  }
+}

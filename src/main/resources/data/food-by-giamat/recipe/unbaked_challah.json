@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "DDD"
+  ],
+  "key": {
+    "D": "food-by-giamat:sweet_dough"
+  },
+  "result": {
+    "id": "food-by-giamat:unbaked_challah",
+    "count": 1
+  }
+}

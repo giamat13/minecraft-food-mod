@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:lectern",
+    "minecraft:paper",
+    "minecraft:gold_nugget",
+    "minecraft:diamond"
+  ],
+  "result": {
+    "id": "food-by-giamat:torah_stand",
+    "count": 1
+  }
+}

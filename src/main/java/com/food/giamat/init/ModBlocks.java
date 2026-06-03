@@ -6,6 +6,7 @@ import com.food.giamat.block.ChiliPepperBushBlock;
 import com.food.giamat.block.CornBlock;
 import com.food.giamat.block.CursedCakeBlock;
 import com.food.giamat.block.EndCakeBlock;
+import com.food.giamat.block.GrapeBushBlock;
 import com.food.giamat.block.RiceBlock;
 import com.food.giamat.block.TomatoBushBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -80,6 +81,23 @@ public class ModBlocks {
                     .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "end_cake"))))
     );
 
+    // Wild grape bush that generates in the plains (behaves like the tomato bush).
+    public static final Block GRAPE_BUSH = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "grape_bush")),
+            new GrapeBushBlock(AbstractBlock.Settings.copy(Blocks.DEAD_BUSH)
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "grape_bush"))))
+    );
+
+    // Torah stand: the rabbi villager's workstation (crafted from a lectern, paper,
+    // a gold nugget and a diamond). Placing one near a villager makes them a rabbi.
+    public static final Block TORAH_STAND = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "torah_stand")),
+            new Block(AbstractBlock.Settings.copy(Blocks.LECTERN)
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "torah_stand"))))
+    );
+
     public static void initialize() {
         RegistryKey<Item> leavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "banana_leaves"));
         Registry.register(
@@ -131,12 +149,36 @@ public class ModBlocks {
                         .food(new FoodComponent(1, 0.1f, false)))
         );
 
+        // Block item for the grape bush so shears/Silk Touch can drop a placeable version.
+        RegistryKey<Item> grapeBushKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "grape_bush"));
+        Registry.register(
+                Registries.ITEM,
+                grapeBushKey,
+                new BlockItem(GRAPE_BUSH, new Item.Settings()
+                        .registryKey(grapeBushKey)
+                        .useBlockPrefixedTranslationKey())
+        );
+
+        // Block item for the torah stand.
+        RegistryKey<Item> torahKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "torah_stand"));
+        Registry.register(
+                Registries.ITEM,
+                torahKey,
+                new BlockItem(TORAH_STAND, new Item.Settings()
+                        .registryKey(torahKey)
+                        .useBlockPrefixedTranslationKey())
+        );
+
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
             entries.add(BANANA_LEAVES.asItem());
             entries.add(CHILI_PEPPER_BUSH.asItem());
             entries.add(TOMATO_BUSH.asItem());
             entries.add(CORN.asItem());
             entries.add(RICE.asItem());
+            entries.add(GRAPE_BUSH.asItem());
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
+            entries.add(TORAH_STAND.asItem());
         });
     }
 }
