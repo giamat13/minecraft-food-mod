@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    " T ",
+    "DDD"
+  ],
+  "key": {
+    "C": "food-by-giamat:cheese",
+    "T": "food-by-giamat:tomato_paste",
+    "D": "food-by-giamat:dough"
+  },
+  "result": {
+    "id": "food-by-giamat:uncooked_pizza"
+  }
+}

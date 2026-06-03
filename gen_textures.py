@@ -388,8 +388,241 @@ def banana_leaves_block():
     return img
 
 
+# ----- tomato / pizza / corn / rice / donut / end cake ------------------
+
+def tomato():
+    img, d = new()
+    r = (210, 45, 35, 255)
+    ell(d, [3, 4, 13, 14], r, shade(r, 0.7))
+    d.line([(8, 4), (8, 2)], fill=(70, 130, 45, 255))
+    for dx in (-2, 0, 2):
+        d.point([(8 + dx, 3)], fill=(70, 140, 50, 255))
+    d.line([(6, 6), (9, 5)], fill=shade(r, 1.25))
+    return img
+
+
+def tomato_paste():
+    img, d = new()
+    jar = (190, 190, 200, 255)
+    d.rectangle([4, 5, 12, 14], fill=shade(jar, 0.9), outline=shade(jar, 0.6))
+    d.rectangle([5, 7, 11, 13], fill=(180, 40, 30, 255))
+    d.rectangle([4, 4, 12, 6], fill=(120, 90, 60, 255))
+    return img
+
+
+def cheese():
+    img, d = new()
+    y = (235, 200, 70, 255)
+    d.polygon([(3, 12), (13, 6), (13, 12)], fill=y, outline=shade(y, 0.7))
+    for hx, hy in [(8, 10), (11, 9), (10, 11)]:
+        d.point([(hx, hy)], fill=shade(y, 0.6))
+    return img
+
+
+def _pizza(inner, toppings, seed):
+    img, d = new()
+    crust = (210, 170, 90, 255)
+    ell(d, [2, 2, 14, 14], crust, shade(crust, 0.7))
+    ell(d, [4, 4, 12, 12], inner, None)
+    random.seed(seed)
+    for _ in range(toppings):
+        x, y = random.randint(5, 10), random.randint(5, 10)
+        d.point([(x, y)], fill=(190, 40, 30, 255))
+    return img
+
+
+def uncooked_pizza():
+    return _pizza((235, 220, 170, 255), 3, 7)
+
+
+def pizza():
+    return _pizza((225, 170, 70, 255), 5, 7)
+
+
+def topped_pizza():
+    img = pizza()
+    d = ImageDraw.Draw(img)
+    random.seed(3)
+    palette = [(190, 40, 30, 255), (230, 210, 120, 255),
+               (120, 60, 40, 255), (60, 140, 50, 255)]
+    for _ in range(7):
+        x, y = random.randint(5, 10), random.randint(5, 10)
+        d.point([(x, y)], fill=random.choice(palette))
+    return img
+
+
+def corn():
+    img, d = new()
+    husk = (90, 150, 50, 255)
+    cob = (240, 210, 70, 255)
+    d.rectangle([6, 3, 10, 13], fill=cob, outline=shade(cob, 0.7))
+    for yy in range(4, 13, 2):
+        for xx in range(6, 11, 2):
+            d.point([(xx, yy)], fill=shade(cob, 0.7))
+    d.polygon([(5, 9), (6, 4), (6, 14)], fill=husk)
+    d.polygon([(11, 9), (10, 4), (10, 14)], fill=husk)
+    return img
+
+
+def corn_hot():
+    img = corn()
+    d = ImageDraw.Draw(img)
+    for sx in (6, 9):
+        d.point([(sx, 2), (sx, 1)], fill=(220, 220, 220, 180))
+    return img
+
+
+def popcorn():
+    img, d = new()
+    box = (220, 60, 50, 255)
+    d.rectangle([4, 8, 12, 14], fill=box, outline=shade(box, 0.7))
+    for x in range(5, 12, 2):
+        d.line([(x, 8), (x, 14)], fill=(240, 240, 240, 255))
+    white = (250, 245, 210, 255)
+    for cx, cy in [(5, 5), (8, 3), (11, 5), (7, 6), (10, 7)]:
+        ell(d, [cx - 1, cy - 1, cx + 1, cy + 1], white, shade(white, 0.8))
+    return img
+
+
+def rice():
+    img, d = new()
+    w = (245, 245, 235, 255)
+    random.seed(5)
+    for _ in range(18):
+        x, y = random.randint(3, 12), random.randint(4, 13)
+        d.line([(x, y), (x, y + 1)], fill=w)
+    return img
+
+
+def sushi():
+    img, d = new()
+    rice_c = (245, 245, 235, 255)
+    nori = (40, 70, 50, 255)
+    ell(d, [3, 4, 13, 14], rice_c, nori, 1)
+    d.rectangle([3, 4, 13, 6], fill=nori)
+    ell(d, [6, 8, 10, 12], (235, 130, 90, 255), shade((235, 130, 90, 255), 0.7))
+    return img
+
+
+def _donut(glaze):
+    img, d = new()
+    dough = (205, 150, 80, 255)
+    d.ellipse([2, 2, 13, 13], fill=dough, outline=shade(dough, 0.7))
+    if glaze:
+        d.ellipse([3, 3, 12, 12], fill=glaze)
+    for x in range(16):
+        for y in range(16):
+            dx, dy = x - 7.5, y - 7.5
+            if dx * dx + dy * dy <= 6:
+                img.putpixel((x, y), (0, 0, 0, 0))
+    if glaze:
+        random.seed(9)
+        sprinkles = [(240, 80, 80, 255), (80, 200, 120, 255), (250, 240, 120, 255)]
+        for _ in range(10):
+            x, y = random.randint(3, 12), random.randint(3, 12)
+            dx, dy = x - 7.5, y - 7.5
+            if 7 < dx * dx + dy * dy < 26:
+                d.point([(x, y)], fill=random.choice(sprinkles))
+    return img
+
+
+def uncooked_chocolate_donut():
+    return _donut(None)
+
+
+def chocolate_donut():
+    return _donut((90, 55, 30, 255))
+
+
+def end_cake():
+    img, d = new()
+    side = (90, 40, 130, 255)
+    top = (150, 80, 200, 255)
+    d.rectangle([3, 6, 13, 13], fill=side, outline=shade(side, 0.7))
+    d.rectangle([3, 4, 13, 6], fill=top)
+    for x in range(4, 13, 3):
+        d.point([(x, 5)], fill=(220, 200, 250, 255))
+    d.point([(8, 9), (6, 11), (10, 10)], fill=(200, 150, 240, 255))
+    return img
+
+
+# ----- new blocks -------------------------------------------------------
+
+def _bush(seed, fruit_color):
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    g = (70, 130, 50, 255)
+    gd = shade(g, 0.7)
+    gl = shade(g, 1.2)
+    ell(d, [4, 5, 12, 13], g, gd)
+    ell(d, [6, 3, 13, 11], g, gd)
+    ell(d, [3, 6, 10, 13], g, gd)
+    d.line([(8, 15), (8, 9)], fill=gd)
+    d.line([(6, 15), (7, 11)], fill=gd)
+    random.seed(seed)
+    for _ in range(12):
+        d.point([(random.randint(3, 12), random.randint(4, 13))], fill=gl)
+    if fruit_color:
+        for cx, cy in [(6, 9), (10, 8), (8, 11)]:
+            ell(d, [cx - 1, cy - 1, cx + 1, cy + 1], fruit_color,
+                shade(fruit_color, 0.7))
+    return img
+
+
+def tomato_bush_block():
+    return _bush(31, (205, 45, 35, 255))
+
+
+def tomato_bush_empty_block():
+    return _bush(31, None)
+
+
+def chili_pepper_bush_empty_block():
+    return _bush(21, None)
+
+
+def corn_block():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    stalk = (110, 160, 60, 255)
+    d.line([(8, 15), (8, 0)], fill=stalk, width=2)
+    leaf = (90, 150, 55, 255)
+    for y in range(3, 14, 3):
+        d.line([(8, y), (5, y - 2)], fill=leaf)
+        d.line([(8, y), (11, y + 2)], fill=leaf)
+    cob = (235, 205, 70, 255)
+    d.rectangle([9, 7, 11, 11], fill=cob, outline=shade(cob, 0.7))
+    return img
+
+
+def rice_block():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    green = (120, 180, 90, 255)
+    random.seed(13)
+    for x in range(3, 14, 2):
+        h = random.randint(6, 11)
+        d.line([(x, 15), (x, 15 - h)], fill=green)
+        d.point([(x, 15 - h)], fill=(230, 220, 150, 255))
+    return img
+
+
 GENERATORS = {
     "banana": banana,
+    "tomato": tomato,
+    "tomato_paste": tomato_paste,
+    "cheese": cheese,
+    "uncooked_pizza": uncooked_pizza,
+    "pizza": pizza,
+    "topped_pizza": topped_pizza,
+    "corn": corn,
+    "corn_hot": corn_hot,
+    "popcorn": popcorn,
+    "rice": rice,
+    "sushi": sushi,
+    "uncooked_chocolate_donut": uncooked_chocolate_donut,
+    "chocolate_donut": chocolate_donut,
+    "end_cake": end_cake,
     "chili_pepper": chili_pepper,
     "breadcrumbs": breadcrumbs,
     "chicken_nuggets": chicken_nuggets,
@@ -429,7 +662,12 @@ def main():
         save(fn(), ITEM, name)
     save(banana_leaves_block(), BLOCK, "banana_leaves")
     save(chili_pepper_bush(), BLOCK, "chili_pepper_bush")
-    print("generated", len(GENERATORS) + 2, "textures")
+    save(chili_pepper_bush_empty_block(), BLOCK, "chili_pepper_bush_empty")
+    save(tomato_bush_block(), BLOCK, "tomato_bush")
+    save(tomato_bush_empty_block(), BLOCK, "tomato_bush_empty")
+    save(corn_block(), BLOCK, "corn")
+    save(rice_block(), BLOCK, "rice")
+    print("generated", len(GENERATORS) + 7, "textures")
 
 
 if __name__ == "__main__":

@@ -18,6 +18,15 @@ public class ModWorldGen {
     public static final RegistryKey<PlacedFeature> CHILI_PEPPER_BUSH_PLACED =
             RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper_bush"));
 
+    public static final RegistryKey<PlacedFeature> TOMATO_BUSH_PLACED =
+            RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(FoodBygiamat.MOD_ID, "tomato_bush"));
+
+    public static final RegistryKey<PlacedFeature> CORN_PLACED =
+            RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(FoodBygiamat.MOD_ID, "corn"));
+
+    public static final RegistryKey<PlacedFeature> RICE_PLACED =
+            RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(FoodBygiamat.MOD_ID, "rice"));
+
     public static void initialize() {
         BiomeModifications.addFeature(
                 BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
@@ -28,6 +37,21 @@ public class ModWorldGen {
                 BiomeSelectors.includeByKey(BiomeKeys.DESERT),
                 GenerationStep.Feature.VEGETAL_DECORATION,
                 CHILI_PEPPER_BUSH_PLACED
+        );
+        BiomeModifications.addFeature(
+                BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                TOMATO_BUSH_PLACED
+        );
+        BiomeModifications.addFeature(
+                BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                CORN_PLACED
+        );
+        BiomeModifications.addFeature(
+                BiomeSelectors.includeByKey(BiomeKeys.SWAMP),
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                RICE_PLACED
         );
     }
 }

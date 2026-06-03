@@ -1,5 +1,6 @@
 {
   "variants": {
-    "": {"model": "food-by-giamat:block/chili_pepper_bush"}
+    "harvested=false": {"model": "food-by-giamat:block/chili_pepper_bush"},
+    "harvested=true": {"model": "food-by-giamat:block/chili_pepper_bush_empty"}
   }
 }

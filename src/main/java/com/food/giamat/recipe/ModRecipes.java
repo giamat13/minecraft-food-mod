@@ -34,6 +34,11 @@ public class ModRecipes {
             Identifier.of(FoodBygiamat.MOD_ID, "sausage"),
             new SpecialCraftingRecipe.SpecialRecipeSerializer<>(SausageRecipe::new));
 
+    public static final RecipeSerializer<PizzaToppingRecipe> PIZZA_TOPPING_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            Identifier.of(FoodBygiamat.MOD_ID, "pizza_topping"),
+            new SpecialCraftingRecipe.SpecialRecipeSerializer<>(PizzaToppingRecipe::new));
+
     public static void initialize() {
         // Registration happens in the static initializer above; this just ensures the
         // class is loaded during mod init.

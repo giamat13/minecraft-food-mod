@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "food-by-giamat:corn",
+  "result": {
+    "id": "food-by-giamat:popcorn"
+  }
+}

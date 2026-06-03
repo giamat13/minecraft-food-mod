@@ -1,5 +1,6 @@
 package com.food.giamat;
 
+import com.food.giamat.block.FruitBushBlock;
 import com.food.giamat.init.ModItems;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
@@ -46,6 +47,28 @@ public class ModEvents {
             }
 
             world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 0.8f, 1.2f);
+            return ActionResult.SUCCESS_SERVER;
+        });
+
+        // Right-click a fruit bush with shears: snip the fruit off, leaving an
+        // empty bush that grows its fruit back after a while.
+        UseBlockCallback.EVENT.register((player, world, hand, hit) -> {
+            ItemStack stack = player.getStackInHand(hand);
+            if (!stack.isOf(Items.SHEARS)) {
+                return ActionResult.PASS;
+            }
+
+            BlockPos pos = hit.getBlockPos();
+            BlockState state = world.getBlockState(pos);
+            if (!(state.getBlock() instanceof FruitBushBlock bush) || state.get(FruitBushBlock.HARVESTED)) {
+                return ActionResult.PASS;
+            }
+
+            if (world.isClient()) {
+                return ActionResult.SUCCESS;
+            }
+
+            bush.shearFruit(state, world, pos);
             return ActionResult.SUCCESS_SERVER;
         });
 

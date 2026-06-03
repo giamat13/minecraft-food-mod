@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "food-by-giamat:rice",
+    "minecraft:kelp",
+    [
+      "minecraft:cod",
+      "minecraft:salmon"
+    ]
+  ],
+  "result": {
+    "id": "food-by-giamat:sushi"
+  }
+}

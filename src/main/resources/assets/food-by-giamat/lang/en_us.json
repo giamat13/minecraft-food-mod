@@ -34,5 +34,21 @@
   "item.food-by-giamat.unbaked_cake_cursed": "Unbaked Cursed Cake",
   "item.food-by-giamat.cursed_cake": "Cursed Cake",
   "block.food-by-giamat.cursed_cake": "Cursed Cake",
-  "block.food-by-giamat.banana_leaves": "Banana Leaves"
+  "block.food-by-giamat.banana_leaves": "Banana Leaves",
+  "item.food-by-giamat.tomato": "Tomato",
+  "block.food-by-giamat.tomato_bush": "Tomato Bush",
+  "item.food-by-giamat.tomato_paste": "Tomato Paste",
+  "item.food-by-giamat.cheese": "Cheese",
+  "item.food-by-giamat.uncooked_pizza": "Uncooked Pizza",
+  "item.food-by-giamat.pizza": "Pizza",
+  "item.food-by-giamat.topped_pizza": "Topped Pizza",
+  "block.food-by-giamat.corn": "Corn",
+  "item.food-by-giamat.corn_hot": "Hot Corn",
+  "item.food-by-giamat.popcorn": "Popcorn",
+  "block.food-by-giamat.rice": "Rice",
+  "item.food-by-giamat.sushi": "Sushi",
+  "item.food-by-giamat.uncooked_chocolate_donut": "Uncooked Chocolate Donut",
+  "item.food-by-giamat.chocolate_donut": "Chocolate Donut",
+  "item.food-by-giamat.end_cake": "End Cake",
+  "block.food-by-giamat.end_cake": "End Cake"
 }

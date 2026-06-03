@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "FSF",
+    "DDD"
+  ],
+  "key": {
+    "P": "minecraft:ender_pearl",
+    "F": "minecraft:chorus_fruit",
+    "S": "minecraft:sugar",
+    "D": "food-by-giamat:dough"
+  },
+  "result": {
+    "id": "food-by-giamat:end_cake"
+  }
+}
