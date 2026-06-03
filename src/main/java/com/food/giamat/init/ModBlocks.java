@@ -89,15 +89,6 @@ public class ModBlocks {
                     .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "grape_bush"))))
     );
 
-    // Torah stand: the rabbi villager's workstation (crafted from a lectern, paper,
-    // a gold nugget and a diamond). Placing one near a villager makes them a rabbi.
-    public static final Block TORAH_STAND = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "torah_stand")),
-            new Block(AbstractBlock.Settings.copy(Blocks.LECTERN)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "torah_stand"))))
-    );
-
     public static void initialize() {
         RegistryKey<Item> leavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "banana_leaves"));
         Registry.register(
@@ -159,16 +150,6 @@ public class ModBlocks {
                         .useBlockPrefixedTranslationKey())
         );
 
-        // Block item for the torah stand.
-        RegistryKey<Item> torahKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "torah_stand"));
-        Registry.register(
-                Registries.ITEM,
-                torahKey,
-                new BlockItem(TORAH_STAND, new Item.Settings()
-                        .registryKey(torahKey)
-                        .useBlockPrefixedTranslationKey())
-        );
-
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
             entries.add(BANANA_LEAVES.asItem());
             entries.add(CHILI_PEPPER_BUSH.asItem());
@@ -176,9 +157,6 @@ public class ModBlocks {
             entries.add(CORN.asItem());
             entries.add(RICE.asItem());
             entries.add(GRAPE_BUSH.asItem());
-        });
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
-            entries.add(TORAH_STAND.asItem());
         });
     }
 }

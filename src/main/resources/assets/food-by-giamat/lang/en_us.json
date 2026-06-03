@@ -56,7 +56,5 @@
   "item.food-by-giamat.challah": "Challah",
   "item.food-by-giamat.grape": "Grape",
   "block.food-by-giamat.grape_bush": "Grape Bush",
-  "item.food-by-giamat.wine": "Wine",
-  "block.food-by-giamat.torah_stand": "Torah Stand",
-  "entity.minecraft.villager.rabbi": "Rabbi"
+  "item.food-by-giamat.wine": "Wine"
 }

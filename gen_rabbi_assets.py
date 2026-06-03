@@ -15,8 +15,10 @@ ASSETS = os.path.join(BASE, "assets", "food-by-giamat", "textures")
 ITEM = os.path.join(ASSETS, "item")
 BLOCK = os.path.join(ASSETS, "block")
 STRUCT_DIR = os.path.join(BASE, "data", "food-by-giamat", "structure")
+# Vanilla namespace path for villager profession textures
+VILLAGER_PROF = os.path.join(BASE, "assets", "minecraft", "textures", "entity", "villager", "profession")
 
-for d in (ITEM, BLOCK, STRUCT_DIR):
+for d in (ITEM, BLOCK, STRUCT_DIR, VILLAGER_PROF):
     os.makedirs(d, exist_ok=True)
 
 
@@ -168,8 +170,45 @@ def torah_stand_top():
     save(img, BLOCK, "torah_stand_top")
 
 
+def rabbi_profession():
+    # 64x64 villager profession overlay texture (vanilla layout)
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    hat_dark = (30, 20, 10, 255)
+    hat_mid = (50, 35, 18, 255)
+    hat_brim = (40, 28, 14, 255)
+    beard = (220, 210, 190, 255)
+    gold = (224, 188, 70, 255)
+
+    # Head overlay region: x=8..15, y=8..15 (front face of head)
+    # Hat brim across top of head
+    d.rectangle((8, 8, 15, 9), fill=hat_brim)
+    # Hat body (tall black hat - streimel style)
+    d.rectangle((9, 5, 14, 8), fill=hat_dark, outline=hat_mid)
+    # Gold band on hat
+    d.line((9, 7, 14, 7), fill=gold)
+
+    # White beard on lower face (y=13..15 of head)
+    for y in (13, 14, 15):
+        d.line((9, y, 14, y), fill=beard)
+
+    # Body overlay region: x=20..27, y=20..31 (front of body)
+    # White/cream robe stripe
+    robe = (240, 235, 220, 255)
+    d.rectangle((20, 20, 27, 31), fill=robe)
+    # Dark coat over robe (bekishe)
+    coat = (35, 25, 15, 255)
+    d.rectangle((20, 20, 21, 31), fill=coat)
+    d.rectangle((26, 20, 27, 31), fill=coat)
+    # Gold belt buckle
+    d.rectangle((22, 25, 25, 27), fill=gold)
+
+    img.save(os.path.join(VILLAGER_PROF, "rabbi.png"))
+
+
 for fn in (grape, wine, sweet_dough, challah, unbaked_challah,
-           grape_bush, grape_bush_empty, torah_stand, torah_stand_top):
+           grape_bush, grape_bush_empty, torah_stand, torah_stand_top,
+           rabbi_profession):
     fn()
 print("textures written")
 
@@ -230,7 +269,7 @@ PALETTE = [
     ("minecraft:oak_log", {"axis": "y"}),        # 2
     ("food-by-giamat:torah_stand", None),        # 3
     ("minecraft:bookshelf", None),               # 4
-    ("minecraft:glass_pane", None),              # 5
+    ("minecraft:glass", None),                    # 5
     ("minecraft:white_wool", None),              # 6
 ]
 
