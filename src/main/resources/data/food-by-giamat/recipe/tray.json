@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I I",
+    "III"
+  ],
+  "key": {
+    "I": {"item": "minecraft:iron_ingot"}
+  },
+  "result": {
+    "id": "food-by-giamat:tray",
+    "count": 1
+  }
+}

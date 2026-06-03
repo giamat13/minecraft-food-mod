@@ -2,13 +2,17 @@ package com.food.giamat.init;
 
 import com.food.giamat.FoodBygiamat;
 import com.food.giamat.block.BananaLeavesBlock;
+import com.food.giamat.block.CakeOnTrayBlock;
 import com.food.giamat.block.ChiliPepperBushBlock;
 import com.food.giamat.block.CornBlock;
 import com.food.giamat.block.CursedCakeBlock;
 import com.food.giamat.block.EndCakeBlock;
 import com.food.giamat.block.GrapeBushBlock;
+import com.food.giamat.block.PizzaBlock;
+import com.food.giamat.block.PizzaOnTrayBlock;
 import com.food.giamat.block.RiceBlock;
 import com.food.giamat.block.TomatoBushBlock;
+import com.food.giamat.block.TrayBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -89,6 +93,41 @@ public class ModBlocks {
                     .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "grape_bush"))))
     );
 
+    // Pizza block: placed by the pizza item, behaves like cake (6 slices).
+    public static final Block PIZZA_BLOCK = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pizza")),
+            new PizzaBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pizza"))))
+    );
+
+    // Serving tray: a flat block that can hold pizza or cake.
+    public static final Block TRAY_BLOCK = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "tray")),
+            new TrayBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)
+                    .nonOpaque()
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "tray"))))
+    );
+
+    // Pizza on a tray: pizza block that leaves an empty tray when fully eaten.
+    public static final Block PIZZA_ON_TRAY_BLOCK = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pizza_on_tray")),
+            new PizzaOnTrayBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
+                    .nonOpaque()
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pizza_on_tray"))))
+    );
+
+    // Cake on a tray: vanilla cake block that leaves an empty tray when fully eaten.
+    public static final Block CAKE_ON_TRAY_BLOCK = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "cake_on_tray")),
+            new CakeOnTrayBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
+                    .nonOpaque()
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "cake_on_tray"))))
+    );
+
     public static void initialize() {
         RegistryKey<Item> leavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "banana_leaves"));
         Registry.register(
@@ -148,6 +187,14 @@ public class ModBlocks {
                 new BlockItem(GRAPE_BUSH, new Item.Settings()
                         .registryKey(grapeBushKey)
                         .useBlockPrefixedTranslationKey())
+        );
+
+        // Tray item — crafted from iron, placed as a decorative block.
+        RegistryKey<Item> trayKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "tray"));
+        Registry.register(
+                Registries.ITEM,
+                trayKey,
+                new BlockItem(TRAY_BLOCK, new Item.Settings().registryKey(trayKey))
         );
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {

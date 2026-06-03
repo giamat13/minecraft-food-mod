@@ -1,0 +1,233 @@
+{
+  "textures": {
+    "tray": "food-by-giamat:block/tray",
+    "particle": "minecraft:block/cake_side",
+    "cake_top": "minecraft:block/cake_top",
+    "cake_side": "minecraft:block/cake_side",
+    "cake_bottom": "minecraft:block/cake_bottom",
+    "cake_inner": "minecraft:block/cake_inner"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        2,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#tray",
+          "cullface": "down"
+        },
+        "up": {
+          "texture": "#tray"
+        },
+        "north": {
+          "texture": "#tray"
+        },
+        "south": {
+          "texture": "#tray"
+        },
+        "west": {
+          "texture": "#tray"
+        },
+        "east": {
+          "texture": "#tray"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        2,
+        0
+      ],
+      "to": [
+        2,
+        4,
+        16
+      ],
+      "faces": {
+        "west": {
+          "texture": "#tray",
+          "cullface": "west"
+        },
+        "north": {
+          "texture": "#tray"
+        },
+        "south": {
+          "texture": "#tray"
+        },
+        "east": {
+          "texture": "#tray"
+        },
+        "up": {
+          "texture": "#tray"
+        },
+        "down": {
+          "texture": "#tray"
+        }
+      }
+    },
+    {
+      "from": [
+        14,
+        2,
+        0
+      ],
+      "to": [
+        16,
+        4,
+        16
+      ],
+      "faces": {
+        "east": {
+          "texture": "#tray",
+          "cullface": "east"
+        },
+        "north": {
+          "texture": "#tray"
+        },
+        "south": {
+          "texture": "#tray"
+        },
+        "west": {
+          "texture": "#tray"
+        },
+        "up": {
+          "texture": "#tray"
+        },
+        "down": {
+          "texture": "#tray"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        2,
+        0
+      ],
+      "to": [
+        14,
+        4,
+        2
+      ],
+      "faces": {
+        "north": {
+          "texture": "#tray",
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#tray"
+        },
+        "up": {
+          "texture": "#tray"
+        },
+        "down": {
+          "texture": "#tray"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        2,
+        14
+      ],
+      "to": [
+        14,
+        4,
+        16
+      ],
+      "faces": {
+        "south": {
+          "texture": "#tray",
+          "cullface": "south"
+        },
+        "north": {
+          "texture": "#tray"
+        },
+        "up": {
+          "texture": "#tray"
+        },
+        "down": {
+          "texture": "#tray"
+        }
+      }
+    },
+    {
+      "from": [
+        3,
+        4,
+        1
+      ],
+      "to": [
+        15,
+        12,
+        15
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            3,
+            1,
+            15,
+            15
+          ],
+          "texture": "#cake_bottom"
+        },
+        "up": {
+          "uv": [
+            3,
+            1,
+            15,
+            15
+          ],
+          "texture": "#cake_top"
+        },
+        "north": {
+          "uv": [
+            3,
+            8,
+            15,
+            16
+          ],
+          "texture": "#cake_side"
+        },
+        "south": {
+          "uv": [
+            3,
+            8,
+            15,
+            16
+          ],
+          "texture": "#cake_side"
+        },
+        "east": {
+          "uv": [
+            1,
+            8,
+            15,
+            16
+          ],
+          "texture": "#cake_side"
+        },
+        "west": {
+          "uv": [
+            1,
+            8,
+            15,
+            16
+          ],
+          "texture": "#cake_inner"
+        }
+      }
+    }
+  ]
+}

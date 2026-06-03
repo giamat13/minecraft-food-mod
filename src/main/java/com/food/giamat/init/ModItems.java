@@ -1,6 +1,7 @@
 package com.food.giamat.init;
 
 import com.food.giamat.FoodBygiamat;
+import com.food.giamat.init.ModBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.type.ConsumableComponent;
 import net.minecraft.component.type.FoodComponent;
@@ -93,8 +94,9 @@ public class ModItems {
     public static final Item CHEESE = registerFood("cheese", 4, 0.4f);
 
     // Pizza: an uncooked pie (dough + tomato paste + cheese) baked in a furnace.
+    // Placing the pizza item puts down a pizza block (like cake); it can also be eaten directly.
     public static final Item UNCOOKED_PIZZA = registerUnbaked("uncooked_pizza", 2);
-    public static final Item PIZZA = registerFood("pizza", 8, 0.8f);
+    public static final Item PIZZA = registerPizza();
     // Topped pizza: its food value is set per-stack from the number of toppings.
     public static final Item TOPPED_PIZZA = registerFood("topped_pizza", 10, 0.9f);
 
@@ -186,6 +188,17 @@ public class ModItems {
         );
     }
 
+    private static Item registerPizza() {
+        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "pizza"));
+        return Registry.register(
+                Registries.ITEM,
+                key,
+                new BlockItem(ModBlocks.PIZZA_BLOCK, new Item.Settings()
+                        .registryKey(key)
+                        .food(new FoodComponent.Builder().nutrition(8).saturationModifier(0.8f).build()))
+        );
+    }
+
     private static Item registerCursedCake() {
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "cursed_cake"));
         return Registry.register(
@@ -233,6 +246,7 @@ public class ModItems {
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(STRAINER);
+            entries.add(ModBlocks.TRAY_BLOCK.asItem());
         });
     }
 }

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "food-by-giamat:blocks/tray",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "food-by-giamat:tray"
+        }
+      ],
+      "conditions": [
+        {"condition": "minecraft:survives_explosion"}
+      ]
+    }
+  ]
+}

@@ -56,5 +56,10 @@
   "item.food-by-giamat.challah": "Challah",
   "item.food-by-giamat.grape": "Grape",
   "block.food-by-giamat.grape_bush": "Grape Bush",
-  "item.food-by-giamat.wine": "Wine"
+  "item.food-by-giamat.wine": "Wine",
+  "block.food-by-giamat.pizza": "Pizza",
+  "item.food-by-giamat.tray": "Serving Tray",
+  "block.food-by-giamat.tray": "Serving Tray",
+  "block.food-by-giamat.pizza_on_tray": "Pizza on Tray",
+  "block.food-by-giamat.cake_on_tray": "Cake on Tray"
 }
