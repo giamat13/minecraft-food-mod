@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "food-by-giamat:tomato"
+  ],
+  "result": {
+    "id": "food-by-giamat:tomato_paste"
+  }
+}

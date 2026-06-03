@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "food-by-giamat:dough",
+    "minecraft:sugar"
+  ],
+  "result": {
+    "id": "food-by-giamat:sweet_dough",
+    "count": 1
+  }
+}

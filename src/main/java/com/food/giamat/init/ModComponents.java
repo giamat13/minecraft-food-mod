@@ -22,6 +22,18 @@ public class ModComponents {
                     .packetCodec(PacketCodecs.BOOLEAN)
                     .build());
 
+    /**
+     * Number of toppings stacked on a pizza. Used to scale how filling a
+     * topped pizza is.
+     */
+    public static final ComponentType<Integer> PIZZA_TOPPINGS = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            Identifier.of(FoodBygiamat.MOD_ID, "pizza_toppings"),
+            ComponentType.<Integer>builder()
+                    .codec(Codec.INT)
+                    .packetCodec(PacketCodecs.INTEGER)
+                    .build());
+
     public static void initialize() {
         // Registration happens in the static initializer above.
     }

@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "harvested=false": {"model": "food-by-giamat:block/tomato_bush"},
+    "harvested=true": {"model": "food-by-giamat:block/tomato_bush_empty"}
+  }
+}

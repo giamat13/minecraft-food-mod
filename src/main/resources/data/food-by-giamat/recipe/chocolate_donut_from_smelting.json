@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.3,
+  "ingredient": "food-by-giamat:uncooked_chocolate_donut",
+  "result": {
+    "id": "food-by-giamat:chocolate_donut"
+  }
+}

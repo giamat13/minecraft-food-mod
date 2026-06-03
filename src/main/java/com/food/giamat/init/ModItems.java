@@ -85,6 +85,57 @@ public class ModItems {
     // The cursed cake is placed like a vanilla cake; eating a slice curses you (see CursedCakeBlock).
     public static final Item CURSED_CAKE = registerCursedCake();
 
+    // Tomato: foraged from wild tomato bushes in the plains.
+    public static final Item TOMATO = registerFood("tomato", 3, 0.3f);
+    // Tomato paste: crushed from a single tomato; used to make pizza.
+    public static final Item TOMATO_PASTE = register("tomato_paste");
+    // Cheese: pressed from a bucket of milk; pizza topping and a snack on its own.
+    public static final Item CHEESE = registerFood("cheese", 4, 0.4f);
+
+    // Pizza: an uncooked pie (dough + tomato paste + cheese) baked in a furnace.
+    public static final Item UNCOOKED_PIZZA = registerUnbaked("uncooked_pizza", 2);
+    public static final Item PIZZA = registerFood("pizza", 8, 0.8f);
+    // Topped pizza: its food value is set per-stack from the number of toppings.
+    public static final Item TOPPED_PIZZA = registerFood("topped_pizza", 10, 0.9f);
+
+    // Corn products: raw corn is grown as a crop (see ModBlocks); cooking it in a
+    // furnace makes hot corn, and a smoker pops it into popcorn.
+    public static final Item CORN_HOT = registerFood("corn_hot", 5, 0.6f);
+    public static final Item POPCORN = registerFood("popcorn", 4, 0.5f);
+
+    // Sushi: rolled from rice, raw fish and kelp.
+    public static final Item SUSHI = registerFood("sushi", 6, 0.6f);
+
+    // Chocolate donut: a ring of dough around chocolate, baked in a furnace.
+    public static final Item UNCOOKED_CHOCOLATE_DONUT = registerUnbaked("uncooked_chocolate_donut", 1);
+    public static final Item CHOCOLATE_DONUT = registerFood("chocolate_donut", 6, 0.7f);
+
+    // End cake: a purple cake; eating a slice teleports you (see EndCakeBlock).
+    public static final Item END_CAKE = registerEndCake();
+
+    // Sweet dough: dough kneaded with sugar; the base for challah.
+    public static final Item SWEET_DOUGH = register("sweet_dough");
+    // Challah: braided sweet bread. Made like bread but from sweet dough.
+    // The unbaked loaf is edible with no ill effects (like unbaked bread).
+    public static final Item UNBAKED_CHALLAH = registerFood("unbaked_challah", 1, 0.1f);
+    public static final Item CHALLAH = registerFood("challah", 6, 0.6f);
+
+    // Grape: foraged from wild grape bushes in the plains; also pressed into wine.
+    public static final Item GRAPE = registerFood("grape", 2, 0.1f);
+    // Wine: grapes pressed with sugar and water. Drinkable any time, but the
+    // alcohol leaves you dizzy (Nausea for 3 seconds).
+    public static final Item WINE = Registry.register(
+            Registries.ITEM,
+            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "wine")),
+            new Item(new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "wine")))
+                    .maxCount(16)
+                    .food(new FoodComponent(1, 0.1f, true),
+                            ConsumableComponent.builder()
+                                    .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 60, 0), 1.0f))
+                                    .build()))
+    );
+
     // Special food with effects
     public static final Item GUMMY_SCHNITZEL = Registry.register(
             Registries.ITEM,
@@ -143,19 +194,32 @@ public class ModItems {
                 new BlockItem(ModBlocks.CURSED_CAKE_BLOCK, new Item.Settings().registryKey(key)));
     }
 
+    private static Item registerEndCake() {
+        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "end_cake"));
+        return Registry.register(
+                Registries.ITEM,
+                key,
+                new BlockItem(ModBlocks.END_CAKE_BLOCK, new Item.Settings().registryKey(key)));
+    }
+
     public static void initialize() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries -> {
             entries.addAfter(net.minecraft.item.Items.CAKE, CHOCOLATE);
             entries.addAfter(CHOCOLATE,
                     SHOKO, PITA, SCHNITZEL,
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
-                    GUMMY_SCHNITZEL, BANANA, CHILI_PEPPER,
+                    GUMMY_SCHNITZEL, BANANA, CHILI_PEPPER, TOMATO,
+                    CHEESE, PIZZA, TOPPED_PIZZA,
+                    CORN_HOT, POPCORN, SUSHI,
+                    CHOCOLATE_DONUT, END_CAKE,
+                    CHALLAH, GRAPE, WINE,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
                     CHICKEN_NUGGETS, CHICKEN_NUGGETS_BREADCRUMBS,
                     CURSED_CAKE,
                     UNBAKED_BREAD, UNBAKED_PITA, UNBAKED_SCHNITZEL,
                     UNBAKED_SAUSAGE, UNBAKED_CHICKEN_NUGGETS, UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS,
-                    UNBAKED_COOKIE, UNBAKED_CAKE, UNBAKED_CAKE_CURSED);
+                    UNBAKED_COOKIE, UNBAKED_CAKE, UNBAKED_CAKE_CURSED,
+                    UNCOOKED_PIZZA, UNCOOKED_CHOCOLATE_DONUT, UNBAKED_CHALLAH);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
             entries.add(FLOUR);
@@ -164,6 +228,8 @@ public class ModItems {
             entries.add(MELTED_CHOCOLATE);
             entries.add(BREADCRUMBS);
             entries.add(GELATIN);
+            entries.add(TOMATO_PASTE);
+            entries.add(SWEET_DOUGH);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(STRAINER);

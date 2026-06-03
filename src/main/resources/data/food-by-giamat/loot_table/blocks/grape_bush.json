@@ -1,0 +1,69 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:any_of",
+                  "terms": [
+                    {
+                      "condition": "minecraft:match_tool",
+                      "predicate": {
+                        "predicates": {
+                          "minecraft:enchantments": [
+                            {
+                              "enchantments": "minecraft:silk_touch",
+                              "levels": {"min": 1}
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "condition": "minecraft:match_tool",
+                      "predicate": {"items": "minecraft:shears"}
+                    }
+                  ]
+                }
+              ],
+              "name": "food-by-giamat:grape_bush"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "food-by-giamat:grape_bush",
+                  "properties": {"harvested": "false"}
+                }
+              ],
+              "name": "food-by-giamat:grape",
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": {"type": "minecraft:uniform", "min": 1.0, "max": 2.0}
+                },
+                {
+                  "function": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:uniform_bonus_count",
+                  "parameters": {"bonusMultiplier": 1}
+                },
+                {
+                  "function": "minecraft:explosion_decay"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

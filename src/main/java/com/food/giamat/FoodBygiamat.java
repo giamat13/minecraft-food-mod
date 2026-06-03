@@ -3,6 +3,7 @@ package com.food.giamat;
 import com.food.giamat.init.ModBlocks;
 import com.food.giamat.init.ModComponents;
 import com.food.giamat.init.ModItems;
+import com.food.giamat.init.ModVillagers;
 import com.food.giamat.recipe.ModRecipes;
 import com.food.giamat.worldgen.ModWorldGen;
 import net.fabricmc.api.ModInitializer;
@@ -20,6 +21,7 @@ public class FoodBygiamat implements ModInitializer {
 		ModBlocks.initialize();
 		ModRecipes.initialize();
 		ModEvents.initialize();
+		ModVillagers.initialize();
 		ModWorldGen.initialize();
 		LOGGER.info("Food By Giamat loaded!");
 	}
