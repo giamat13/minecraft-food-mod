@@ -607,6 +607,100 @@ def rice_block():
     return img
 
 
+def popsicle(fruit_color, stick=(120, 80, 40, 255)):
+    img, d = new()
+    sc = shade(fruit_color, 0.70)
+    # stick
+    d.line([(8, 11), (8, 15)], fill=stick, width=2)
+    # ice body
+    d.rounded_rectangle([5, 3, 11, 11], radius=2, fill=fruit_color, outline=sc)
+    # highlight streak
+    d.line([(6, 4), (6, 9)], fill=shade(fruit_color, 1.25))
+    # bite mark / gloss
+    d.point([(9, 5), (9, 7)], fill=shade(fruit_color, 1.3))
+    return img
+
+
+def lemon():
+    img, d = new()
+    y = (255, 230, 40, 255)
+    yd = shade(y, 0.72)
+    ell(d, [3, 3, 13, 13], y, yd)
+    # pointed tips
+    d.point([(8, 2), (8, 1)], fill=yd)
+    d.point([(8, 14), (8, 15)], fill=yd)
+    # highlight
+    d.line([(5, 5), (7, 4)], fill=shade(y, 1.2))
+    d.point([(5, 6)], fill=shade(y, 1.3))
+    return img
+
+
+def pomegranate():
+    img, d = new()
+    r = (195, 30, 50, 255)
+    rd = shade(r, 0.65)
+    # body
+    ell(d, [3, 4, 13, 14], r, rd)
+    # crown
+    crown = (140, 100, 40, 255)
+    for cx in (6, 8, 10):
+        d.line([(cx, 4), (cx, 2)], fill=crown)
+    d.line([(5, 4), (11, 4)], fill=shade(crown, 0.8))
+    # seeds visible through skin
+    d.point([(7, 8), (9, 7), (8, 10), (10, 9)], fill=(255, 180, 180, 255))
+    # highlight
+    d.line([(5, 6), (7, 5)], fill=shade(r, 1.25))
+    return img
+
+
+def lemon_leaves_block():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    random.seed(41)
+    greens = [(80, 135, 50), (95, 150, 60), (70, 120, 45), (105, 160, 65), (60, 110, 40)]
+    for x in range(16):
+        for yv in range(16):
+            c = random.choice(greens)
+            d.point([(x, yv)], fill=(c[0], c[1], c[2], 255))
+    # yellow tint on a few pixels (lemon tree hint)
+    for _ in range(8):
+        d.point([(random.randint(0, 15), random.randint(0, 15))], fill=(200, 220, 80, 255))
+    return img
+
+
+def pomegranate_leaves_block():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    random.seed(43)
+    greens = [(55, 110, 45), (65, 125, 50), (75, 140, 55), (50, 100, 40), (85, 150, 60)]
+    for x in range(16):
+        for yv in range(16):
+            c = random.choice(greens)
+            d.point([(x, yv)], fill=(c[0], c[1], c[2], 255))
+    # red tint (pomegranate)
+    for _ in range(8):
+        d.point([(random.randint(0, 15), random.randint(0, 15))], fill=(160, 60, 70, 200))
+    return img
+
+
+def sus_cake():
+    img = cake((240, 220, 170, 255), (255, 240, 200, 255))
+    d = ImageDraw.Draw(img)
+    # question-mark swirl on frosting in green
+    d.point([(7, 5), (8, 5), (9, 5), (9, 6), (8, 7), (8, 9)], fill=(60, 190, 80, 255))
+    d.point([(8, 11)], fill=(60, 190, 80, 255))
+    return img
+
+
+def sus_pizza():
+    img = pizza()
+    d = ImageDraw.Draw(img)
+    # question-mark dot overlay in green
+    d.point([(7, 7), (8, 6), (9, 7), (9, 8), (8, 9), (8, 11)], fill=(60, 190, 80, 200))
+    d.point([(8, 13)], fill=(60, 190, 80, 200))
+    return img
+
+
 GENERATORS = {
     "banana": banana,
     "tomato": tomato,
@@ -654,6 +748,18 @@ GENERATORS = {
     "unbaked_pita": unbaked_pita,
     "unbaked_sausage": unbaked_sausage,
     "unbaked_schnitzel": unbaked_schnitzel,
+    "lemon": lemon,
+    "pomegranate": pomegranate,
+    "lemon_popsicle": lambda: popsicle((255, 230, 40, 255)),
+    "pomegranate_popsicle": lambda: popsicle((195, 30, 50, 255)),
+    "banana_popsicle": lambda: popsicle((235, 205, 60, 255)),
+    "grape_popsicle": lambda: popsicle((130, 60, 180, 255)),
+    "apple_popsicle": lambda: popsicle((200, 50, 50, 255)),
+    "melon_popsicle": lambda: popsicle((100, 200, 80, 255)),
+    "sweet_berry_popsicle": lambda: popsicle((180, 50, 80, 255)),
+    "glow_berry_popsicle": lambda: popsicle((255, 200, 50, 255)),
+    "sus_cake": sus_cake,
+    "sus_pizza": sus_pizza,
 }
 
 
@@ -661,6 +767,8 @@ def main():
     for name, fn in GENERATORS.items():
         save(fn(), ITEM, name)
     save(banana_leaves_block(), BLOCK, "banana_leaves")
+    save(lemon_leaves_block(), BLOCK, "lemon_leaves")
+    save(pomegranate_leaves_block(), BLOCK, "pomegranate_leaves")
     save(chili_pepper_bush(), BLOCK, "chili_pepper_bush")
     save(chili_pepper_bush_empty_block(), BLOCK, "chili_pepper_bush_empty")
     save(tomato_bush_block(), BLOCK, "tomato_bush")

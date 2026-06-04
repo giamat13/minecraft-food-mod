@@ -1,0 +1,12 @@
+accessWidener	v1	intermediary
+extendable	method	net/minecraft/class_4970$class_2251	<init>	()V
+accessible	method	net/minecraft/class_7477	method_43993	(Lnet/minecraft/class_2378;Lnet/minecraft/class_5321;Ljava/util/Set;II)Lnet/minecraft/class_4158;
+extendable	class	net/minecraft/class_2591$class_5559
+accessible	method	net/minecraft/class_2591	<init>	(Lnet/minecraft/class_2591$class_5559;Ljava/util/Set;)V
+accessible	class	net/minecraft/class_3853$class_4162
+mutable	field	net/minecraft/class_3853	field_45128	Ljava/util/Map;
+mutable	field	net/minecraft/class_3853	field_17724	Ljava/util/List;
+accessible	method	net/minecraft/class_1317	method_20637	(Lnet/minecraft/class_1299;Lnet/minecraft/class_9168;Lnet/minecraft/class_2902$class_2903;Lnet/minecraft/class_1317$class_4306;)V
+accessible	field	net/minecraft/class_3854	field_17078	Ljava/util/Map;
+accessible	method	net/minecraft/class_4719	method_24027	(Lnet/minecraft/class_4719;)Lnet/minecraft/class_4719;
+accessible	method	net/minecraft/class_8177	method_49233	(Lnet/minecraft/class_8177;)Lnet/minecraft/class_8177;
