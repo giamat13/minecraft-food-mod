@@ -6,7 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.SuspiciousStewEffectsComponent;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -24,9 +24,9 @@ public class SusPizzaBlockItem extends BlockItem {
     }
 
     @Override
-    protected void onPlaced(World world, BlockPos pos, BlockState state,
-            @Nullable LivingEntity placer, ItemStack stack) {
-        super.onPlaced(world, pos, state, placer, stack);
+    protected boolean postPlacement(BlockPos pos, World world,
+            @Nullable PlayerEntity placer, ItemStack stack, BlockState state) {
+        boolean result = super.postPlacement(pos, world, placer, stack, state);
         if (!world.isClient()) {
             BlockEntity be = world.getBlockEntity(pos);
             if (be instanceof SusEffectsBlockEntity susEntity) {
@@ -37,5 +37,6 @@ public class SusPizzaBlockItem extends BlockItem {
                 }
             }
         }
+        return result;
     }
 }

@@ -31,8 +31,9 @@ public abstract class SusStewConsumeMixin {
         SuspiciousStewEffectsComponent effects =
                 stack.get(DataComponentTypes.SUSPICIOUS_STEW_EFFECTS);
         if (effects != null) {
-            effects.forEachEffect(e ->
-                    player.addStatusEffect(new StatusEffectInstance(e.effect(), e.duration(), 0)));
+            for (SuspiciousStewEffectsComponent.StewEffect e : effects.effects()) {
+                player.addStatusEffect(new StatusEffectInstance(e.effect(), e.duration(), 0));
+            }
         }
     }
 }

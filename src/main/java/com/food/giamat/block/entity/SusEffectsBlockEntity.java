@@ -1,15 +1,13 @@
 package com.food.giamat.block.entity;
 
 import com.food.giamat.init.ModBlockEntities;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.type.SuspiciousStewEffectsComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 
 public class SusEffectsBlockEntity extends BlockEntity {
@@ -26,31 +24,24 @@ public class SusEffectsBlockEntity extends BlockEntity {
 
     public void applyEffects(PlayerEntity player) {
         if (stewEffects != null) {
-            stewEffects.forEachEffect(e ->
-                    player.addStatusEffect(new StatusEffectInstance(e.effect(), e.duration(), 0)));
+            for (SuspiciousStewEffectsComponent.StewEffect e : stewEffects.effects()) {
+                player.addStatusEffect(new StatusEffectInstance(e.effect(), e.duration(), 0));
+            }
         }
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
         if (stewEffects != null) {
-            SuspiciousStewEffectsComponent.CODEC
-                    .encodeStart(registries.getOps(NbtOps.INSTANCE), stewEffects)
-                    .result()
-                    .ifPresent(el -> nbt.put("StewEffects", el));
+            view.put("StewEffects", SuspiciousStewEffectsComponent.CODEC, stewEffects);
         }
     }
 
     @Override
-    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        if (nbt.contains("StewEffects")) {
-            SuspiciousStewEffectsComponent.CODEC
-                    .decode(registries.getOps(NbtOps.INSTANCE), nbt.get("StewEffects"))
-                    .result()
-                    .map(Pair::getFirst)
-                    .ifPresent(e -> stewEffects = e);
-        }
+    protected void readData(ReadView view) {
+        super.readData(view);
+        view.read("StewEffects", SuspiciousStewEffectsComponent.CODEC)
+                .ifPresent(e -> stewEffects = e);
     }
 }
