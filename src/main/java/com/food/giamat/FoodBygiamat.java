@@ -1,5 +1,6 @@
 package com.food.giamat;
 
+import com.food.giamat.init.ModBlockEntities;
 import com.food.giamat.init.ModBlocks;
 import com.food.giamat.init.ModComponents;
 import com.food.giamat.init.ModItems;
@@ -19,6 +20,7 @@ public class FoodBygiamat implements ModInitializer {
 		ModComponents.initialize();
 		ModItems.initialize();
 		ModBlocks.initialize();
+		ModBlockEntities.initialize();
 		ModRecipes.initialize();
 		ModEvents.initialize();
 		ModVillagers.initialize();

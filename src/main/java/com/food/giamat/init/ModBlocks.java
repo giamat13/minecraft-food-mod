@@ -11,6 +11,8 @@ import com.food.giamat.block.GrapeBushBlock;
 import com.food.giamat.block.PizzaBlock;
 import com.food.giamat.block.PizzaOnTrayBlock;
 import com.food.giamat.block.RiceBlock;
+import com.food.giamat.block.SusCakeBlock;
+import com.food.giamat.block.SusPizzaBlock;
 import com.food.giamat.block.TomatoBushBlock;
 import com.food.giamat.block.TrayBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -126,6 +128,22 @@ public class ModBlocks {
             new CakeOnTrayBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
                     .nonOpaque()
                     .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "cake_on_tray"))))
+    );
+
+    // Sus cake: vanilla cake infused with suspicious stew; eating a slice applies the stew's effects.
+    public static final Block SUS_CAKE_BLOCK = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "sus_cake")),
+            new SusCakeBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "sus_cake"))))
+    );
+
+    // Sus pizza: pizza infused with suspicious stew; eating a slice applies the stew's effects.
+    public static final Block SUS_PIZZA_BLOCK = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "sus_pizza")),
+            new SusPizzaBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "sus_pizza"))))
     );
 
     public static void initialize() {

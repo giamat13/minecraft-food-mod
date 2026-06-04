@@ -61,5 +61,15 @@
   "item.food-by-giamat.tray": "מגש הגשה",
   "block.food-by-giamat.tray": "מגש הגשה",
   "block.food-by-giamat.pizza_on_tray": "פיצה על מגש",
-  "block.food-by-giamat.cake_on_tray": "עוגה על מגש"
+  "block.food-by-giamat.cake_on_tray": "עוגה על מגש",
+  "item.food-by-giamat.banana_popsicle": "ארטיק בננה",
+  "item.food-by-giamat.grape_popsicle": "ארטיק ענבים",
+  "item.food-by-giamat.apple_popsicle": "ארטיק תפוח",
+  "item.food-by-giamat.melon_popsicle": "ארטיק מלון",
+  "item.food-by-giamat.sweet_berry_popsicle": "ארטיק פירות יער",
+  "item.food-by-giamat.glow_berry_popsicle": "ארטיק ענבי זוהר",
+  "item.food-by-giamat.sus_cake": "עוגה חשודה",
+  "block.food-by-giamat.sus_cake": "עוגה חשודה",
+  "item.food-by-giamat.sus_pizza": "פיצה חשודה",
+  "block.food-by-giamat.sus_pizza": "פיצה חשודה"
 }

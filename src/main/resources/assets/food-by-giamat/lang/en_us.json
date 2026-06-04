@@ -61,5 +61,15 @@
   "item.food-by-giamat.tray": "Serving Tray",
   "block.food-by-giamat.tray": "Serving Tray",
   "block.food-by-giamat.pizza_on_tray": "Pizza on Tray",
-  "block.food-by-giamat.cake_on_tray": "Cake on Tray"
+  "block.food-by-giamat.cake_on_tray": "Cake on Tray",
+  "item.food-by-giamat.banana_popsicle": "Banana Popsicle",
+  "item.food-by-giamat.grape_popsicle": "Grape Popsicle",
+  "item.food-by-giamat.apple_popsicle": "Apple Popsicle",
+  "item.food-by-giamat.melon_popsicle": "Melon Popsicle",
+  "item.food-by-giamat.sweet_berry_popsicle": "Sweet Berry Popsicle",
+  "item.food-by-giamat.glow_berry_popsicle": "Glow Berry Popsicle",
+  "item.food-by-giamat.sus_cake": "Suspicious Cake",
+  "block.food-by-giamat.sus_cake": "Suspicious Cake",
+  "item.food-by-giamat.sus_pizza": "Suspicious Pizza",
+  "block.food-by-giamat.sus_pizza": "Suspicious Pizza"
 }

@@ -1,6 +1,8 @@
 package com.food.giamat.init;
 
 import com.food.giamat.FoodBygiamat;
+import com.food.giamat.block.SusCakeBlockItem;
+import com.food.giamat.block.SusPizzaBlockItem;
 import com.food.giamat.init.ModBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.type.ConsumableComponent;
@@ -122,6 +124,29 @@ public class ModItems {
     public static final Item UNBAKED_CHALLAH = registerFood("unbaked_challah", 1, 0.1f);
     public static final Item CHALLAH = registerFood("challah", 6, 0.6f);
 
+    // Popsicles: stick + ice + fruit (shaped, vertical column) = flavoured popsicle.
+    public static final Item BANANA_POPSICLE = registerFood("banana_popsicle", 4, 0.4f);
+    public static final Item GRAPE_POPSICLE = registerFood("grape_popsicle", 3, 0.3f);
+    public static final Item APPLE_POPSICLE = registerFood("apple_popsicle", 4, 0.4f);
+    public static final Item MELON_POPSICLE = registerFood("melon_popsicle", 3, 0.2f);
+    public static final Item SWEET_BERRY_POPSICLE = registerFood("sweet_berry_popsicle", 3, 0.3f);
+    // Glow berry popsicle grants Night Vision briefly (like vanilla glow berries).
+    public static final Item GLOW_BERRY_POPSICLE = Registry.register(
+            Registries.ITEM,
+            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "glow_berry_popsicle")),
+            new Item(new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "glow_berry_popsicle")))
+                    .food(new FoodComponent(3, 0.3f, false),
+                            ConsumableComponent.builder()
+                                    .consumeEffect(new ApplyEffectsConsumeEffect(
+                                            new StatusEffectInstance(StatusEffects.NIGHT_VISION, 100, 0), 1.0f))
+                                    .build()))
+    );
+
+    // Sus cake / sus pizza: food + suspicious stew → infused with the stew's effect.
+    public static final Item SUS_CAKE = registerSusCake();
+    public static final Item SUS_PIZZA = registerSusPizza();
+
     // Grape: foraged from wild grape bushes in the plains; also pressed into wine.
     public static final Item GRAPE = registerFood("grape", 2, 0.1f);
     // Wine: grapes pressed with sugar and water. Drinkable any time, but the
@@ -188,6 +213,22 @@ public class ModItems {
         );
     }
 
+    private static Item registerSusCake() {
+        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "sus_cake"));
+        return Registry.register(
+                Registries.ITEM,
+                key,
+                new SusCakeBlockItem(ModBlocks.SUS_CAKE_BLOCK, new Item.Settings().registryKey(key)));
+    }
+
+    private static Item registerSusPizza() {
+        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "sus_pizza"));
+        return Registry.register(
+                Registries.ITEM,
+                key,
+                new SusPizzaBlockItem(ModBlocks.SUS_PIZZA_BLOCK, new Item.Settings().registryKey(key)));
+    }
+
     private static Item registerPizza() {
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "pizza"));
         return Registry.register(
@@ -222,13 +263,15 @@ public class ModItems {
                     SHOKO, PITA, SCHNITZEL,
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
                     GUMMY_SCHNITZEL, BANANA, CHILI_PEPPER, TOMATO,
-                    CHEESE, PIZZA, TOPPED_PIZZA,
+                    CHEESE, PIZZA, TOPPED_PIZZA, SUS_PIZZA,
                     CORN_HOT, POPCORN, SUSHI,
                     CHOCOLATE_DONUT, END_CAKE,
                     CHALLAH, GRAPE, WINE,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
                     CHICKEN_NUGGETS, CHICKEN_NUGGETS_BREADCRUMBS,
-                    CURSED_CAKE,
+                    CURSED_CAKE, SUS_CAKE,
+                    BANANA_POPSICLE, GRAPE_POPSICLE, APPLE_POPSICLE,
+                    MELON_POPSICLE, SWEET_BERRY_POPSICLE, GLOW_BERRY_POPSICLE,
                     UNBAKED_BREAD, UNBAKED_PITA, UNBAKED_SCHNITZEL,
                     UNBAKED_SAUSAGE, UNBAKED_CHICKEN_NUGGETS, UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS,
                     UNBAKED_COOKIE, UNBAKED_CAKE, UNBAKED_CAKE_CURSED,

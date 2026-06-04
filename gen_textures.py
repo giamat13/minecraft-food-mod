@@ -607,6 +607,38 @@ def rice_block():
     return img
 
 
+def popsicle(fruit_color, stick=(120, 80, 40, 255)):
+    img, d = new()
+    sc = shade(fruit_color, 0.70)
+    # stick
+    d.line([(8, 11), (8, 15)], fill=stick, width=2)
+    # ice body
+    d.rounded_rectangle([5, 3, 11, 11], radius=2, fill=fruit_color, outline=sc)
+    # highlight streak
+    d.line([(6, 4), (6, 9)], fill=shade(fruit_color, 1.25))
+    # bite mark / gloss
+    d.point([(9, 5), (9, 7)], fill=shade(fruit_color, 1.3))
+    return img
+
+
+def sus_cake():
+    img = cake((240, 220, 170, 255), (255, 240, 200, 255))
+    d = ImageDraw.Draw(img)
+    # question-mark swirl on frosting in green
+    d.point([(7, 5), (8, 5), (9, 5), (9, 6), (8, 7), (8, 9)], fill=(60, 190, 80, 255))
+    d.point([(8, 11)], fill=(60, 190, 80, 255))
+    return img
+
+
+def sus_pizza():
+    img = pizza()
+    d = ImageDraw.Draw(img)
+    # question-mark dot overlay in green
+    d.point([(7, 7), (8, 6), (9, 7), (9, 8), (8, 9), (8, 11)], fill=(60, 190, 80, 200))
+    d.point([(8, 13)], fill=(60, 190, 80, 200))
+    return img
+
+
 GENERATORS = {
     "banana": banana,
     "tomato": tomato,
@@ -654,6 +686,14 @@ GENERATORS = {
     "unbaked_pita": unbaked_pita,
     "unbaked_sausage": unbaked_sausage,
     "unbaked_schnitzel": unbaked_schnitzel,
+    "banana_popsicle": lambda: popsicle((235, 205, 60, 255)),
+    "grape_popsicle": lambda: popsicle((130, 60, 180, 255)),
+    "apple_popsicle": lambda: popsicle((200, 50, 50, 255)),
+    "melon_popsicle": lambda: popsicle((100, 200, 80, 255)),
+    "sweet_berry_popsicle": lambda: popsicle((180, 50, 80, 255)),
+    "glow_berry_popsicle": lambda: popsicle((255, 200, 50, 255)),
+    "sus_cake": sus_cake,
+    "sus_pizza": sus_pizza,
 }
 
 
