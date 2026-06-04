@@ -124,8 +124,14 @@ public class ModItems {
     public static final Item UNBAKED_CHALLAH = registerFood("unbaked_challah", 1, 0.1f);
     public static final Item CHALLAH = registerFood("challah", 6, 0.6f);
 
+    // Citrus / orchard fruits grown on trees (lemon tree, pomegranate tree).
+    public static final Item LEMON = registerFood("lemon", 2, 0.2f);
+    public static final Item POMEGRANATE = registerFood("pomegranate", 5, 0.5f);
+
     // Popsicles: stick + ice + fruit (shaped, vertical column) = flavoured popsicle.
     public static final Item BANANA_POPSICLE = registerFood("banana_popsicle", 4, 0.4f);
+    public static final Item LEMON_POPSICLE = registerFood("lemon_popsicle", 4, 0.4f);
+    public static final Item POMEGRANATE_POPSICLE = registerFood("pomegranate_popsicle", 4, 0.4f);
     public static final Item GRAPE_POPSICLE = registerFood("grape_popsicle", 3, 0.3f);
     public static final Item APPLE_POPSICLE = registerFood("apple_popsicle", 4, 0.4f);
     public static final Item MELON_POPSICLE = registerFood("melon_popsicle", 3, 0.2f);
@@ -262,7 +268,7 @@ public class ModItems {
             entries.addAfter(CHOCOLATE,
                     SHOKO, PITA, SCHNITZEL,
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
-                    GUMMY_SCHNITZEL, BANANA, CHILI_PEPPER, TOMATO,
+                    GUMMY_SCHNITZEL, BANANA, LEMON, POMEGRANATE, CHILI_PEPPER, TOMATO,
                     CHEESE, PIZZA, TOPPED_PIZZA, SUS_PIZZA,
                     CORN_HOT, POPCORN, SUSHI,
                     CHOCOLATE_DONUT, END_CAKE,
@@ -270,7 +276,8 @@ public class ModItems {
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
                     CHICKEN_NUGGETS, CHICKEN_NUGGETS_BREADCRUMBS,
                     CURSED_CAKE, SUS_CAKE,
-                    BANANA_POPSICLE, GRAPE_POPSICLE, APPLE_POPSICLE,
+                    BANANA_POPSICLE, LEMON_POPSICLE, POMEGRANATE_POPSICLE,
+                    GRAPE_POPSICLE, APPLE_POPSICLE,
                     MELON_POPSICLE, SWEET_BERRY_POPSICLE, GLOW_BERRY_POPSICLE,
                     UNBAKED_BREAD, UNBAKED_PITA, UNBAKED_SCHNITZEL,
                     UNBAKED_SAUSAGE, UNBAKED_CHICKEN_NUGGETS, UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS,

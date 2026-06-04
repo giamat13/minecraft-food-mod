@@ -11,6 +11,8 @@ import com.food.giamat.block.GrapeBushBlock;
 import com.food.giamat.block.PizzaBlock;
 import com.food.giamat.block.PizzaOnTrayBlock;
 import com.food.giamat.block.RiceBlock;
+import com.food.giamat.block.LemonLeavesBlock;
+import com.food.giamat.block.PomegranateLeavesBlock;
 import com.food.giamat.block.SusCakeBlock;
 import com.food.giamat.block.SusPizzaBlock;
 import com.food.giamat.block.TomatoBushBlock;
@@ -35,6 +37,22 @@ public class ModBlocks {
             RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "banana_leaves")),
             new BananaLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
                     .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "banana_leaves"))))
+    );
+
+    // Lemon leaves: fruit-bearing tree leaves that drop lemons.
+    public static final Block LEMON_LEAVES = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "lemon_leaves")),
+            new LemonLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "lemon_leaves"))))
+    );
+
+    // Pomegranate leaves: fruit-bearing tree leaves that drop pomegranates.
+    public static final Block POMEGRANATE_LEAVES = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pomegranate_leaves")),
+            new PomegranateLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pomegranate_leaves"))))
     );
 
     // Custom cake block placed by the cursed cake item: eating a slice poisons and nauseates.
@@ -156,6 +174,24 @@ public class ModBlocks {
                         .useBlockPrefixedTranslationKey())
         );
 
+        RegistryKey<Item> lemonLeavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "lemon_leaves"));
+        Registry.register(
+                Registries.ITEM,
+                lemonLeavesKey,
+                new BlockItem(LEMON_LEAVES, new Item.Settings()
+                        .registryKey(lemonLeavesKey)
+                        .useBlockPrefixedTranslationKey())
+        );
+
+        RegistryKey<Item> pomegLeavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "pomegranate_leaves"));
+        Registry.register(
+                Registries.ITEM,
+                pomegLeavesKey,
+                new BlockItem(POMEGRANATE_LEAVES, new Item.Settings()
+                        .registryKey(pomegLeavesKey)
+                        .useBlockPrefixedTranslationKey())
+        );
+
         // Block item for the chili pepper bush so Silk Touch can drop a placeable version.
         RegistryKey<Item> chiliKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper_bush"));
         Registry.register(
@@ -217,6 +253,8 @@ public class ModBlocks {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
             entries.add(BANANA_LEAVES.asItem());
+            entries.add(LEMON_LEAVES.asItem());
+            entries.add(POMEGRANATE_LEAVES.asItem());
             entries.add(CHILI_PEPPER_BUSH.asItem());
             entries.add(TOMATO_BUSH.asItem());
             entries.add(CORN.asItem());
