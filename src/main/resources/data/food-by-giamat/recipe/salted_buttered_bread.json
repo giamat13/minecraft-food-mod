@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "food-by-giamat:buttered_bread",
+    "food-by-giamat:salt"
+  ],
+  "result": {
+    "id": "food-by-giamat:salted_buttered_bread",
+    "count": 1
+  }
+}

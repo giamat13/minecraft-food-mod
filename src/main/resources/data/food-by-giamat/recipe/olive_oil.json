@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "food-by-giamat:olive",
+    "food-by-giamat:olive",
+    "food-by-giamat:olive",
+    "food-by-giamat:olive"
+  ],
+  "result": {
+    "id": "food-by-giamat:olive_oil",
+    "count": 1
+  }
+}

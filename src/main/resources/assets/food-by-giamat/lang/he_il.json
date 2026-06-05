@@ -77,5 +77,13 @@
   "item.food-by-giamat.sus_cake": "עוגה חשודה",
   "block.food-by-giamat.sus_cake": "עוגה חשודה",
   "item.food-by-giamat.sus_pizza": "פיצה חשודה",
-  "block.food-by-giamat.sus_pizza": "פיצה חשודה"
+  "block.food-by-giamat.sus_pizza": "פיצה חשודה",
+  "item.food-by-giamat.burnt_bread": "לחם שרוף",
+  "item.food-by-giamat.olive": "זית",
+  "block.food-by-giamat.olive_leaves": "עלי זית",
+  "item.food-by-giamat.olive_oil": "שמן זית",
+  "item.food-by-giamat.cream": "שמנת",
+  "item.food-by-giamat.butter": "חמאה",
+  "item.food-by-giamat.buttered_bread": "לחם עם חמאה",
+  "item.food-by-giamat.salted_buttered_bread": "לחם עם חמאה ומלח"
 }
