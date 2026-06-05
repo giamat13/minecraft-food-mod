@@ -8,6 +8,7 @@ import com.food.giamat.block.CornBlock;
 import com.food.giamat.block.CursedCakeBlock;
 import com.food.giamat.block.EndCakeBlock;
 import com.food.giamat.block.GrapeBushBlock;
+import com.food.giamat.block.OliveLeavesBlock;
 import com.food.giamat.block.PizzaBlock;
 import com.food.giamat.block.PizzaOnTrayBlock;
 import com.food.giamat.block.RiceBlock;
@@ -156,6 +157,14 @@ public class ModBlocks {
                     .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "sus_cake"))))
     );
 
+    // Olive leaves: larger fruit-bearing tree leaves that drop olives.
+    public static final Block OLIVE_LEAVES = Registry.register(
+            Registries.BLOCK,
+            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "olive_leaves")),
+            new OliveLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "olive_leaves"))))
+    );
+
     // Sus pizza: pizza infused with suspicious stew; eating a slice applies the stew's effects.
     public static final Block SUS_PIZZA_BLOCK = Registry.register(
             Registries.BLOCK,
@@ -251,10 +260,20 @@ public class ModBlocks {
                 new BlockItem(TRAY_BLOCK, new Item.Settings().registryKey(trayKey))
         );
 
+        RegistryKey<Item> oliveLeavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "olive_leaves"));
+        Registry.register(
+                Registries.ITEM,
+                oliveLeavesKey,
+                new BlockItem(OLIVE_LEAVES, new Item.Settings()
+                        .registryKey(oliveLeavesKey)
+                        .useBlockPrefixedTranslationKey())
+        );
+
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
             entries.add(BANANA_LEAVES.asItem());
             entries.add(LEMON_LEAVES.asItem());
             entries.add(POMEGRANATE_LEAVES.asItem());
+            entries.add(OLIVE_LEAVES.asItem());
             entries.add(CHILI_PEPPER_BUSH.asItem());
             entries.add(TOMATO_BUSH.asItem());
             entries.add(CORN.asItem());

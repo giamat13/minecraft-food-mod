@@ -1,17 +1,23 @@
 package com.food.giamat;
 
 import com.food.giamat.block.FruitBushBlock;
+import com.food.giamat.init.ModBlocks;
 import com.food.giamat.init.ModItems;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradedItem;
@@ -70,6 +76,25 @@ public class ModEvents {
 
             bush.shearFruit(state, world, pos);
             return ActionResult.SUCCESS_SERVER;
+        });
+
+        // Inject burnt bread into shipwreck supply, desert pyramid, and end city loot tables.
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (!source.isBuiltin()) return;
+            Identifier id = key.getValue();
+            if (id.equals(Identifier.ofVanilla("chests/shipwreck_supply"))) {
+                tableBuilder.pool(LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .with(ItemEntry.builder(ModItems.BURNT_BREAD).weight(5)));
+            } else if (id.equals(Identifier.ofVanilla("chests/desert_pyramid"))) {
+                tableBuilder.pool(LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .with(ItemEntry.builder(ModItems.BURNT_BREAD).weight(3)));
+            } else if (id.equals(Identifier.ofVanilla("chests/end_city_treasure"))) {
+                tableBuilder.pool(LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1))
+                        .with(ItemEntry.builder(ModItems.END_CAKE).weight(10)));
+            }
         });
 
         // Butcher villager trades

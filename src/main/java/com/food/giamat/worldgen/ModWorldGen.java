@@ -36,6 +36,9 @@ public class ModWorldGen {
     public static final RegistryKey<PlacedFeature> GRAPE_BUSH_PLACED =
             RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(FoodBygiamat.MOD_ID, "grape_bush"));
 
+    public static final RegistryKey<PlacedFeature> OLIVE_TREE_PLACED =
+            RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(FoodBygiamat.MOD_ID, "olive_tree"));
+
     public static void initialize() {
         BiomeModifications.addFeature(
                 BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
@@ -76,6 +79,11 @@ public class ModWorldGen {
                 BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
                 GenerationStep.Feature.VEGETAL_DECORATION,
                 GRAPE_BUSH_PLACED
+        );
+        BiomeModifications.addFeature(
+                BiomeSelectors.includeByKey(BiomeKeys.SAVANNA),
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                OLIVE_TREE_PLACED
         );
     }
 }

@@ -4,6 +4,7 @@ import com.food.giamat.FoodBygiamat;
 import com.food.giamat.block.SusCakeBlockItem;
 import com.food.giamat.block.SusPizzaBlockItem;
 import com.food.giamat.init.ModBlocks;
+import com.food.giamat.item.BurntBreadItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.type.ConsumableComponent;
 import net.minecraft.component.type.FoodComponent;
@@ -149,6 +150,42 @@ public class ModItems {
                                     .build()))
     );
 
+    // Burnt bread: overcooking regular bread scorches it. Gives 1 hunger but damages the eater.
+    public static final Item BURNT_BREAD = registerBurntBread();
+
+    // Olive: harvested from olive trees. Used to craft olive oil.
+    public static final Item OLIVE = registerFood("olive", 2, 0.2f);
+    // Olive oil: pressed from 4 olives. Ingredient for cream.
+    public static final Item OLIVE_OIL = register("olive_oil");
+    // Cream: olive oil mixed with milk. Used to make butter.
+    public static final Item CREAM = register("cream");
+    // Butter: churned from 4 portions of cream. Used with bread.
+    public static final Item BUTTER = register("butter");
+    // Buttered bread: bread spread with butter. Grants Regeneration I for 5 seconds.
+    public static final Item BUTTERED_BREAD = Registry.register(
+            Registries.ITEM,
+            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "buttered_bread")),
+            new Item(new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "buttered_bread")))
+                    .food(new FoodComponent(5, 0.8f, false),
+                            ConsumableComponent.builder()
+                                    .consumeEffect(new ApplyEffectsConsumeEffect(
+                                            new StatusEffectInstance(StatusEffects.REGENERATION, 100, 0), 1.0f))
+                                    .build()))
+    );
+    // Salted buttered bread: buttered bread with salt. +3 extra hunger and Regeneration I.
+    public static final Item SALTED_BUTTERED_BREAD = Registry.register(
+            Registries.ITEM,
+            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "salted_buttered_bread")),
+            new Item(new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "salted_buttered_bread")))
+                    .food(new FoodComponent(8, 0.8f, false),
+                            ConsumableComponent.builder()
+                                    .consumeEffect(new ApplyEffectsConsumeEffect(
+                                            new StatusEffectInstance(StatusEffects.REGENERATION, 100, 0), 1.0f))
+                                    .build()))
+    );
+
     // Sus cake / sus pizza: food + suspicious stew → infused with the stew's effect.
     public static final Item SUS_CAKE = registerSusCake();
     public static final Item SUS_PIZZA = registerSusPizza();
@@ -188,6 +225,17 @@ public class ModItems {
                 Registries.ITEM,
                 key,
                 new Item(new Item.Settings().registryKey(key)));
+    }
+
+    private static Item registerBurntBread() {
+        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "burnt_bread"));
+        return Registry.register(
+                Registries.ITEM,
+                key,
+                new BurntBreadItem(new Item.Settings()
+                        .registryKey(key)
+                        .food(new FoodComponent(1, 0.1f, false)))
+        );
     }
 
     private static Item registerFood(String name, int nutrition, float saturation) {
@@ -268,13 +316,14 @@ public class ModItems {
             entries.addAfter(CHOCOLATE,
                     SHOKO, PITA, SCHNITZEL,
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
-                    GUMMY_SCHNITZEL, BANANA, LEMON, POMEGRANATE, CHILI_PEPPER, TOMATO,
+                    GUMMY_SCHNITZEL, BANANA, LEMON, POMEGRANATE, OLIVE, CHILI_PEPPER, TOMATO,
                     CHEESE, PIZZA, TOPPED_PIZZA, SUS_PIZZA,
                     CORN_HOT, POPCORN, SUSHI,
                     CHOCOLATE_DONUT, END_CAKE,
                     CHALLAH, GRAPE, WINE,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
                     CHICKEN_NUGGETS, CHICKEN_NUGGETS_BREADCRUMBS,
+                    BUTTERED_BREAD, SALTED_BUTTERED_BREAD, BURNT_BREAD,
                     CURSED_CAKE, SUS_CAKE,
                     BANANA_POPSICLE, LEMON_POPSICLE, POMEGRANATE_POPSICLE,
                     GRAPE_POPSICLE, APPLE_POPSICLE,
@@ -293,6 +342,9 @@ public class ModItems {
             entries.add(GELATIN);
             entries.add(TOMATO_PASTE);
             entries.add(SWEET_DOUGH);
+            entries.add(OLIVE_OIL);
+            entries.add(CREAM);
+            entries.add(BUTTER);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(STRAINER);

@@ -77,5 +77,13 @@
   "item.food-by-giamat.sus_cake": "Suspicious Cake",
   "block.food-by-giamat.sus_cake": "Suspicious Cake",
   "item.food-by-giamat.sus_pizza": "Suspicious Pizza",
-  "block.food-by-giamat.sus_pizza": "Suspicious Pizza"
+  "block.food-by-giamat.sus_pizza": "Suspicious Pizza",
+  "item.food-by-giamat.burnt_bread": "Burnt Bread",
+  "item.food-by-giamat.olive": "Olive",
+  "block.food-by-giamat.olive_leaves": "Olive Leaves",
+  "item.food-by-giamat.olive_oil": "Olive Oil",
+  "item.food-by-giamat.cream": "Cream",
+  "item.food-by-giamat.butter": "Butter",
+  "item.food-by-giamat.buttered_bread": "Buttered Bread",
+  "item.food-by-giamat.salted_buttered_bread": "Salted Buttered Bread"
 }

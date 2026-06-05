@@ -28,7 +28,9 @@ public class SaltRecipe extends SpecialCraftingRecipe {
 
     private static boolean isSaltableFood(ItemStack stack) {
         return stack.contains(DataComponentTypes.FOOD)
-                && !stack.getOrDefault(ModComponents.SALTED, false);
+                && !stack.getOrDefault(ModComponents.SALTED, false)
+                && !stack.isOf(ModItems.BUTTERED_BREAD)
+                && !stack.isOf(ModItems.SALTED_BUTTERED_BREAD);
     }
 
     private ItemStack findFood(CraftingRecipeInput input) {
