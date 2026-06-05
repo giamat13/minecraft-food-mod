@@ -5,6 +5,7 @@ import com.food.giamat.block.SusCakeBlockItem;
 import com.food.giamat.block.SusPizzaBlockItem;
 import com.food.giamat.init.ModBlocks;
 import com.food.giamat.item.BurntBreadItem;
+import com.food.giamat.item.CombinedFoodItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.type.ConsumableComponent;
 import net.minecraft.component.type.FoodComponent;
@@ -186,6 +187,10 @@ public class ModItems {
                                     .build()))
     );
 
+    // Combined food: any 2+ food items in a crafting grid → merged meal.
+    // Takes 2× as long to eat; applies all individual effects; nausea if > 6 foods.
+    public static final Item COMBINED_FOOD = registerCombinedFood();
+
     // Sus cake / sus pizza: food + suspicious stew → infused with the stew's effect.
     public static final Item SUS_CAKE = registerSusCake();
     public static final Item SUS_PIZZA = registerSusPizza();
@@ -225,6 +230,15 @@ public class ModItems {
                 Registries.ITEM,
                 key,
                 new Item(new Item.Settings().registryKey(key)));
+    }
+
+    private static Item registerCombinedFood() {
+        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "combined_food"));
+        Item item = new CombinedFoodItem(new Item.Settings()
+                .registryKey(key)
+                .food(new FoodComponent(0, 0f, false),
+                        ConsumableComponent.builder().build()));
+        return Registry.register(Registries.ITEM, key, item);
     }
 
     private static Item registerBurntBread() {
@@ -314,6 +328,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries -> {
             entries.addAfter(net.minecraft.item.Items.CAKE, CHOCOLATE);
             entries.addAfter(CHOCOLATE,
+                    COMBINED_FOOD,
                     SHOKO, PITA, SCHNITZEL,
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
                     GUMMY_SCHNITZEL, BANANA, LEMON, POMEGRANATE, OLIVE, CHILI_PEPPER, TOMATO,

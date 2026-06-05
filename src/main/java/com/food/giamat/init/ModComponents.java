@@ -1,6 +1,7 @@
 package com.food.giamat.init;
 
 import com.food.giamat.FoodBygiamat;
+import com.food.giamat.item.CombinedFoodData;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentType;
 import net.minecraft.network.codec.PacketCodecs;
@@ -32,6 +33,13 @@ public class ModComponents {
             ComponentType.<Integer>builder()
                     .codec(Codec.INT)
                     .packetCodec(PacketCodecs.INTEGER)
+                    .build());
+
+    public static final ComponentType<CombinedFoodData> COMBINED_FOOD_DATA = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            Identifier.of(FoodBygiamat.MOD_ID, "combined_food_data"),
+            ComponentType.<CombinedFoodData>builder()
+                    .codec(CombinedFoodData.CODEC)
                     .build());
 
     public static void initialize() {
