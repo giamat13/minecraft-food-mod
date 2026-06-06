@@ -18,267 +18,272 @@ import com.food.giamat.block.SusCakeBlock;
 import com.food.giamat.block.SusPizzaBlock;
 import com.food.giamat.block.TomatoBushBlock;
 import com.food.giamat.block.TrayBlock;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 
 public class ModBlocks {
     public static final Block BANANA_LEAVES = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "banana_leaves")),
-            new BananaLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "banana_leaves"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "banana_leaves")),
+            new BananaLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "banana_leaves"))))
     );
 
     // Lemon leaves: fruit-bearing tree leaves that drop lemons.
     public static final Block LEMON_LEAVES = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "lemon_leaves")),
-            new LemonLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "lemon_leaves"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "lemon_leaves")),
+            new LemonLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "lemon_leaves"))))
     );
 
     // Pomegranate leaves: fruit-bearing tree leaves that drop pomegranates.
     public static final Block POMEGRANATE_LEAVES = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pomegranate_leaves")),
-            new PomegranateLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pomegranate_leaves"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pomegranate_leaves")),
+            new PomegranateLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pomegranate_leaves"))))
     );
 
     // Custom cake block placed by the cursed cake item: eating a slice poisons and nauseates.
     public static final Block CURSED_CAKE_BLOCK = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "cursed_cake")),
-            new CursedCakeBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "cursed_cake"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "cursed_cake")),
+            new CursedCakeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "cursed_cake"))))
     );
 
     // Wild chili pepper bush that generates on desert sand (no block item; harvested for peppers).
     public static final Block CHILI_PEPPER_BUSH = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper_bush")),
-            new ChiliPepperBushBlock(AbstractBlock.Settings.copy(Blocks.DEAD_BUSH)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper_bush"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "chili_pepper_bush")),
+            new ChiliPepperBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEAD_BUSH)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "chili_pepper_bush"))))
     );
 
     // Wild tomato bush that generates in the plains (behaves like the chili bush).
     public static final Block TOMATO_BUSH = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "tomato_bush")),
-            new TomatoBushBlock(AbstractBlock.Settings.copy(Blocks.DEAD_BUSH)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "tomato_bush"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "tomato_bush")),
+            new TomatoBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEAD_BUSH)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "tomato_bush"))))
     );
 
     // Corn: a two-block-tall crop that grows like sugar cane.
     public static final Block CORN = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "corn")),
-            new CornBlock(AbstractBlock.Settings.copy(Blocks.SUGAR_CANE)
-                    .ticksRandomly()
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "corn"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "corn")),
+            new CornBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SUGAR_CANE)
+                    .randomTicks()
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "corn"))))
     );
 
     // Rice: a crop that only grows on dirt submerged in water (a rice paddy).
     public static final Block RICE = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "rice")),
-            new RiceBlock(AbstractBlock.Settings.copy(Blocks.SUGAR_CANE)
-                    .ticksRandomly()
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "rice"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "rice")),
+            new RiceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SUGAR_CANE)
+                    .randomTicks()
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "rice"))))
     );
 
     // End cake: placed by the end cake item; eating a slice teleports you.
     public static final Block END_CAKE_BLOCK = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "end_cake")),
-            new EndCakeBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "end_cake"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "end_cake")),
+            new EndCakeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "end_cake"))))
     );
 
     // Wild grape bush that generates in the plains (behaves like the tomato bush).
     public static final Block GRAPE_BUSH = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "grape_bush")),
-            new GrapeBushBlock(AbstractBlock.Settings.copy(Blocks.DEAD_BUSH)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "grape_bush"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "grape_bush")),
+            new GrapeBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEAD_BUSH)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "grape_bush"))))
     );
 
     // Pizza block: placed by the pizza item, behaves like cake (6 slices).
     public static final Block PIZZA_BLOCK = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pizza")),
-            new PizzaBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pizza"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pizza")),
+            new PizzaBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pizza"))))
     );
 
     // Serving tray: a flat block that can hold pizza or cake.
     public static final Block TRAY_BLOCK = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "tray")),
-            new TrayBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)
-                    .nonOpaque()
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "tray"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "tray")),
+            new TrayBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
+                    .noOcclusion()
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "tray"))))
     );
 
     // Pizza on a tray: pizza block that leaves an empty tray when fully eaten.
     public static final Block PIZZA_ON_TRAY_BLOCK = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pizza_on_tray")),
-            new PizzaOnTrayBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
-                    .nonOpaque()
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "pizza_on_tray"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pizza_on_tray")),
+            new PizzaOnTrayBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE)
+                    .noOcclusion()
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pizza_on_tray"))))
     );
 
     // Cake on a tray: vanilla cake block that leaves an empty tray when fully eaten.
     public static final Block CAKE_ON_TRAY_BLOCK = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "cake_on_tray")),
-            new CakeOnTrayBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
-                    .nonOpaque()
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "cake_on_tray"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "cake_on_tray")),
+            new CakeOnTrayBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE)
+                    .noOcclusion()
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "cake_on_tray"))))
     );
 
     // Sus cake: vanilla cake infused with suspicious stew; eating a slice applies the stew's effects.
     public static final Block SUS_CAKE_BLOCK = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "sus_cake")),
-            new SusCakeBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "sus_cake"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "sus_cake")),
+            new SusCakeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "sus_cake"))))
     );
 
     // Olive leaves: larger fruit-bearing tree leaves that drop olives.
     public static final Block OLIVE_LEAVES = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "olive_leaves")),
-            new OliveLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "olive_leaves"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "olive_leaves")),
+            new OliveLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "olive_leaves"))))
     );
 
     // Sus pizza: pizza infused with suspicious stew; eating a slice applies the stew's effects.
     public static final Block SUS_PIZZA_BLOCK = Registry.register(
-            Registries.BLOCK,
-            RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "sus_pizza")),
-            new SusPizzaBlock(AbstractBlock.Settings.copy(Blocks.CAKE)
-                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FoodBygiamat.MOD_ID, "sus_pizza"))))
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "sus_pizza")),
+            new SusPizzaBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "sus_pizza"))))
     );
 
+    private static ResourceKey<net.minecraft.world.item.CreativeModeTab> tab(String path) {
+        return ResourceKey.create(Registries.CREATIVE_MODE_TAB,
+                Identifier.fromNamespaceAndPath("minecraft", path));
+    }
+
     public static void initialize() {
-        RegistryKey<Item> leavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "banana_leaves"));
+        ResourceKey<Item> leavesKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "banana_leaves"));
         Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 leavesKey,
-                new BlockItem(BANANA_LEAVES, new Item.Settings()
-                        .registryKey(leavesKey)
-                        .useBlockPrefixedTranslationKey())
+                new BlockItem(BANANA_LEAVES, new Item.Properties()
+                        .setId(leavesKey)
+                        .useBlockDescriptionPrefix())
         );
 
-        RegistryKey<Item> lemonLeavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "lemon_leaves"));
+        ResourceKey<Item> lemonLeavesKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "lemon_leaves"));
         Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 lemonLeavesKey,
-                new BlockItem(LEMON_LEAVES, new Item.Settings()
-                        .registryKey(lemonLeavesKey)
-                        .useBlockPrefixedTranslationKey())
+                new BlockItem(LEMON_LEAVES, new Item.Properties()
+                        .setId(lemonLeavesKey)
+                        .useBlockDescriptionPrefix())
         );
 
-        RegistryKey<Item> pomegLeavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "pomegranate_leaves"));
+        ResourceKey<Item> pomegLeavesKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pomegranate_leaves"));
         Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 pomegLeavesKey,
-                new BlockItem(POMEGRANATE_LEAVES, new Item.Settings()
-                        .registryKey(pomegLeavesKey)
-                        .useBlockPrefixedTranslationKey())
+                new BlockItem(POMEGRANATE_LEAVES, new Item.Properties()
+                        .setId(pomegLeavesKey)
+                        .useBlockDescriptionPrefix())
         );
 
         // Block item for the chili pepper bush so Silk Touch can drop a placeable version.
-        RegistryKey<Item> chiliKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper_bush"));
+        ResourceKey<Item> chiliKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "chili_pepper_bush"));
         Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 chiliKey,
-                new BlockItem(CHILI_PEPPER_BUSH, new Item.Settings()
-                        .registryKey(chiliKey)
-                        .useBlockPrefixedTranslationKey())
+                new BlockItem(CHILI_PEPPER_BUSH, new Item.Properties()
+                        .setId(chiliKey)
+                        .useBlockDescriptionPrefix())
         );
 
         // Block item for the tomato bush so shears/Silk Touch can drop a placeable version.
-        RegistryKey<Item> tomatoBushKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "tomato_bush"));
+        ResourceKey<Item> tomatoBushKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "tomato_bush"));
         Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 tomatoBushKey,
-                new BlockItem(TOMATO_BUSH, new Item.Settings()
-                        .registryKey(tomatoBushKey)
-                        .useBlockPrefixedTranslationKey())
+                new BlockItem(TOMATO_BUSH, new Item.Properties()
+                        .setId(tomatoBushKey)
+                        .useBlockDescriptionPrefix())
         );
 
         // Corn and rice are placed by edible items that double as seeds.
-        RegistryKey<Item> cornKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "corn"));
+        ResourceKey<Item> cornKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "corn"));
         Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 cornKey,
-                new BlockItem(CORN, new Item.Settings()
-                        .registryKey(cornKey)
-                        .useBlockPrefixedTranslationKey()
-                        .food(new FoodComponent(2, 0.2f, false)))
+                new BlockItem(CORN, new Item.Properties()
+                        .setId(cornKey)
+                        .useBlockDescriptionPrefix()
+                        .food(new FoodProperties(2, 0.2f, false)))
         );
 
-        RegistryKey<Item> riceKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "rice"));
+        ResourceKey<Item> riceKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "rice"));
         Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 riceKey,
-                new BlockItem(RICE, new Item.Settings()
-                        .registryKey(riceKey)
-                        .useBlockPrefixedTranslationKey()
-                        .food(new FoodComponent(1, 0.1f, false)))
+                new BlockItem(RICE, new Item.Properties()
+                        .setId(riceKey)
+                        .useBlockDescriptionPrefix()
+                        .food(new FoodProperties(1, 0.1f, false)))
         );
 
         // Block item for the grape bush so shears/Silk Touch can drop a placeable version.
-        RegistryKey<Item> grapeBushKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "grape_bush"));
+        ResourceKey<Item> grapeBushKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "grape_bush"));
         Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 grapeBushKey,
-                new BlockItem(GRAPE_BUSH, new Item.Settings()
-                        .registryKey(grapeBushKey)
-                        .useBlockPrefixedTranslationKey())
+                new BlockItem(GRAPE_BUSH, new Item.Properties()
+                        .setId(grapeBushKey)
+                        .useBlockDescriptionPrefix())
         );
 
         // Tray item — crafted from iron, placed as a decorative block.
-        RegistryKey<Item> trayKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "tray"));
+        ResourceKey<Item> trayKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "tray"));
         Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 trayKey,
-                new BlockItem(TRAY_BLOCK, new Item.Settings().registryKey(trayKey))
+                new BlockItem(TRAY_BLOCK, new Item.Properties().setId(trayKey))
         );
 
-        RegistryKey<Item> oliveLeavesKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "olive_leaves"));
+        ResourceKey<Item> oliveLeavesKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "olive_leaves"));
         Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 oliveLeavesKey,
-                new BlockItem(OLIVE_LEAVES, new Item.Settings()
-                        .registryKey(oliveLeavesKey)
-                        .useBlockPrefixedTranslationKey())
+                new BlockItem(OLIVE_LEAVES, new Item.Properties()
+                        .setId(oliveLeavesKey)
+                        .useBlockDescriptionPrefix())
         );
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
-            entries.add(BANANA_LEAVES.asItem());
-            entries.add(LEMON_LEAVES.asItem());
-            entries.add(POMEGRANATE_LEAVES.asItem());
-            entries.add(OLIVE_LEAVES.asItem());
-            entries.add(CHILI_PEPPER_BUSH.asItem());
-            entries.add(TOMATO_BUSH.asItem());
-            entries.add(CORN.asItem());
-            entries.add(RICE.asItem());
-            entries.add(GRAPE_BUSH.asItem());
+        CreativeModeTabEvents.modifyOutputEvent(tab("natural_blocks")).register(output -> {
+            output.accept(BANANA_LEAVES.asItem());
+            output.accept(LEMON_LEAVES.asItem());
+            output.accept(POMEGRANATE_LEAVES.asItem());
+            output.accept(OLIVE_LEAVES.asItem());
+            output.accept(CHILI_PEPPER_BUSH.asItem());
+            output.accept(TOMATO_BUSH.asItem());
+            output.accept(CORN.asItem());
+            output.accept(RICE.asItem());
+            output.accept(GRAPE_BUSH.asItem());
         });
     }
 }

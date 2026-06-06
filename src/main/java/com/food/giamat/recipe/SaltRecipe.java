@@ -2,46 +2,40 @@ package com.food.giamat.recipe;
 
 import com.food.giamat.init.ModComponents;
 import com.food.giamat.init.ModItems;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 
-/**
- * Adds salt to ANY food item: food + salt = the same food, but salted.
- * This is NOT a new item - it just tags the food stack with a component, gives it
- * +1 nutrition (half a hunger point) and renames it "... with Salt". Because it is
- * not a separate item it never shows up in the creative menu or recipe book.
- */
-public class SaltRecipe extends SpecialCraftingRecipe {
+public class SaltRecipe extends CustomRecipe {
+    public static final SaltRecipe INSTANCE = new SaltRecipe();
+    public static final MapCodec<SaltRecipe> MAP_CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<RegistryFriendlyByteBuf, SaltRecipe> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
-    public SaltRecipe(CraftingRecipeCategory category) {
-        super(category);
-    }
+    public SaltRecipe() {}
 
     private static boolean isSaltableFood(ItemStack stack) {
-        return stack.contains(DataComponentTypes.FOOD)
+        return stack.has(DataComponents.FOOD)
                 && !stack.getOrDefault(ModComponents.SALTED, false)
-                && !stack.isOf(ModItems.BUTTERED_BREAD)
-                && !stack.isOf(ModItems.SALTED_BUTTERED_BREAD);
+                && stack.getItem() != ModItems.BUTTERED_BREAD
+                && stack.getItem() != ModItems.SALTED_BUTTERED_BREAD;
     }
 
-    private ItemStack findFood(CraftingRecipeInput input) {
+    private ItemStack findFood(CraftingInput input) {
         ItemStack food = ItemStack.EMPTY;
         int saltCount = 0;
         for (int i = 0; i < input.size(); i++) {
-            ItemStack stack = input.getStackInSlot(i);
-            if (stack.isEmpty()) {
-                continue;
-            }
-            if (stack.isOf(ModItems.SALT)) {
+            ItemStack stack = input.getItem(i);
+            if (stack.isEmpty()) continue;
+            if (stack.getItem() == ModItems.SALT) {
                 saltCount++;
             } else if (isSaltableFood(stack) && food.isEmpty()) {
                 food = stack;
@@ -53,42 +47,37 @@ public class SaltRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingRecipeInput input, World world) {
+    public boolean matches(CraftingInput input, Level world) {
         return !findFood(input).isEmpty();
     }
 
     @Override
-    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack assemble(CraftingInput input) {
         ItemStack food = findFood(input);
-        if (food.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
+        if (food.isEmpty()) return ItemStack.EMPTY;
 
         ItemStack result = food.copyWithCount(1);
         result.set(ModComponents.SALTED, true);
 
-        // +1 nutrition (= half a hunger point) on top of the food's normal value.
-        FoodComponent original = result.get(DataComponentTypes.FOOD);
+        FoodProperties original = result.get(DataComponents.FOOD);
         if (original != null) {
-            result.set(DataComponentTypes.FOOD, new FoodComponent(
+            result.set(DataComponents.FOOD, new FoodProperties(
                     original.nutrition() + 1,
                     original.saturation(),
                     original.canAlwaysEat()));
         }
 
-        // Rename to "<name> with Salt". Use withItalic(false) to prevent the anvil-rename
-        // italic look that CUSTOM_NAME applies by default.
-        Text base = food.getName().copy().styled(s -> s.withItalic(false));
-        result.set(DataComponentTypes.CUSTOM_NAME,
-                Text.empty()
+        Component base = food.getHoverName().copy().withStyle(s -> s.withItalic(false));
+        result.set(DataComponents.CUSTOM_NAME,
+                Component.empty()
                         .append(base)
-                        .append(Text.literal(" with Salt").styled(s -> s.withItalic(false).withColor(Formatting.WHITE))));
+                        .append(Component.literal(" with Salt").withStyle(s -> s.withItalic(false).withColor(ChatFormatting.WHITE))));
 
         return result;
     }
 
     @Override
-    public RecipeSerializer<? extends SpecialCraftingRecipe> getSerializer() {
+    public RecipeSerializer<SaltRecipe> getSerializer() {
         return ModRecipes.SALT_SERIALIZER;
     }
 }

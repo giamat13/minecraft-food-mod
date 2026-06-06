@@ -1,96 +1,96 @@
 package com.food.giamat.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PlantBlock;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.Waterloggable;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldView;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.VegetationBlock;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 
 /**
  * Rice grows in rice paddies: it can only be placed on dirt that is submerged in
  * water. It is always waterlogged so the dirt stays "covered by water".
  */
-public class RiceBlock extends PlantBlock implements Waterloggable {
-    public static final MapCodec<RiceBlock> CODEC = createCodec(RiceBlock::new);
-    public static final IntProperty AGE = Properties.AGE_3;
+public class RiceBlock extends VegetationBlock implements SimpleWaterloggedBlock {
+    public static final MapCodec<RiceBlock> CODEC = simpleCodec(RiceBlock::new);
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     public static final int MAX_AGE = 3;
 
-    private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-    private static final VoxelShape SHAPE = Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 14.0, 14.0);
+    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    private static final VoxelShape SHAPE = Block.box(2.0, 0.0, 2.0, 14.0, 14.0, 14.0);
 
-    public RiceBlock(Settings settings) {
+    public RiceBlock(Properties settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(AGE, 0).with(WATERLOGGED, true));
+        registerDefaultState(defaultBlockState().setValue(AGE, 0).setValue(WATERLOGGED, true));
     }
 
     @Override
-    protected MapCodec<? extends PlantBlock> getCodec() {
+    protected MapCodec<? extends VegetationBlock> codec() {
         return CODEC;
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AGE, WATERLOGGED);
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     public boolean isMature(BlockState state) {
-        return state.get(AGE) >= MAX_AGE;
+        return state.getValue(AGE) >= MAX_AGE;
     }
 
     @Override
-    protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
-        return floor.isIn(BlockTags.DIRT);
+    protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {
+        return floor.is(BlockTags.DIRT);
     }
 
     @Override
-    protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return super.canPlaceAt(state, world, pos) && world.getFluidState(pos).isIn(FluidTags.WATER);
+    protected boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        return super.canSurvive(state, world, pos) && world.getFluidState(pos).is(FluidTags.WATER);
     }
 
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockState state = super.getPlacementState(ctx);
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        BlockState state = super.getStateForPlacement(ctx);
         if (state == null) {
             return null;
         }
         // Only placeable inside water (rice paddy); reject dry spots.
-        if (!ctx.getWorld().getFluidState(ctx.getBlockPos()).isIn(FluidTags.WATER)) {
+        if (!ctx.getLevel().getFluidState(ctx.getClickedPos()).is(FluidTags.WATER)) {
             return null;
         }
-        return state.with(WATERLOGGED, true);
+        return state.setValue(WATERLOGGED, true);
     }
 
     @Override
     protected FluidState getFluidState(BlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        int age = state.get(AGE);
+    protected void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+        int age = state.getValue(AGE);
         if (age < MAX_AGE && random.nextInt(5) == 0) {
-            world.setBlockState(pos, state.with(AGE, age + 1), Block.NOTIFY_LISTENERS);
+            world.setBlock(pos, state.setValue(AGE, age + 1), Block.UPDATE_CLIENTS);
         }
     }
 }

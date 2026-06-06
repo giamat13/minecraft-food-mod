@@ -1,25 +1,25 @@
 package com.food.giamat.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 
 public class OliveLeavesBlock extends LeavesBlock {
-    public static final MapCodec<OliveLeavesBlock> CODEC = createCodec(OliveLeavesBlock::new);
+    public static final MapCodec<OliveLeavesBlock> CODEC = simpleCodec(OliveLeavesBlock::new);
 
-    public OliveLeavesBlock(AbstractBlock.Settings settings) {
+    public OliveLeavesBlock(BlockBehaviour.Properties settings) {
         super(0.1f, settings);
     }
 
     @Override
-    public MapCodec<OliveLeavesBlock> getCodec() {
+    public MapCodec<OliveLeavesBlock> codec() {
         return CODEC;
     }
 
     @Override
-    protected void spawnLeafParticle(World world, BlockPos pos, Random random) {
+    protected void spawnFallingLeavesParticle(Level world, BlockPos pos, RandomSource random) {
     }
 }

@@ -3,39 +3,40 @@ package com.food.giamat.recipe;
 import com.food.giamat.init.ModComponents;
 import com.food.giamat.init.ModItems;
 import com.food.giamat.item.CombinedFoodData;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
-import net.minecraft.item.consume.ConsumeEffect;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.world.World;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.consume_effects.ConsumeEffect;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CombinedFoodRecipe extends SpecialCraftingRecipe {
+public class CombinedFoodRecipe extends CustomRecipe {
+    public static final CombinedFoodRecipe INSTANCE = new CombinedFoodRecipe();
+    public static final MapCodec<CombinedFoodRecipe> MAP_CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<RegistryFriendlyByteBuf, CombinedFoodRecipe> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
-    public CombinedFoodRecipe(CraftingRecipeCategory category) {
-        super(category);
-    }
+    public CombinedFoodRecipe() {}
 
     private boolean isCombineable(ItemStack stack) {
-        // Any food item except the combined food itself (no recursive combining)
-        return stack.contains(DataComponentTypes.FOOD) && !stack.isOf(ModItems.COMBINED_FOOD);
+        return stack.has(DataComponents.FOOD) && stack.getItem() != ModItems.COMBINED_FOOD;
     }
 
     @Override
-    public boolean matches(CraftingRecipeInput input, World world) {
+    public boolean matches(CraftingInput input, Level world) {
         int foodCount = 0;
         for (int i = 0; i < input.size(); i++) {
-            ItemStack stack = input.getStackInSlot(i);
+            ItemStack stack = input.getItem(i);
             if (stack.isEmpty()) continue;
             if (!isCombineable(stack)) return false;
             foodCount++;
@@ -44,10 +45,10 @@ public class CombinedFoodRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack assemble(CraftingInput input) {
         List<ItemStack> foods = new ArrayList<>();
         for (int i = 0; i < input.size(); i++) {
-            ItemStack stack = input.getStackInSlot(i);
+            ItemStack stack = input.getItem(i);
             if (!stack.isEmpty() && isCombineable(stack)) {
                 foods.add(stack);
             }
@@ -57,19 +58,19 @@ public class CombinedFoodRecipe extends SpecialCraftingRecipe {
 
         int totalNutrition = 0;
         double totalSatWeight = 0;
-        List<StatusEffectInstance> allEffects = new ArrayList<>();
+        List<MobEffectInstance> allEffects = new ArrayList<>();
 
         for (ItemStack food : foods) {
-            FoodComponent fc = food.get(DataComponentTypes.FOOD);
+            FoodProperties fc = food.get(DataComponents.FOOD);
             if (fc != null) {
                 totalNutrition += fc.nutrition();
                 totalSatWeight += (double) fc.nutrition() * fc.saturation();
             }
 
-            ConsumableComponent consumable = food.get(DataComponentTypes.CONSUMABLE);
+            Consumable consumable = food.get(DataComponents.CONSUMABLE);
             if (consumable != null) {
                 for (ConsumeEffect effect : consumable.onConsumeEffects()) {
-                    if (effect instanceof ApplyEffectsConsumeEffect applyEffect) {
+                    if (effect instanceof ApplyStatusEffectsConsumeEffect applyEffect) {
                         allEffects.addAll(applyEffect.effects());
                     }
                 }
@@ -79,14 +80,14 @@ public class CombinedFoodRecipe extends SpecialCraftingRecipe {
         float avgSatMod = totalNutrition > 0 ? (float) (totalSatWeight / totalNutrition) : 0f;
 
         ItemStack result = new ItemStack(ModItems.COMBINED_FOOD);
-        result.set(DataComponentTypes.FOOD, new FoodComponent(totalNutrition, avgSatMod, false));
+        result.set(DataComponents.FOOD, new FoodProperties(totalNutrition, avgSatMod, false));
         result.set(ModComponents.COMBINED_FOOD_DATA, new CombinedFoodData(foods.size(), allEffects));
 
         return result;
     }
 
     @Override
-    public RecipeSerializer<? extends SpecialCraftingRecipe> getSerializer() {
+    public RecipeSerializer<CombinedFoodRecipe> getSerializer() {
         return ModRecipes.COMBINED_FOOD_SERIALIZER;
     }
 }

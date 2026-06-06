@@ -6,29 +6,29 @@ import com.food.giamat.block.SusPizzaBlockItem;
 import com.food.giamat.init.ModBlocks;
 import com.food.giamat.item.BurntBreadItem;
 import com.food.giamat.item.CombinedFoodItem;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 
 public class ModItems {
 
     public static final Item CHOCOLATE = Registry.register(
-            Registries.ITEM,
-            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chocolate")),
-            new Item(new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chocolate")))
-                    .food(new FoodComponent(4, 0.3f, false)))
+            BuiltInRegistries.ITEM,
+            ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "chocolate")),
+            new Item(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "chocolate")))
+                    .food(new FoodProperties(4, 0.3f, false)))
     );
 
     // Crafting ingredients (not edible on their own): wheat -> flour -> dough -> unbaked bread -> bread (smelted)
@@ -65,13 +65,13 @@ public class ModItems {
     public static final Item BANANA = registerFood("banana", 4, 0.3f);
     // Chili pepper: foraged from desert bushes; eating one grants Fire Resistance for 10 s.
     public static final Item CHILI_PEPPER = Registry.register(
-            Registries.ITEM,
-            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper")),
-            new Item(new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "chili_pepper")))
-                    .food(new FoodComponent(2, 0.3f, false),
-                            ConsumableComponent.builder()
-                                    .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 200, 0), 1.0f))
+            BuiltInRegistries.ITEM,
+            ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "chili_pepper")),
+            new Item(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "chili_pepper")))
+                    .food(new FoodProperties(2, 0.3f, false),
+                            Consumable.builder()
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 0), 1.0f))
                                     .build()))
     );
     public static final Item SAUSAGE = registerFood("sausage", 6, 0.8f);
@@ -140,14 +140,14 @@ public class ModItems {
     public static final Item SWEET_BERRY_POPSICLE = registerFood("sweet_berry_popsicle", 3, 0.3f);
     // Glow berry popsicle grants Night Vision briefly (like vanilla glow berries).
     public static final Item GLOW_BERRY_POPSICLE = Registry.register(
-            Registries.ITEM,
-            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "glow_berry_popsicle")),
-            new Item(new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "glow_berry_popsicle")))
-                    .food(new FoodComponent(3, 0.3f, false),
-                            ConsumableComponent.builder()
-                                    .consumeEffect(new ApplyEffectsConsumeEffect(
-                                            new StatusEffectInstance(StatusEffects.NIGHT_VISION, 100, 0), 1.0f))
+            BuiltInRegistries.ITEM,
+            ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "glow_berry_popsicle")),
+            new Item(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "glow_berry_popsicle")))
+                    .food(new FoodProperties(3, 0.3f, false),
+                            Consumable.builder()
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(
+                                            new MobEffectInstance(MobEffects.NIGHT_VISION, 100, 0), 1.0f))
                                     .build()))
     );
 
@@ -164,26 +164,26 @@ public class ModItems {
     public static final Item BUTTER = register("butter");
     // Buttered bread: bread spread with butter. Grants Regeneration I for 5 seconds.
     public static final Item BUTTERED_BREAD = Registry.register(
-            Registries.ITEM,
-            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "buttered_bread")),
-            new Item(new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "buttered_bread")))
-                    .food(new FoodComponent(5, 0.8f, false),
-                            ConsumableComponent.builder()
-                                    .consumeEffect(new ApplyEffectsConsumeEffect(
-                                            new StatusEffectInstance(StatusEffects.REGENERATION, 100, 0), 1.0f))
+            BuiltInRegistries.ITEM,
+            ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "buttered_bread")),
+            new Item(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "buttered_bread")))
+                    .food(new FoodProperties(5, 0.8f, false),
+                            Consumable.builder()
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(
+                                            new MobEffectInstance(MobEffects.REGENERATION, 100, 0), 1.0f))
                                     .build()))
     );
     // Salted buttered bread: buttered bread with salt. +3 extra hunger and Regeneration I.
     public static final Item SALTED_BUTTERED_BREAD = Registry.register(
-            Registries.ITEM,
-            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "salted_buttered_bread")),
-            new Item(new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "salted_buttered_bread")))
-                    .food(new FoodComponent(8, 0.8f, false),
-                            ConsumableComponent.builder()
-                                    .consumeEffect(new ApplyEffectsConsumeEffect(
-                                            new StatusEffectInstance(StatusEffects.REGENERATION, 100, 0), 1.0f))
+            BuiltInRegistries.ITEM,
+            ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "salted_buttered_bread")),
+            new Item(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "salted_buttered_bread")))
+                    .food(new FoodProperties(8, 0.8f, false),
+                            Consumable.builder()
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(
+                                            new MobEffectInstance(MobEffects.REGENERATION, 100, 0), 1.0f))
                                     .build()))
     );
 
@@ -200,66 +200,66 @@ public class ModItems {
     // Wine: grapes pressed with sugar and water. Drinkable any time, but the
     // alcohol leaves you dizzy (Nausea for 3 seconds).
     public static final Item WINE = Registry.register(
-            Registries.ITEM,
-            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "wine")),
-            new Item(new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "wine")))
-                    .maxCount(16)
-                    .food(new FoodComponent(1, 0.1f, true),
-                            ConsumableComponent.builder()
-                                    .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 60, 0), 1.0f))
+            BuiltInRegistries.ITEM,
+            ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "wine")),
+            new Item(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "wine")))
+                    .stacksTo(16)
+                    .food(new FoodProperties(1, 0.1f, true),
+                            Consumable.builder()
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.NAUSEA, 60, 0), 1.0f))
                                     .build()))
     );
 
     // Special food with effects
     public static final Item GUMMY_SCHNITZEL = Registry.register(
-            Registries.ITEM,
-            RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "gummy_schnitzel")),
-            new Item(new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "gummy_schnitzel")))
-                    .food(new FoodComponent(8, 0.6f, false),
-                            ConsumableComponent.builder()
-                                    .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0), 1.0f))
-                                    .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.HUNGER, 200, 0), 1.0f))
+            BuiltInRegistries.ITEM,
+            ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "gummy_schnitzel")),
+            new Item(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "gummy_schnitzel")))
+                    .food(new FoodProperties(8, 0.6f, false),
+                            Consumable.builder()
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.NAUSEA, 200, 0), 1.0f))
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 200, 0), 1.0f))
                                     .build()))
     );
 
     private static Item register(String name) {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, name));
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, name));
         return Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 key,
-                new Item(new Item.Settings().registryKey(key)));
+                new Item(new Item.Properties().setId(key)));
     }
 
     private static Item registerCombinedFood() {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "combined_food"));
-        Item item = new CombinedFoodItem(new Item.Settings()
-                .registryKey(key)
-                .food(new FoodComponent(0, 0f, false),
-                        ConsumableComponent.builder().build()));
-        return Registry.register(Registries.ITEM, key, item);
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "combined_food"));
+        Item item = new CombinedFoodItem(new Item.Properties()
+                .setId(key)
+                .food(new FoodProperties(0, 0f, false),
+                        Consumable.builder().build()));
+        return Registry.register(BuiltInRegistries.ITEM, key, item);
     }
 
     private static Item registerBurntBread() {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "burnt_bread"));
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "burnt_bread"));
         return Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 key,
-                new BurntBreadItem(new Item.Settings()
-                        .registryKey(key)
-                        .food(new FoodComponent(1, 0.1f, false)))
+                new BurntBreadItem(new Item.Properties()
+                        .setId(key)
+                        .food(new FoodProperties(1, 0.1f, false)))
         );
     }
 
     private static Item registerFood(String name, int nutrition, float saturation) {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, name));
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, name));
         return Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 key,
-                new Item(new Item.Settings()
-                        .registryKey(key)
-                        .food(new FoodComponent.Builder()
+                new Item(new Item.Properties()
+                        .setId(key)
+                        .food(new FoodProperties.Builder()
                                 .nutrition(nutrition)
                                 .saturationModifier(saturation)
                                 .build()))
@@ -267,67 +267,72 @@ public class ModItems {
     }
 
     private static Item registerUnbaked(String name, int nutrition) {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, name));
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, name));
         return Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 key,
-                new Item(new Item.Settings()
-                        .registryKey(key)
-                        .food(new FoodComponent(nutrition, 0.1f, false),
-                                ConsumableComponent.builder()
-                                        .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0), 1.0f))
-                                        .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0), 1.0f))
+                new Item(new Item.Properties()
+                        .setId(key)
+                        .food(new FoodProperties(nutrition, 0.1f, false),
+                                Consumable.builder()
+                                        .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), 1.0f))
+                                        .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.NAUSEA, 200, 0), 1.0f))
                                         .build()))
         );
     }
 
     private static Item registerSusCake() {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "sus_cake"));
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "sus_cake"));
         return Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 key,
-                new SusCakeBlockItem(ModBlocks.SUS_CAKE_BLOCK, new Item.Settings().registryKey(key)));
+                new SusCakeBlockItem(ModBlocks.SUS_CAKE_BLOCK, new Item.Properties().setId(key)));
     }
 
     private static Item registerSusPizza() {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "sus_pizza"));
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "sus_pizza"));
         return Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 key,
-                new SusPizzaBlockItem(ModBlocks.SUS_PIZZA_BLOCK, new Item.Settings().registryKey(key)));
+                new SusPizzaBlockItem(ModBlocks.SUS_PIZZA_BLOCK, new Item.Properties().setId(key)));
     }
 
     private static Item registerPizza() {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "pizza"));
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pizza"));
         return Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 key,
-                new BlockItem(ModBlocks.PIZZA_BLOCK, new Item.Settings()
-                        .registryKey(key)
-                        .food(new FoodComponent.Builder().nutrition(8).saturationModifier(0.8f).build()))
+                new BlockItem(ModBlocks.PIZZA_BLOCK, new Item.Properties()
+                        .setId(key)
+                        .food(new FoodProperties.Builder().nutrition(8).saturationModifier(0.8f).build()))
         );
     }
 
     private static Item registerCursedCake() {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "cursed_cake"));
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "cursed_cake"));
         return Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 key,
-                new BlockItem(ModBlocks.CURSED_CAKE_BLOCK, new Item.Settings().registryKey(key)));
+                new BlockItem(ModBlocks.CURSED_CAKE_BLOCK, new Item.Properties().setId(key)));
     }
 
     private static Item registerEndCake() {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(FoodBygiamat.MOD_ID, "end_cake"));
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "end_cake"));
         return Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 key,
-                new BlockItem(ModBlocks.END_CAKE_BLOCK, new Item.Settings().registryKey(key)));
+                new BlockItem(ModBlocks.END_CAKE_BLOCK, new Item.Properties().setId(key)));
+    }
+
+    private static ResourceKey<net.minecraft.world.item.CreativeModeTab> tab(String path) {
+        return ResourceKey.create(Registries.CREATIVE_MODE_TAB,
+                Identifier.fromNamespaceAndPath("minecraft", path));
     }
 
     public static void initialize() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries -> {
-            entries.addAfter(net.minecraft.item.Items.CAKE, CHOCOLATE);
-            entries.addAfter(CHOCOLATE,
+        CreativeModeTabEvents.modifyOutputEvent(tab("food_and_drinks")).register(output -> {
+            output.insertAfter(net.minecraft.world.item.Items.CAKE, CHOCOLATE);
+            output.insertAfter(CHOCOLATE,
                     COMBINED_FOOD,
                     SHOKO, PITA, SCHNITZEL,
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
@@ -348,22 +353,22 @@ public class ModItems {
                     UNBAKED_COOKIE, UNBAKED_CAKE, UNBAKED_CAKE_CURSED,
                     UNCOOKED_PIZZA, UNCOOKED_CHOCOLATE_DONUT, UNBAKED_CHALLAH);
         });
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
-            entries.add(FLOUR);
-            entries.add(DOUGH);
-            entries.add(SALT);
-            entries.add(MELTED_CHOCOLATE);
-            entries.add(BREADCRUMBS);
-            entries.add(GELATIN);
-            entries.add(TOMATO_PASTE);
-            entries.add(SWEET_DOUGH);
-            entries.add(OLIVE_OIL);
-            entries.add(CREAM);
-            entries.add(BUTTER);
+        CreativeModeTabEvents.modifyOutputEvent(tab("ingredients")).register(output -> {
+            output.accept(FLOUR);
+            output.accept(DOUGH);
+            output.accept(SALT);
+            output.accept(MELTED_CHOCOLATE);
+            output.accept(BREADCRUMBS);
+            output.accept(GELATIN);
+            output.accept(TOMATO_PASTE);
+            output.accept(SWEET_DOUGH);
+            output.accept(OLIVE_OIL);
+            output.accept(CREAM);
+            output.accept(BUTTER);
         });
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
-            entries.add(STRAINER);
-            entries.add(ModBlocks.TRAY_BLOCK.asItem());
+        CreativeModeTabEvents.modifyOutputEvent(tab("tools_and_utilities")).register(output -> {
+            output.accept(STRAINER);
+            output.accept(ModBlocks.TRAY_BLOCK.asItem());
         });
     }
 }

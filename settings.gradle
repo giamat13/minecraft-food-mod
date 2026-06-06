@@ -7,9 +7,6 @@ pluginManagement {
 		mavenCentral()
 		gradlePluginPortal()
 	}
-	plugins {
-		id 'net.fabricmc.fabric-loom-remap' version '1.16.3'
-	}
 }
 
 // Should match your modid
