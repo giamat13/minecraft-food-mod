@@ -1,69 +1,49 @@
 package com.food.giamat.recipe;
 
 import com.food.giamat.init.ModItems;
-import java.util.List;
-import net.minecraft.block.Blocks;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.potion.Potions;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.IngredientPlacement;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.display.RecipeDisplay;
-import net.minecraft.recipe.display.ShapelessCraftingRecipeDisplay;
-import net.minecraft.recipe.display.SlotDisplay;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 
-/**
- * Shapeless crafting recipe: flour + water (water bucket OR water bottle) = dough.
- * The water container is NOT consumed: an empty bucket / glass bottle is returned,
- * only the water itself is used up.
- */
-public class DoughRecipe extends SpecialCraftingRecipe {
+public class DoughRecipe extends CustomRecipe {
+    public static final DoughRecipe INSTANCE = new DoughRecipe();
+    public static final MapCodec<DoughRecipe> MAP_CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<RegistryFriendlyByteBuf, DoughRecipe> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
-    public DoughRecipe(CraftingRecipeCategory category) {
-        super(category);
-    }
+    public DoughRecipe() {}
 
     private static boolean isWaterSource(ItemStack stack) {
-        if (stack.isOf(Items.WATER_BUCKET)) {
-            return true;
-        }
-        if (stack.isOf(Items.POTION)) {
-            PotionContentsComponent contents = stack.get(DataComponentTypes.POTION_CONTENTS);
-            return contents != null && contents.matches(Potions.WATER);
+        if (stack.getItem() == Items.WATER_BUCKET) return true;
+        if (stack.getItem() == Items.POTION) {
+            PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
+            return contents != null && contents.is(Potions.WATER);
         }
         return false;
     }
 
     @Override
-    public boolean matches(CraftingRecipeInput input, World world) {
-        boolean hasFlour = false;
-        boolean hasWater = false;
+    public boolean matches(CraftingInput input, Level world) {
+        boolean hasFlour = false, hasWater = false;
         for (int i = 0; i < input.size(); i++) {
-            ItemStack stack = input.getStackInSlot(i);
-            if (stack.isEmpty()) {
-                continue;
-            }
-            if (stack.isOf(ModItems.FLOUR)) {
-                if (hasFlour) {
-                    return false;
-                }
+            ItemStack stack = input.getItem(i);
+            if (stack.isEmpty()) continue;
+            if (stack.getItem() == ModItems.FLOUR) {
+                if (hasFlour) return false;
                 hasFlour = true;
             } else if (isWaterSource(stack)) {
-                if (hasWater) {
-                    return false;
-                }
+                if (hasWater) return false;
                 hasWater = true;
             } else {
-                // any other item in the grid means this is not a dough recipe
                 return false;
             }
         }
@@ -71,58 +51,26 @@ public class DoughRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack assemble(CraftingInput input) {
         return new ItemStack(ModItems.DOUGH);
     }
 
     @Override
-    public DefaultedList<ItemStack> getRecipeRemainders(CraftingRecipeInput input) {
-        DefaultedList<ItemStack> remainders = DefaultedList.ofSize(input.size(), ItemStack.EMPTY);
+    public NonNullList<ItemStack> getRemainingItems(CraftingInput input) {
+        NonNullList<ItemStack> remainders = NonNullList.withSize(input.size(), ItemStack.EMPTY);
         for (int i = 0; i < input.size(); i++) {
-            ItemStack stack = input.getStackInSlot(i);
-            if (stack.isOf(Items.WATER_BUCKET)) {
+            ItemStack stack = input.getItem(i);
+            if (stack.getItem() == Items.WATER_BUCKET) {
                 remainders.set(i, new ItemStack(Items.BUCKET));
-            } else if (stack.isOf(Items.POTION)) {
+            } else if (stack.getItem() == Items.POTION) {
                 remainders.set(i, new ItemStack(Items.GLASS_BOTTLE));
             }
         }
         return remainders;
     }
 
-    // --- Recipe book support: show this recipe in the automatic recipe book ---
-
     @Override
-    public boolean isIgnoredInRecipeBook() {
-        return false;
-    }
-
-    @Override
-    public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forShapeless(List.of(
-                Ingredient.ofItems(ModItems.FLOUR),
-                Ingredient.ofItems(Items.WATER_BUCKET, Items.POTION)));
-    }
-
-    @Override
-    public List<RecipeDisplay> getDisplays() {
-        // Water shown as: water bucket (-> empty bucket) OR water bottle (-> glass bottle)
-        ItemStack waterBottle = PotionContentsComponent.createStack(Items.POTION, Potions.WATER);
-        SlotDisplay waterDisplay = new SlotDisplay.CompositeSlotDisplay(List.of(
-                new SlotDisplay.WithRemainderSlotDisplay(
-                        new SlotDisplay.ItemSlotDisplay(Items.WATER_BUCKET),
-                        new SlotDisplay.ItemSlotDisplay(Items.BUCKET)),
-                new SlotDisplay.WithRemainderSlotDisplay(
-                        new SlotDisplay.StackSlotDisplay(waterBottle),
-                        new SlotDisplay.ItemSlotDisplay(Items.GLASS_BOTTLE))));
-
-        return List.of(new ShapelessCraftingRecipeDisplay(
-                List.of(new SlotDisplay.ItemSlotDisplay(ModItems.FLOUR), waterDisplay),
-                new SlotDisplay.ItemSlotDisplay(ModItems.DOUGH),
-                new SlotDisplay.ItemSlotDisplay(Blocks.CRAFTING_TABLE.asItem())));
-    }
-
-    @Override
-    public RecipeSerializer<? extends SpecialCraftingRecipe> getSerializer() {
+    public RecipeSerializer<DoughRecipe> getSerializer() {
         return ModRecipes.DOUGH_SERIALIZER;
     }
 }

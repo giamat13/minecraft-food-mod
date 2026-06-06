@@ -1,20 +1,20 @@
 package com.food.giamat.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CakeBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.CakeBlock;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * A purple "End cake": eating a slice teleports the player. If they are looking
@@ -22,39 +22,39 @@ import net.minecraft.world.World;
  * sent to a random spot in a small radius (chorus-fruit style).
  */
 public class EndCakeBlock extends CakeBlock {
-    public static final MapCodec<EndCakeBlock> CODEC = createCodec(EndCakeBlock::new);
+    public static final MapCodec<EndCakeBlock> CODEC = simpleCodec(EndCakeBlock::new);
 
     private static final double LOOK_DISTANCE = 32.0;
     private static final int RANDOM_RADIUS = 8;
 
-    public EndCakeBlock(Settings settings) {
+    public EndCakeBlock(Properties settings) {
         super(settings);
     }
 
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public MapCodec<CakeBlock> getCodec() {
+    public MapCodec<CakeBlock> codec() {
         // CakeBlock pins the return type to MapCodec<CakeBlock>; our codec still
         // produces EndCakeBlock instances at runtime, so the raw cast is safe.
         return (MapCodec) CODEC;
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        ActionResult result = super.onUse(state, world, pos, player, hit);
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        InteractionResult result = super.useWithoutItem(state, world, pos, player, hit);
         // A slice was actually eaten only when the use was accepted.
-        if (result.isAccepted() && world instanceof ServerWorld serverWorld && player instanceof ServerPlayerEntity serverPlayer) {
+        if (result.consumesAction() && world instanceof ServerLevel serverWorld && player instanceof ServerPlayer serverPlayer) {
             teleport(serverWorld, serverPlayer);
         }
         return result;
     }
 
-    private void teleport(ServerWorld world, ServerPlayerEntity player) {
+    private void teleport(ServerLevel world, ServerPlayer player) {
         // Prefer wherever the player is looking.
-        HitResult look = player.raycast(LOOK_DISTANCE, 1.0f, false);
+        HitResult look = player.pick(LOOK_DISTANCE, 1.0f, false);
         if (look.getType() == HitResult.Type.BLOCK) {
-            Vec3d target = look.getPos();
-            if (player.teleport(target.x, target.y, target.z, true)) {
+            Vec3 target = look.getLocation();
+            if (player.randomTeleport(target.x, target.y, target.z, true)) {
                 playTeleportSound(world, player);
                 return;
             }
@@ -65,19 +65,19 @@ public class EndCakeBlock extends CakeBlock {
         double baseZ = player.getZ();
         for (int attempt = 0; attempt < 16; attempt++) {
             double x = baseX + (player.getRandom().nextDouble() - 0.5) * 2.0 * RANDOM_RADIUS;
-            double y = MathHelper.clamp(
+            double y = Mth.clamp(
                     baseY + (player.getRandom().nextInt(2 * RANDOM_RADIUS + 1) - RANDOM_RADIUS),
-                    world.getBottomY(), world.getBottomY() + world.getHeight() - 1);
+                    world.getMinY(), world.getMinY() + world.getHeight() - 1);
             double z = baseZ + (player.getRandom().nextDouble() - 0.5) * 2.0 * RANDOM_RADIUS;
-            if (player.teleport(x, y, z, true)) {
+            if (player.randomTeleport(x, y, z, true)) {
                 playTeleportSound(world, player);
                 return;
             }
         }
     }
 
-    private void playTeleportSound(ServerWorld world, ServerPlayerEntity player) {
+    private void playTeleportSound(ServerLevel world, ServerPlayer player) {
         world.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1.0f, 1.0f);
     }
 }

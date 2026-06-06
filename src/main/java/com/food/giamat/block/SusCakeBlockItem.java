@@ -1,16 +1,16 @@
 package com.food.giamat.block;
 
 import com.food.giamat.block.entity.SusEffectsBlockEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.SuspiciousStewEffectsComponent;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.SuspiciousStewEffects;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -19,19 +19,19 @@ import org.jetbrains.annotations.Nullable;
  */
 public class SusCakeBlockItem extends BlockItem {
 
-    public SusCakeBlockItem(Block block, Settings settings) {
+    public SusCakeBlockItem(Block block, Properties settings) {
         super(block, settings);
     }
 
     @Override
-    protected boolean postPlacement(BlockPos pos, World world,
-            @Nullable PlayerEntity placer, ItemStack stack, BlockState state) {
-        boolean result = super.postPlacement(pos, world, placer, stack, state);
-        if (!world.isClient()) {
+    protected boolean updateCustomBlockEntityTag(BlockPos pos, Level world,
+            @Nullable Player placer, ItemStack stack, BlockState state) {
+        boolean result = super.updateCustomBlockEntityTag(pos, world, placer, stack, state);
+        if (!world.isClientSide()) {
             BlockEntity be = world.getBlockEntity(pos);
             if (be instanceof SusEffectsBlockEntity susEntity) {
-                SuspiciousStewEffectsComponent effects =
-                        stack.get(DataComponentTypes.SUSPICIOUS_STEW_EFFECTS);
+                SuspiciousStewEffects effects =
+                        stack.get(DataComponents.SUSPICIOUS_STEW_EFFECTS);
                 if (effects != null) {
                     susEntity.setEffects(effects);
                 }

@@ -1,45 +1,41 @@
 package com.food.giamat.recipe;
 
 import com.food.giamat.init.ModItems;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.SuspiciousStewEffectsComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.world.World;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.SuspiciousStewEffects;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Combines any food item with a suspicious stew to produce the same food
- * carrying the stew's effects. Vanilla cake becomes sus_cake; mod pizza
- * becomes sus_pizza (both are placed as blocks that apply the effect on bite).
- * All other foods become item-carried and the effect fires when eaten.
- */
-public class SusStewFoodRecipe extends SpecialCraftingRecipe {
+public class SusStewFoodRecipe extends CustomRecipe {
+    public static final SusStewFoodRecipe INSTANCE = new SusStewFoodRecipe();
+    public static final MapCodec<SusStewFoodRecipe> MAP_CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<RegistryFriendlyByteBuf, SusStewFoodRecipe> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
-    public SusStewFoodRecipe(CraftingRecipeCategory category) {
-        super(category);
-    }
+    public SusStewFoodRecipe() {}
 
     private boolean isSusEligible(ItemStack stack) {
-        return (stack.contains(DataComponentTypes.FOOD) || stack.isOf(Items.CAKE))
-                && !stack.isOf(Items.SUSPICIOUS_STEW);
+        return (stack.has(DataComponents.FOOD) || stack.getItem() == Items.CAKE)
+                && stack.getItem() != Items.SUSPICIOUS_STEW;
     }
 
     private record Match(ItemStack food, ItemStack stew) {}
 
     @Nullable
-    private Match findMatch(CraftingRecipeInput input) {
+    private Match findMatch(CraftingInput input) {
         ItemStack food = ItemStack.EMPTY;
         ItemStack stew = ItemStack.EMPTY;
         for (int i = 0; i < input.size(); i++) {
-            ItemStack stack = input.getStackInSlot(i);
+            ItemStack stack = input.getItem(i);
             if (stack.isEmpty()) continue;
-            if (stack.isOf(Items.SUSPICIOUS_STEW)) {
+            if (stack.getItem() == Items.SUSPICIOUS_STEW) {
                 if (!stew.isEmpty()) return null;
                 stew = stack;
             } else if (isSusEligible(stack)) {
@@ -53,40 +49,36 @@ public class SusStewFoodRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingRecipeInput input, World world) {
+    public boolean matches(CraftingInput input, Level world) {
         return findMatch(input) != null;
     }
 
     @Override
-    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack assemble(CraftingInput input) {
         Match match = findMatch(input);
         if (match == null) return ItemStack.EMPTY;
 
-        SuspiciousStewEffectsComponent effects =
-                match.stew().get(DataComponentTypes.SUSPICIOUS_STEW_EFFECTS);
+        SuspiciousStewEffects effects = match.stew().get(DataComponents.SUSPICIOUS_STEW_EFFECTS);
 
-        // Vanilla cake → sus_cake block item
-        if (match.food().isOf(Items.CAKE)) {
+        if (match.food().getItem() == Items.CAKE) {
             ItemStack result = new ItemStack(ModItems.SUS_CAKE);
-            if (effects != null) result.set(DataComponentTypes.SUSPICIOUS_STEW_EFFECTS, effects);
+            if (effects != null) result.set(DataComponents.SUSPICIOUS_STEW_EFFECTS, effects);
             return result;
         }
 
-        // Mod pizza → sus_pizza block item
-        if (match.food().isOf(ModItems.PIZZA)) {
+        if (match.food().getItem() == ModItems.PIZZA) {
             ItemStack result = new ItemStack(ModItems.SUS_PIZZA);
-            if (effects != null) result.set(DataComponentTypes.SUSPICIOUS_STEW_EFFECTS, effects);
+            if (effects != null) result.set(DataComponents.SUSPICIOUS_STEW_EFFECTS, effects);
             return result;
         }
 
-        // Any other food: add component to the existing stack
         ItemStack result = match.food().copyWithCount(1);
-        if (effects != null) result.set(DataComponentTypes.SUSPICIOUS_STEW_EFFECTS, effects);
+        if (effects != null) result.set(DataComponents.SUSPICIOUS_STEW_EFFECTS, effects);
         return result;
     }
 
     @Override
-    public RecipeSerializer<? extends SpecialCraftingRecipe> getSerializer() {
+    public RecipeSerializer<SusStewFoodRecipe> getSerializer() {
         return ModRecipes.SUS_STEW_FOOD_SERIALIZER;
     }
 }

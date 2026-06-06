@@ -1,14 +1,14 @@
 package com.food.giamat.mixin;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.SuspiciousStewEffectsComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.world.World;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.SuspiciousStewEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,17 +22,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Item.class)
 public abstract class SusStewConsumeMixin {
 
-    @Inject(method = "finishUsing", at = @At("RETURN"))
-    private void applyStewEffects(ItemStack stack, World world, LivingEntity user,
+    @Inject(method = "finishUsingItem", at = @At("RETURN"))
+    private void applyStewEffects(ItemStack stack, Level world, LivingEntity user,
             CallbackInfoReturnable<ItemStack> cir) {
-        if (world.isClient() || stack.isOf(Items.SUSPICIOUS_STEW)) return;
-        if (!(user instanceof PlayerEntity player)) return;
+        if (world.isClientSide() || stack.getItem() == Items.SUSPICIOUS_STEW) return;
+        if (!(user instanceof Player player)) return;
 
-        SuspiciousStewEffectsComponent effects =
-                stack.get(DataComponentTypes.SUSPICIOUS_STEW_EFFECTS);
+        SuspiciousStewEffects effects =
+                stack.get(DataComponents.SUSPICIOUS_STEW_EFFECTS);
         if (effects != null) {
-            for (SuspiciousStewEffectsComponent.StewEffect e : effects.effects()) {
-                player.addStatusEffect(new StatusEffectInstance(e.effect(), e.duration(), 0));
+            for (SuspiciousStewEffects.Entry e : effects.effects()) {
+                player.addEffect(new MobEffectInstance(e.effect(), e.duration(), 0));
             }
         }
     }
