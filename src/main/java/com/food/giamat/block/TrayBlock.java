@@ -3,40 +3,40 @@ package com.food.giamat.block;
 import com.food.giamat.init.ModBlocks;
 import com.food.giamat.init.ModItems;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 
 public class TrayBlock extends Block {
-    public static final MapCodec<TrayBlock> CODEC = createCodec(TrayBlock::new);
+    public static final MapCodec<TrayBlock> CODEC = simpleCodec(TrayBlock::new);
 
-    private static final VoxelShape SHAPE = VoxelShapes.union(
-            Block.createCuboidShape(0, 0, 0, 16, 2, 16),   // flat base
-            Block.createCuboidShape(0, 2, 0, 2, 4, 16),    // left rim
-            Block.createCuboidShape(14, 2, 0, 16, 4, 16),  // right rim
-            Block.createCuboidShape(2, 2, 0, 14, 4, 2),    // front rim
-            Block.createCuboidShape(2, 2, 14, 14, 4, 16)   // back rim
+    private static final VoxelShape SHAPE = Shapes.or(
+            Block.box(0, 0, 0, 16, 2, 16),   // flat base
+            Block.box(0, 2, 0, 2, 4, 16),    // left rim
+            Block.box(14, 2, 0, 16, 4, 16),  // right rim
+            Block.box(2, 2, 0, 14, 4, 2),    // front rim
+            Block.box(2, 2, 14, 14, 4, 16)   // back rim
     );
 
     private final DyeColor color;
 
-    public TrayBlock(Settings settings, DyeColor color) {
+    public TrayBlock(Properties settings, DyeColor color) {
         super(settings);
         this.color = color;
     }
 
     // Constructor used by CODEC (no color param) — defaults to gray/plain tray
-    public TrayBlock(Settings settings) {
+    public TrayBlock(Properties settings) {
         this(settings, null);
     }
 
@@ -45,33 +45,33 @@ public class TrayBlock extends Block {
     }
 
     @Override
-    public MapCodec<TrayBlock> getCodec() {
+    public MapCodec<TrayBlock> codec() {
         return CODEC;
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        ItemStack held = player.getMainHandStack();
-        if (!world.isClient()) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        ItemStack held = player.getMainHandItem();
+        if (!world.isClientSide()) {
             // Pizza on tray
-            if (held.isOf(ModItems.PIZZA) || held.isOf(ModItems.TOPPED_PIZZA)) {
-                world.setBlockState(pos, ModBlocks.PIZZA_ON_TRAY_BLOCK.getDefaultState());
-                if (!player.isCreative()) held.decrement(1);
-                return ActionResult.SUCCESS;
+            if (held.getItem() == ModItems.PIZZA || held.getItem() == ModItems.TOPPED_PIZZA) {
+                world.setBlock(pos, ModBlocks.PIZZA_ON_TRAY_BLOCK.defaultBlockState(), Block.UPDATE_ALL);
+                if (!player.isCreative()) held.shrink(1);
+                return InteractionResult.SUCCESS;
             }
             // Vanilla cake on tray — we place the vanilla cake block on top of the tray pos
             // by replacing the tray with a cake-on-tray block
-            if (held.isOf(net.minecraft.item.Items.CAKE)) {
-                world.setBlockState(pos, ModBlocks.CAKE_ON_TRAY_BLOCK.getDefaultState());
-                if (!player.isCreative()) held.decrement(1);
-                return ActionResult.SUCCESS;
+            if (held.getItem() == net.minecraft.world.item.Items.CAKE) {
+                world.setBlock(pos, ModBlocks.CAKE_ON_TRAY_BLOCK.defaultBlockState(), Block.UPDATE_ALL);
+                if (!player.isCreative()) held.shrink(1);
+                return InteractionResult.SUCCESS;
             }
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 }

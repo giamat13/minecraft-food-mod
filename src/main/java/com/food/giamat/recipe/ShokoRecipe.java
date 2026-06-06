@@ -1,52 +1,47 @@
 package com.food.giamat.recipe;
 
 import com.food.giamat.init.ModItems;
-import java.util.List;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.IngredientPlacement;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.display.RecipeDisplay;
-import net.minecraft.recipe.display.ShapelessCraftingRecipeDisplay;
-import net.minecraft.recipe.display.SlotDisplay;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 
-public class ShokoRecipe extends SpecialCraftingRecipe {
+public class ShokoRecipe extends CustomRecipe {
+    public static final ShokoRecipe INSTANCE = new ShokoRecipe();
+    public static final MapCodec<ShokoRecipe> MAP_CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<RegistryFriendlyByteBuf, ShokoRecipe> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
-    public ShokoRecipe(CraftingRecipeCategory category) {
-        super(category);
-    }
+    public ShokoRecipe() {}
 
     @Override
-    public boolean matches(CraftingRecipeInput input, World world) {
+    public boolean matches(CraftingInput input, Level world) {
         boolean hasMelted = false, hasMilk = false;
         for (int i = 0; i < input.size(); i++) {
-            ItemStack stack = input.getStackInSlot(i);
+            ItemStack stack = input.getItem(i);
             if (stack.isEmpty()) continue;
-            if (stack.isOf(ModItems.MELTED_CHOCOLATE) && !hasMelted) { hasMelted = true; }
-            else if (stack.isOf(Items.MILK_BUCKET) && !hasMilk) { hasMilk = true; }
+            if (stack.getItem() == ModItems.MELTED_CHOCOLATE && !hasMelted) { hasMelted = true; }
+            else if (stack.getItem() == Items.MILK_BUCKET && !hasMilk) { hasMilk = true; }
             else { return false; }
         }
         return hasMelted && hasMilk;
     }
 
     @Override
-    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack assemble(CraftingInput input) {
         return new ItemStack(ModItems.SHOKO);
     }
 
     @Override
-    public DefaultedList<ItemStack> getRecipeRemainders(CraftingRecipeInput input) {
-        DefaultedList<ItemStack> remainders = DefaultedList.ofSize(input.size(), ItemStack.EMPTY);
+    public NonNullList<ItemStack> getRemainingItems(CraftingInput input) {
+        NonNullList<ItemStack> remainders = NonNullList.withSize(input.size(), ItemStack.EMPTY);
         for (int i = 0; i < input.size(); i++) {
-            if (input.getStackInSlot(i).isOf(Items.MILK_BUCKET)) {
+            if (input.getItem(i).getItem() == Items.MILK_BUCKET) {
                 remainders.set(i, new ItemStack(Items.BUCKET));
             }
         }
@@ -54,32 +49,7 @@ public class ShokoRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean isIgnoredInRecipeBook() { return false; }
-
-    @Override
-    public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forShapeless(List.of(
-                Ingredient.ofItems(ModItems.MELTED_CHOCOLATE),
-                Ingredient.ofItems(Items.MILK_BUCKET)
-        ));
-    }
-
-    @Override
-    public List<RecipeDisplay> getDisplays() {
-        return List.of(new ShapelessCraftingRecipeDisplay(
-                List.of(
-                        new SlotDisplay.ItemSlotDisplay(ModItems.MELTED_CHOCOLATE),
-                        new SlotDisplay.WithRemainderSlotDisplay(
-                                new SlotDisplay.ItemSlotDisplay(Items.MILK_BUCKET),
-                                new SlotDisplay.ItemSlotDisplay(Items.BUCKET))
-                ),
-                new SlotDisplay.ItemSlotDisplay(ModItems.SHOKO),
-                new SlotDisplay.ItemSlotDisplay(Blocks.CRAFTING_TABLE.asItem())
-        ));
-    }
-
-    @Override
-    public RecipeSerializer<? extends SpecialCraftingRecipe> getSerializer() {
+    public RecipeSerializer<ShokoRecipe> getSerializer() {
         return ModRecipes.SHOKO_SERIALIZER;
     }
 }
