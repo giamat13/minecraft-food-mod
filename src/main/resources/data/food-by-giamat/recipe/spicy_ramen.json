@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "food-by-giamat:ramen",
+    "food-by-giamat:chili_pepper"
+  ],
+  "result": {
+    "id": "food-by-giamat:spicy_ramen"
+  }
+}
