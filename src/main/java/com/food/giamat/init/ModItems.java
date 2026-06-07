@@ -196,6 +196,9 @@ public class ModItems {
     public static final Item TOMATO_SAUCE = register("tomato_sauce");
     // Pasta in tomato sauce: pasta combined with tomato sauce.
     public static final Item PASTA_IN_TOMATO_SAUCE = registerFood("pasta_in_tomato_sauce", 8, 0.8f);
+    // Chips: one baked potato in the crafting grid yields 2 chips.
+    public static final Item CHIPS = registerFood("chips", 4, 0.5f);
+
     // Ramen: pasta + any meat + any soup = a hearty noodle bowl.
     public static final Item RAMEN = registerFood("ramen", 10, 0.9f);
     // Spicy ramen: ramen + chili pepper = shoots a small fireball when eaten.
@@ -366,7 +369,7 @@ public class ModItems {
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
                     GUMMY_SCHNITZEL, BANANA, LEMON, POMEGRANATE, OLIVE, CHILI_PEPPER, TOMATO,
                     CHEESE, PIZZA, TOPPED_PIZZA, SUS_PIZZA,
-                    CORN_HOT, POPCORN, SUSHI,
+                    CORN_HOT, POPCORN, CHIPS, SUSHI,
                     PASTA_IN_TOMATO_SAUCE, RAMEN, SPICY_RAMEN,
                     CHOCOLATE_DONUT, END_CAKE,
                     CHALLAH, GRAPE, WINE,
