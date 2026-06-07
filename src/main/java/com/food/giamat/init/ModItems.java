@@ -6,6 +6,7 @@ import com.food.giamat.block.SusPizzaBlockItem;
 import com.food.giamat.init.ModBlocks;
 import com.food.giamat.item.BurntBreadItem;
 import com.food.giamat.item.CombinedFoodItem;
+import com.food.giamat.item.SpicyRamenItem;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.food.FoodProperties;
@@ -187,6 +188,22 @@ public class ModItems {
                                     .build()))
     );
 
+    // Pasta: dough shaped into noodles, then cooked in a furnace.
+    // Uncooked pasta causes poison and nausea; cooked pasta is safe to eat.
+    public static final Item UNCOOKED_PASTA = registerUnbaked("uncooked_pasta", 1);
+    public static final Item PASTA = registerFood("pasta", 5, 0.6f);
+    // Tomato sauce: two tomato pastes combined with a bowl.
+    public static final Item TOMATO_SAUCE = register("tomato_sauce");
+    // Pasta in tomato sauce: pasta combined with tomato sauce.
+    public static final Item PASTA_IN_TOMATO_SAUCE = registerFood("pasta_in_tomato_sauce", 8, 0.8f);
+    // Chips: one baked potato in the crafting grid yields 2 chips.
+    public static final Item CHIPS = registerFood("chips", 4, 0.5f);
+
+    // Ramen: pasta + any meat + any soup = a hearty noodle bowl.
+    public static final Item RAMEN = registerFood("ramen", 10, 0.9f);
+    // Spicy ramen: ramen + chili pepper = shoots a small fireball when eaten.
+    public static final Item SPICY_RAMEN = registerSpicyRamen();
+
     // Combined food: any 2+ food items in a crafting grid → merged meal.
     // Takes 2× as long to eat; applies all individual effects; nausea if > 6 foods.
     public static final Item COMBINED_FOOD = registerCombinedFood();
@@ -316,6 +333,20 @@ public class ModItems {
                 new BlockItem(ModBlocks.CURSED_CAKE_BLOCK, new Item.Properties().setId(key)));
     }
 
+    private static Item registerSpicyRamen() {
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "spicy_ramen"));
+        return Registry.register(
+                BuiltInRegistries.ITEM,
+                key,
+                new SpicyRamenItem(new Item.Properties()
+                        .setId(key)
+                        .food(new FoodProperties.Builder()
+                                .nutrition(10)
+                                .saturationModifier(0.9f)
+                                .build()))
+        );
+    }
+
     private static Item registerEndCake() {
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "end_cake"));
         return Registry.register(
@@ -338,7 +369,8 @@ public class ModItems {
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
                     GUMMY_SCHNITZEL, BANANA, LEMON, POMEGRANATE, OLIVE, CHILI_PEPPER, TOMATO,
                     CHEESE, PIZZA, TOPPED_PIZZA, SUS_PIZZA,
-                    CORN_HOT, POPCORN, SUSHI,
+                    CORN_HOT, POPCORN, CHIPS, SUSHI,
+                    PASTA_IN_TOMATO_SAUCE, RAMEN, SPICY_RAMEN,
                     CHOCOLATE_DONUT, END_CAKE,
                     CHALLAH, GRAPE, WINE,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
@@ -351,7 +383,8 @@ public class ModItems {
                     UNBAKED_BREAD, UNBAKED_PITA, UNBAKED_SCHNITZEL,
                     UNBAKED_SAUSAGE, UNBAKED_CHICKEN_NUGGETS, UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS,
                     UNBAKED_COOKIE, UNBAKED_CAKE, UNBAKED_CAKE_CURSED,
-                    UNCOOKED_PIZZA, UNCOOKED_CHOCOLATE_DONUT, UNBAKED_CHALLAH);
+                    UNCOOKED_PIZZA, UNCOOKED_CHOCOLATE_DONUT, UNBAKED_CHALLAH,
+                    UNCOOKED_PASTA, PASTA);
         });
         CreativeModeTabEvents.modifyOutputEvent(tab("ingredients")).register(output -> {
             output.accept(FLOUR);
@@ -361,6 +394,7 @@ public class ModItems {
             output.accept(BREADCRUMBS);
             output.accept(GELATIN);
             output.accept(TOMATO_PASTE);
+            output.accept(TOMATO_SAUCE);
             output.accept(SWEET_DOUGH);
             output.accept(OLIVE_OIL);
             output.accept(CREAM);

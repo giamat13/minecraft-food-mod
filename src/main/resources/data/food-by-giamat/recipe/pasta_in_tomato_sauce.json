@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "food-by-giamat:pasta",
+    "food-by-giamat:tomato_sauce"
+  ],
+  "result": {
+    "id": "food-by-giamat:pasta_in_tomato_sauce"
+  }
+}

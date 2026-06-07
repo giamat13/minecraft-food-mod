@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "minecraft:baked_potato"
+  ],
+  "result": {
+    "id": "food-by-giamat:chips",
+    "count": 2
+  }
+}
