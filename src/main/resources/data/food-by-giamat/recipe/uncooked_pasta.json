@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "pattern": [
+    "DDD"
+  ],
+  "key": {
+    "D": "food-by-giamat:dough"
+  },
+  "result": {
+    "id": "food-by-giamat:uncooked_pasta",
+    "count": 2
+  }
+}

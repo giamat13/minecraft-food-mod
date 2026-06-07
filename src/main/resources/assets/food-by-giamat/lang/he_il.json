@@ -86,5 +86,10 @@
   "item.food-by-giamat.butter": "חמאה",
   "item.food-by-giamat.buttered_bread": "לחם עם חמאה",
   "item.food-by-giamat.salted_buttered_bread": "לחם עם חמאה ומלח",
-  "item.food-by-giamat.combined_food": "ארוחה משולבת"
+  "item.food-by-giamat.combined_food": "ארוחה משולבת",
+  "item.food-by-giamat.uncooked_pasta": "פסטה לא מבושלת",
+  "item.food-by-giamat.pasta": "פסטה",
+  "item.food-by-giamat.tomato_sauce": "רוטב עגבניות",
+  "item.food-by-giamat.pasta_in_tomato_sauce": "פסטה ברוטב עגבניות",
+  "item.food-by-giamat.ramen": "ראמן"
 }

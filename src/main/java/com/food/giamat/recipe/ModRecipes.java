@@ -53,5 +53,10 @@ public class ModRecipes {
             Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "combined_food"),
             new RecipeSerializer<>(CombinedFoodRecipe.MAP_CODEC, CombinedFoodRecipe.STREAM_CODEC));
 
+    public static final RecipeSerializer<RamenRecipe> RAMEN_SERIALIZER = Registry.register(
+            BuiltInRegistries.RECIPE_SERIALIZER,
+            Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "ramen"),
+            new RecipeSerializer<>(RamenRecipe.MAP_CODEC, RamenRecipe.STREAM_CODEC));
+
     public static void initialize() {}
 }

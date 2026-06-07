@@ -187,6 +187,17 @@ public class ModItems {
                                     .build()))
     );
 
+    // Pasta: dough shaped into noodles, then cooked in a furnace.
+    // Uncooked pasta causes poison and nausea; cooked pasta is safe to eat.
+    public static final Item UNCOOKED_PASTA = registerUnbaked("uncooked_pasta", 1);
+    public static final Item PASTA = registerFood("pasta", 5, 0.6f);
+    // Tomato sauce: two tomato pastes combined with a bowl.
+    public static final Item TOMATO_SAUCE = register("tomato_sauce");
+    // Pasta in tomato sauce: pasta combined with tomato sauce.
+    public static final Item PASTA_IN_TOMATO_SAUCE = registerFood("pasta_in_tomato_sauce", 8, 0.8f);
+    // Ramen: pasta + any meat + any soup = a hearty noodle bowl.
+    public static final Item RAMEN = registerFood("ramen", 10, 0.9f);
+
     // Combined food: any 2+ food items in a crafting grid → merged meal.
     // Takes 2× as long to eat; applies all individual effects; nausea if > 6 foods.
     public static final Item COMBINED_FOOD = registerCombinedFood();
@@ -339,6 +350,7 @@ public class ModItems {
                     GUMMY_SCHNITZEL, BANANA, LEMON, POMEGRANATE, OLIVE, CHILI_PEPPER, TOMATO,
                     CHEESE, PIZZA, TOPPED_PIZZA, SUS_PIZZA,
                     CORN_HOT, POPCORN, SUSHI,
+                    PASTA_IN_TOMATO_SAUCE, RAMEN,
                     CHOCOLATE_DONUT, END_CAKE,
                     CHALLAH, GRAPE, WINE,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,
@@ -351,7 +363,8 @@ public class ModItems {
                     UNBAKED_BREAD, UNBAKED_PITA, UNBAKED_SCHNITZEL,
                     UNBAKED_SAUSAGE, UNBAKED_CHICKEN_NUGGETS, UNBAKED_CHICKEN_NUGGETS_BREADCRUMBS,
                     UNBAKED_COOKIE, UNBAKED_CAKE, UNBAKED_CAKE_CURSED,
-                    UNCOOKED_PIZZA, UNCOOKED_CHOCOLATE_DONUT, UNBAKED_CHALLAH);
+                    UNCOOKED_PIZZA, UNCOOKED_CHOCOLATE_DONUT, UNBAKED_CHALLAH,
+                    UNCOOKED_PASTA, PASTA);
         });
         CreativeModeTabEvents.modifyOutputEvent(tab("ingredients")).register(output -> {
             output.accept(FLOUR);
@@ -361,6 +374,7 @@ public class ModItems {
             output.accept(BREADCRUMBS);
             output.accept(GELATIN);
             output.accept(TOMATO_PASTE);
+            output.accept(TOMATO_SAUCE);
             output.accept(SWEET_DOUGH);
             output.accept(OLIVE_OIL);
             output.accept(CREAM);
