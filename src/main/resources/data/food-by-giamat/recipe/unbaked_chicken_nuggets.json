@@ -1,6 +1,11 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
-  "ingredients": ["minecraft:chicken"],
-  "result": {"id": "food-by-giamat:unbaked_chicken_nuggets", "count": 3}
+  "category": "misc",
+  "ingredients": [
+    "minecraft:chicken"
+  ],
+  "result": {
+    "id": "food-by-giamat:unbaked_chicken_nuggets",
+    "count": 3
+  }
 }

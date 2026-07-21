@@ -1,10 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["B", "I", "S"],
+  "pattern": [
+    "B",
+    "I",
+    "S"
+  ],
   "key": {
-    "B": {"item": "minecraft:sweet_berries"},
-    "I": {"item": "minecraft:ice"},
-    "S": {"item": "minecraft:stick"}
+    "B": "minecraft:sweet_berries",
+    "I": "minecraft:ice",
+    "S": "minecraft:stick"
   },
-  "result": {"id": "food-by-giamat:sweet_berry_popsicle"}
+  "result": {
+    "id": "food-by-giamat:sweet_berry_popsicle"
+  }
 }

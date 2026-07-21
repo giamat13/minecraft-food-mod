@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
+  "category": "misc",
   "ingredients": [
     "food-by-giamat:ramen",
     "food-by-giamat:chili_pepper"

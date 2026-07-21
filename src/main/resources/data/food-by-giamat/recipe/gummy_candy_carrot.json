@@ -1,6 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
-  "ingredients": ["minecraft:sugar", "food-by-giamat:gelatin", "minecraft:carrot"],
-  "result": {"id": "food-by-giamat:gummy_candy_carrot", "count": 4}
+  "category": "misc",
+  "ingredients": [
+    "minecraft:sugar",
+    "food-by-giamat:gelatin",
+    "minecraft:carrot"
+  ],
+  "result": {
+    "id": "food-by-giamat:gummy_candy_carrot",
+    "count": 4
+  }
 }
