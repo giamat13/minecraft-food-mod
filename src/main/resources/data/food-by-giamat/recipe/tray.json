@@ -5,7 +5,7 @@
     "III"
   ],
   "key": {
-    "I": {"item": "minecraft:iron_ingot"}
+    "I": "minecraft:iron_ingot"
   },
   "result": {
     "id": "food-by-giamat:tray",

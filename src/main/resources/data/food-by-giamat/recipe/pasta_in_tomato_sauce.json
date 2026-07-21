@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
+  "category": "misc",
   "ingredients": [
     "food-by-giamat:pasta",
     "food-by-giamat:tomato_sauce"

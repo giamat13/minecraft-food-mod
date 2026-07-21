@@ -61,9 +61,17 @@ public class CombinedFoodRecipe extends CustomRecipe {
         if (server == null) return false;
         for (RecipeHolder<?> holder : server.getRecipeManager().getRecipes()) {
             Recipe<?> recipe = holder.value();
-            if (recipe == this) continue;
-            if (recipe instanceof CraftingRecipe crafting && crafting.matches(input, world)) {
-                return true;
+            // Skip every combined-food recipe (not just the singleton), so we never
+            // "defer to ourselves" and let the meal shadow a real recipe.
+            if (recipe instanceof CombinedFoodRecipe) continue;
+            if (!(recipe instanceof CraftingRecipe crafting)) continue;
+            // A single broken recipe's matches() must not abort the scan: if it threw
+            // and bubbled up, we'd treat "no other recipe matched" as true and the
+            // combined meal would win. Isolate each check.
+            try {
+                if (crafting.matches(input, world)) return true;
+            } catch (Exception ignored) {
+                // this recipe simply doesn't claim the grid
             }
         }
         return false;

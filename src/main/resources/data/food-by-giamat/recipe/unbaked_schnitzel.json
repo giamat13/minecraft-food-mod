@@ -1,6 +1,11 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
-  "ingredients": ["food-by-giamat:breadcrumbs", "minecraft:chicken"],
-  "result": {"id": "food-by-giamat:unbaked_schnitzel"}
+  "category": "misc",
+  "ingredients": [
+    "food-by-giamat:breadcrumbs",
+    "minecraft:chicken"
+  ],
+  "result": {
+    "id": "food-by-giamat:unbaked_schnitzel"
+  }
 }

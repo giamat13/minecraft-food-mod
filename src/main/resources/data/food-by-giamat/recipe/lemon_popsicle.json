@@ -1,10 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["L", "I", "S"],
+  "pattern": [
+    "L",
+    "I",
+    "S"
+  ],
   "key": {
-    "L": {"item": "food-by-giamat:lemon"},
-    "I": {"item": "minecraft:ice"},
-    "S": {"item": "minecraft:stick"}
+    "L": "food-by-giamat:lemon",
+    "I": "minecraft:ice",
+    "S": "minecraft:stick"
   },
-  "result": {"id": "food-by-giamat:lemon_popsicle"}
+  "result": {
+    "id": "food-by-giamat:lemon_popsicle"
+  }
 }
