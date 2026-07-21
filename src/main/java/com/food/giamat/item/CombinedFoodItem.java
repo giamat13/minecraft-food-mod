@@ -5,6 +5,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -22,15 +23,18 @@ public class CombinedFoodItem extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
+        // Read the data before super consumes (and may empty) the stack.
+        CombinedFoodData data = stack.get(ModComponents.COMBINED_FOOD_DATA);
         ItemStack result = super.finishUsingItem(stack, world, user);
 
-        if (!world.isClientSide() && user instanceof Player player) {
-            CombinedFoodData data = stack.get(ModComponents.COMBINED_FOOD_DATA);
-            if (data == null) return result;
+        if (!world.isClientSide() && user instanceof Player player && data != null) {
+            // Restore the combined hunger and saturation of every ingredient.
+            // The item itself carries no FOOD component amounts, so this is the
+            // single place the meal's nourishment is applied.
+            player.getFoodData().eat(new FoodProperties(data.nutrition(), data.saturation(), false));
 
             for (MobEffectInstance effect : data.effects()) {
-                player.addEffect(new MobEffectInstance(
-                        effect.getEffect(), effect.getDuration(), effect.getAmplifier()));
+                player.addEffect(new MobEffectInstance(effect));
             }
 
             if (data.foodCount() > 6) {

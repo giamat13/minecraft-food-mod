@@ -89,6 +89,9 @@ public class CombinedFoodRecipe extends CustomRecipe {
             FoodProperties fc = food.get(DataComponents.FOOD);
             if (fc != null) {
                 totalNutrition += fc.nutrition();
+                // FoodProperties#saturation is a modifier; the actual saturation a
+                // food restores is nutrition * modifier * 2. Sum those weights so the
+                // combined meal restores exactly the total of every ingredient.
                 totalSatWeight += (double) fc.nutrition() * fc.saturation();
             }
 
@@ -96,19 +99,52 @@ public class CombinedFoodRecipe extends CustomRecipe {
             if (consumable != null) {
                 for (ConsumeEffect effect : consumable.onConsumeEffects()) {
                     if (effect instanceof ApplyStatusEffectsConsumeEffect applyEffect) {
-                        allEffects.addAll(applyEffect.effects());
+                        for (MobEffectInstance instance : applyEffect.effects()) {
+                            addStacking(allEffects, instance);
+                        }
                     }
                 }
             }
         }
 
+        // Nutrition-weighted average modifier: totalNutrition * avgSatMod * 2 equals
+        // the summed saturation of all ingredients, so the meal is exactly as filling
+        // as eating each food individually.
         float avgSatMod = totalNutrition > 0 ? (float) (totalSatWeight / totalNutrition) : 0f;
 
         ItemStack result = new ItemStack(ModItems.COMBINED_FOOD);
-        result.set(DataComponents.FOOD, new FoodProperties(totalNutrition, avgSatMod, false));
-        result.set(ModComponents.COMBINED_FOOD_DATA, new CombinedFoodData(foods.size(), allEffects));
+        // Nutrition, saturation and the merged effects are all applied by
+        // CombinedFoodItem from this component when the meal is eaten. We do NOT
+        // put a FOOD component on the stack: that would make vanilla restore the
+        // hunger/saturation a second time on top of the manual application.
+        result.set(ModComponents.COMBINED_FOOD_DATA,
+                new CombinedFoodData(foods.size(), totalNutrition, avgSatMod, allEffects));
 
         return result;
+    }
+
+    /**
+     * Merges an effect into the accumulator. Identical effects (same type and
+     * amplifier) have their durations added together instead of one silently
+     * replacing the other, so combining several foods that share an effect stacks
+     * its duration. Different amplifiers of the same effect are kept separate.
+     */
+    private static void addStacking(List<MobEffectInstance> list, MobEffectInstance incoming) {
+        for (int i = 0; i < list.size(); i++) {
+            MobEffectInstance current = list.get(i);
+            if (current.getEffect().equals(incoming.getEffect())
+                    && current.getAmplifier() == incoming.getAmplifier()) {
+                list.set(i, new MobEffectInstance(
+                        current.getEffect(),
+                        current.getDuration() + incoming.getDuration(),
+                        current.getAmplifier(),
+                        current.isAmbient(),
+                        current.isVisible(),
+                        current.showIcon()));
+                return;
+            }
+        }
+        list.add(new MobEffectInstance(incoming));
     }
 
     @Override
