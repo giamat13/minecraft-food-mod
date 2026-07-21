@@ -7,6 +7,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +15,10 @@ import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
@@ -41,7 +45,28 @@ public class CombinedFoodRecipe extends CustomRecipe {
             if (!isCombineable(stack)) return false;
             foodCount++;
         }
-        return foodCount >= 2;
+        if (foodCount < 2) return false;
+
+        // Lowest priority: combining foods is only a fallback. If the same grid
+        // is a valid input for any other crafting recipe (a mod recipe like
+        // hamburger / buttered_bread, or a vanilla one), defer to it instead of
+        // producing a combined meal.
+        return !anotherRecipeMatches(input, world);
+    }
+
+    private boolean anotherRecipeMatches(CraftingInput input, Level world) {
+        MinecraftServer server = world.getServer();
+        // On a remote client we can't inspect the recipe set; the server is the
+        // authority for the crafted result, so just allow the match here.
+        if (server == null) return false;
+        for (RecipeHolder<?> holder : server.getRecipeManager().getRecipes()) {
+            Recipe<?> recipe = holder.value();
+            if (recipe == this) continue;
+            if (recipe instanceof CraftingRecipe crafting && crafting.matches(input, world)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
