@@ -63,6 +63,10 @@ public class ModItems {
     public static final Item GUMMY_CANDY_APPLE = registerFood("gummy_candy_apple", 3, 0.2f);
     public static final Item GUMMY_CANDY_SWEET_BERRIES = registerFood("gummy_candy_sweet_berries", 3, 0.2f);
     public static final Item GUMMY_CANDY_CARROT = registerFood("gummy_candy_carrot", 3, 0.2f);
+    public static final Item GUMMY_CANDY_BANANA = registerFood("gummy_candy_banana", 3, 0.2f);
+    public static final Item GUMMY_CANDY_LEMON = registerFood("gummy_candy_lemon", 3, 0.2f);
+    public static final Item GUMMY_CANDY_POMEGRANATE = registerFood("gummy_candy_pomegranate", 3, 0.2f);
+    public static final Item GUMMY_CANDY_GRAPE = registerFood("gummy_candy_grape", 3, 0.2f);
     public static final Item BANANA = registerFood("banana", 4, 0.3f);
     // Chili pepper: foraged from desert bushes; eating one grants Fire Resistance for 10 s.
     public static final Item CHILI_PEPPER = Registry.register(
