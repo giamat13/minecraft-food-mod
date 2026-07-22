@@ -33,7 +33,9 @@ public class CombinedFoodRecipe extends CustomRecipe {
     public CombinedFoodRecipe() {}
 
     private boolean isCombineable(ItemStack stack) {
-        return stack.has(DataComponents.FOOD) && stack.getItem() != ModItems.COMBINED_FOOD;
+        // A combined meal has no FOOD component of its own (see assemble()), so it
+        // needs its own check via COMBINED_FOOD_DATA to be usable as an ingredient.
+        return stack.has(DataComponents.FOOD) || stack.has(ModComponents.COMBINED_FOOD_DATA);
     }
 
     @Override
@@ -89,11 +91,27 @@ public class CombinedFoodRecipe extends CustomRecipe {
 
         if (foods.size() < 2) return ItemStack.EMPTY;
 
+        int totalFoodCount = 0;
         int totalNutrition = 0;
         double totalSatWeight = 0;
         List<MobEffectInstance> allEffects = new ArrayList<>();
 
         for (ItemStack food : foods) {
+            // A combined meal carries no FOOD/CONSUMABLE component of its own (see
+            // below); its totals already live in COMBINED_FOOD_DATA, so fold that in
+            // directly instead of reading components that aren't there.
+            CombinedFoodData nested = food.get(ModComponents.COMBINED_FOOD_DATA);
+            if (nested != null) {
+                totalFoodCount += nested.foodCount();
+                totalNutrition += nested.nutrition();
+                totalSatWeight += (double) nested.nutrition() * nested.saturation();
+                for (MobEffectInstance instance : nested.effects()) {
+                    addStacking(allEffects, instance);
+                }
+                continue;
+            }
+
+            totalFoodCount++;
             FoodProperties fc = food.get(DataComponents.FOOD);
             if (fc != null) {
                 totalNutrition += fc.nutrition();
@@ -126,7 +144,7 @@ public class CombinedFoodRecipe extends CustomRecipe {
         // put a FOOD component on the stack: that would make vanilla restore the
         // hunger/saturation a second time on top of the manual application.
         result.set(ModComponents.COMBINED_FOOD_DATA,
-                new CombinedFoodData(foods.size(), totalNutrition, avgSatMod, allEffects));
+                new CombinedFoodData(totalFoodCount, totalNutrition, avgSatMod, allEffects));
 
         return result;
     }

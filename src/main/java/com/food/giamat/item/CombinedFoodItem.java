@@ -1,6 +1,7 @@
 package com.food.giamat.item;
 
 import com.food.giamat.init.ModComponents;
+import com.food.giamat.init.ModFoodTiming;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -16,9 +17,17 @@ public class CombinedFoodItem extends Item {
         super(settings);
     }
 
+    // No flat cap: eating this meal takes as long as eating every ingredient it's
+    // made of, one after another (6 foods + 6 foods is 12 foods' worth of eating,
+    // not the same as 2). Each ingredient's own share scales with how filling it
+    // is on average, via the same formula single foods use (ModFoodTiming).
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity user) {
-        return 64;
+        CombinedFoodData data = stack.get(ModComponents.COMBINED_FOOD_DATA);
+        if (data == null || data.foodCount() <= 0) return 32;
+        int avgNutritionPerFood = Math.round((float) data.nutrition() / data.foodCount());
+        float secondsPerFood = ModFoodTiming.scaledSeconds(avgNutritionPerFood);
+        return Math.round(data.foodCount() * secondsPerFood * 20f);
     }
 
     @Override
