@@ -116,6 +116,18 @@ public class ModItems {
 
     // Sushi: rolled from rice, raw fish and kelp.
     public static final Item SUSHI = registerFood("sushi", 6, 0.6f);
+    // Super sushi: sushi forged with netherite and dirt. Regeneration II (5s) + Jump Boost II (10min).
+    public static final Item SUPER_SUSHI = Registry.register(
+            BuiltInRegistries.ITEM,
+            ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "super_sushi")),
+            new Item(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "super_sushi")))
+                    .food(new FoodProperties(6, 0.6f, false),
+                            Consumable.builder()
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 1), 1.0f))
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 12000, 1), 1.0f))
+                                    .build()))
+    );
 
     // Chocolate donut: a ring of dough around chocolate, baked in a furnace.
     public static final Item UNCOOKED_CHOCOLATE_DONUT = registerUnbaked("uncooked_chocolate_donut", 1);
@@ -374,7 +386,7 @@ public class ModItems {
                     GUMMY_CANDY_BANANA, GUMMY_CANDY_LEMON, GUMMY_CANDY_POMEGRANATE, GUMMY_CANDY_GRAPE,
                     GUMMY_SCHNITZEL, BANANA, LEMON, POMEGRANATE, OLIVE, CHILI_PEPPER, TOMATO,
                     CHEESE, PIZZA, TOPPED_PIZZA, SUS_PIZZA,
-                    CORN_HOT, POPCORN, CHIPS, SUSHI,
+                    CORN_HOT, POPCORN, CHIPS, SUSHI, SUPER_SUSHI,
                     PASTA_IN_TOMATO_SAUCE, RAMEN, SPICY_RAMEN,
                     CHOCOLATE_DONUT, END_CAKE,
                     CHALLAH, GRAPE, WINE,

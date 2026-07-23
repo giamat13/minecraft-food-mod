@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "food-by-giamat:sushi",
+    "minecraft:netherite_ingot",
+    "minecraft:netherite_ingot",
+    "minecraft:dirt",
+    "minecraft:dirt"
+  ],
+  "result": {"id": "food-by-giamat:super_sushi", "count": 1}
+}
