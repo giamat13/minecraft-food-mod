@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:golden_apple",
+    "minecraft:gold_block",
+    "minecraft:gold_block",
+    "minecraft:gold_block",
+    "minecraft:gold_block",
+    "minecraft:diamond_block",
+    "minecraft:diamond_block",
+    "minecraft:diamond_block",
+    "minecraft:diamond_block"
+  ],
+  "result": {"id": "minecraft:enchanted_golden_apple", "count": 1}
+}
