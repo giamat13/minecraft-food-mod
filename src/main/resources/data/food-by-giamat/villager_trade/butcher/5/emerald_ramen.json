@@ -1,0 +1,13 @@
+{
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 5
+  },
+  "gives": {
+    "id": "food-by-giamat:ramen",
+    "count": 1
+  },
+  "max_uses": 12,
+  "reputation_discount": 0.05,
+  "xp": 5
+}
