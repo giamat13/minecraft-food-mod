@@ -97,6 +97,8 @@ public class ModItems {
 
     // Tomato: foraged from wild tomato bushes in the plains.
     public static final Item TOMATO = registerFood("tomato", 3, 0.3f);
+    // Pineapple: a tropical fruit harvested from the wild pineapple bush (jungle).
+    public static final Item PINEAPPLE = registerFood("pineapple", 4, 0.4f);
     // Tomato paste: crushed from a single tomato; used to make pizza.
     public static final Item TOMATO_PASTE = register("tomato_paste");
     // Cheese: pressed from a bucket of milk; pizza topping and a snack on its own.
@@ -108,6 +110,8 @@ public class ModItems {
     public static final Item PIZZA = registerPizza();
     // Topped pizza: its food value is set per-stack from the number of toppings.
     public static final Item TOPPED_PIZZA = registerFood("topped_pizza", 10, 0.9f);
+    // Pineapple pizza: a whole pizza topped with pineapple.
+    public static final Item PINEAPPLE_PIZZA = registerFood("pineapple_pizza", 10, 0.9f);
 
     // Corn products: raw corn is grown as a crop (see ModBlocks); cooking it in a
     // furnace makes hot corn, and a smoker pops it into popcorn.
@@ -212,6 +216,17 @@ public class ModItems {
     public static final Item TOMATO_SAUCE = register("tomato_sauce");
     // Pasta in tomato sauce: pasta combined with tomato sauce.
     public static final Item PASTA_IN_TOMATO_SAUCE = registerFood("pasta_in_tomato_sauce", 8, 0.8f);
+    // Pasta with potato: pasta + a baked potato. Grants Regeneration II for 2 seconds.
+    public static final Item PASTA_WITH_POTATO = Registry.register(
+            BuiltInRegistries.ITEM,
+            ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pasta_with_potato")),
+            new Item(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pasta_with_potato")))
+                    .food(new FoodProperties(7, 0.7f, false),
+                            Consumable.builder()
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.REGENERATION, 40, 1), 1.0f))
+                                    .build()))
+    );
     // Chips: one baked potato in the crafting grid yields 2 chips.
     public static final Item CHIPS = registerFood("chips", 4, 0.5f);
 
@@ -384,10 +399,10 @@ public class ModItems {
                     SHOKO, PITA, SCHNITZEL,
                     GUMMY_CANDY_WATERMELON, GUMMY_CANDY_APPLE, GUMMY_CANDY_SWEET_BERRIES, GUMMY_CANDY_CARROT,
                     GUMMY_CANDY_BANANA, GUMMY_CANDY_LEMON, GUMMY_CANDY_POMEGRANATE, GUMMY_CANDY_GRAPE,
-                    GUMMY_SCHNITZEL, BANANA, LEMON, POMEGRANATE, OLIVE, CHILI_PEPPER, TOMATO,
-                    CHEESE, PIZZA, TOPPED_PIZZA, SUS_PIZZA,
+                    GUMMY_SCHNITZEL, BANANA, LEMON, POMEGRANATE, OLIVE, CHILI_PEPPER, TOMATO, PINEAPPLE,
+                    CHEESE, PIZZA, TOPPED_PIZZA, PINEAPPLE_PIZZA, SUS_PIZZA,
                     CORN_HOT, POPCORN, CHIPS, SUSHI, SUPER_SUSHI,
-                    PASTA_IN_TOMATO_SAUCE, RAMEN, SPICY_RAMEN,
+                    PASTA_IN_TOMATO_SAUCE, PASTA_WITH_POTATO, RAMEN, SPICY_RAMEN,
                     CHOCOLATE_DONUT, END_CAKE,
                     CHALLAH, GRAPE, WINE,
                     SAUSAGE, SAUSAGE_IN_BUN, HAMBURGER,

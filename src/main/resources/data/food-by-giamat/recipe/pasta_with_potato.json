@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "food-by-giamat:pasta",
+    "minecraft:baked_potato"
+  ],
+  "result": {"id": "food-by-giamat:pasta_with_potato", "count": 1}
+}

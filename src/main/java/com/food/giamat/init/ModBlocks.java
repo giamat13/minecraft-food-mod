@@ -17,6 +17,7 @@ import com.food.giamat.block.PomegranateLeavesBlock;
 import com.food.giamat.block.SusCakeBlock;
 import com.food.giamat.block.SusPizzaBlock;
 import com.food.giamat.block.TomatoBushBlock;
+import com.food.giamat.block.PineappleBushBlock;
 import com.food.giamat.block.TrayBlock;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -78,6 +79,13 @@ public class ModBlocks {
             ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "tomato_bush")),
             new TomatoBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEAD_BUSH)
                     .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "tomato_bush"))))
+    );
+
+    public static final Block PINEAPPLE_BUSH = Registry.register(
+            BuiltInRegistries.BLOCK,
+            ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pineapple_bush")),
+            new PineappleBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEAD_BUSH)
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pineapple_bush"))))
     );
 
     // Corn: a two-block-tall crop that grows like sugar cane.
@@ -226,6 +234,16 @@ public class ModBlocks {
                         .useBlockDescriptionPrefix())
         );
 
+        // Block item for the pineapple bush so shears/Silk Touch can drop a placeable version.
+        ResourceKey<Item> pineappleBushKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pineapple_bush"));
+        Registry.register(
+                BuiltInRegistries.ITEM,
+                pineappleBushKey,
+                new BlockItem(PINEAPPLE_BUSH, new Item.Properties()
+                        .setId(pineappleBushKey)
+                        .useBlockDescriptionPrefix())
+        );
+
         // Corn and rice are placed by edible items that double as seeds.
         ResourceKey<Item> cornKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "corn"));
         Registry.register(
@@ -281,6 +299,7 @@ public class ModBlocks {
             output.accept(OLIVE_LEAVES.asItem());
             output.accept(CHILI_PEPPER_BUSH.asItem());
             output.accept(TOMATO_BUSH.asItem());
+            output.accept(PINEAPPLE_BUSH.asItem());
             output.accept(CORN.asItem());
             output.accept(RICE.asItem());
             output.accept(GRAPE_BUSH.asItem());

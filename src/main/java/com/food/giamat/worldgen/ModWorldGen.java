@@ -27,6 +27,9 @@ public class ModWorldGen {
     public static final ResourceKey<PlacedFeature> TOMATO_BUSH_PLACED =
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "tomato_bush"));
 
+    public static final ResourceKey<PlacedFeature> PINEAPPLE_BUSH_PLACED =
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "pineapple_bush"));
+
     public static final ResourceKey<PlacedFeature> CORN_PLACED =
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(FoodBygiamat.MOD_ID, "corn"));
 
@@ -64,6 +67,11 @@ public class ModWorldGen {
                 BiomeSelectors.includeByKey(Biomes.PLAINS),
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 TOMATO_BUSH_PLACED
+        );
+        BiomeModifications.addFeature(
+                BiomeSelectors.includeByKey(Biomes.JUNGLE),
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                PINEAPPLE_BUSH_PLACED
         );
         BiomeModifications.addFeature(
                 BiomeSelectors.includeByKey(Biomes.PLAINS),

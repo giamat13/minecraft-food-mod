@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "food-by-giamat:pizza",
+    "food-by-giamat:pineapple"
+  ],
+  "result": {"id": "food-by-giamat:pineapple_pizza", "count": 1}
+}

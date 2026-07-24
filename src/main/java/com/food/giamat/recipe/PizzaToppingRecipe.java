@@ -27,6 +27,7 @@ public class PizzaToppingRecipe extends CustomRecipe {
     private static final Set<Item> TOPPINGS = Set.of(
             ModItems.CHEESE,
             ModItems.TOMATO,
+            ModItems.PINEAPPLE,
             ModItems.CHILI_PEPPER,
             ModItems.SAUSAGE,
             ModItems.CORN_HOT,
@@ -49,6 +50,7 @@ public class PizzaToppingRecipe extends CustomRecipe {
         ItemStack base = ItemStack.EMPTY;
         int existingToppings = 0;
         int added = 0;
+        int pineappleAdded = 0;
         for (int i = 0; i < input.size(); i++) {
             ItemStack stack = input.getItem(i);
             if (stack.isEmpty()) continue;
@@ -60,11 +62,15 @@ public class PizzaToppingRecipe extends CustomRecipe {
                         : 0;
             } else if (isTopping(stack)) {
                 added++;
+                if (stack.getItem() == ModItems.PINEAPPLE) pineappleAdded++;
             } else {
                 return ItemStack.EMPTY;
             }
         }
         if (base.isEmpty() || added == 0) return ItemStack.EMPTY;
+        // Plain pizza + only pineapple stays the standalone pineapple_pizza recipe;
+        // pineapple only counts as a topping alongside another topping.
+        if (existingToppings == 0 && pineappleAdded == added) return ItemStack.EMPTY;
         int total = Math.min(MAX_TOPPINGS, existingToppings + added);
         ItemStack result = new ItemStack(ModItems.TOPPED_PIZZA);
         result.set(ModComponents.PIZZA_TOPPINGS, total);

@@ -59,7 +59,8 @@ public class TrayBlock extends Block {
         ItemStack held = player.getMainHandItem();
         if (!world.isClientSide()) {
             // Pizza on tray
-            if (held.getItem() == ModItems.PIZZA || held.getItem() == ModItems.TOPPED_PIZZA) {
+            if (held.getItem() == ModItems.PIZZA || held.getItem() == ModItems.TOPPED_PIZZA
+                    || held.getItem() == ModItems.PINEAPPLE_PIZZA) {
                 world.setBlock(pos, ModBlocks.PIZZA_ON_TRAY_BLOCK.defaultBlockState(), Block.UPDATE_ALL);
                 if (!player.isCreative()) held.shrink(1);
                 return InteractionResult.SUCCESS;

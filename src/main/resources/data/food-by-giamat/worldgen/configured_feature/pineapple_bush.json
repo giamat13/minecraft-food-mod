@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "food-by-giamat:pineapple_bush",
+        "Properties": {"harvested": "false"}
+      }
+    }
+  }
+}

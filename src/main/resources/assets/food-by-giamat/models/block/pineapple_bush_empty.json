@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "food-by-giamat:block/pineapple_bush_empty"
+  }
+}
